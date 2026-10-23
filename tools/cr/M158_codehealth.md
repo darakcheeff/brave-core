@@ -563,7 +563,7 @@ new call gets redirected to a descriptor Brave lacks.
       plaster", which deletes `BraveUndoBarControllerBase`, its class adapter
       and the `BytecodeTest` assertion in favour of an `UndoBarController.java`
       plaster
-- [ ] `android/java/proguard.flags:70-72`: the `showUndoBar(...)` keep rule only
+- [x] `android/java/proguard.flags:70-72`: the `showUndoBar(...)` keep rule only
       served the deleted reflection call; delete it
 
 ### Android: `OriginalProfileSupplier` removed
