@@ -691,8 +691,8 @@ void SharedPinnedTabService::SynchronizeDeletedPinnedTab(int index) {
 
   // Closing a browser's last tab closes the browser, which erases it from
   // |browsers_| via BrowserClosing(), so iterate over a copy.
-  const std::vector<raw_ptr<BrowserWindowInterface>> browsers(
-      browsers_.begin(), browsers_.end());
+  const std::vector<raw_ptr<BrowserWindowInterface>> browsers(browsers_.begin(),
+                                                              browsers_.end());
   for (BrowserWindowInterface* browser : browsers) {
     if (!browsers_.contains(browser)) {
       continue;
