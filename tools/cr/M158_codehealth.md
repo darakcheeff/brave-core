@@ -541,14 +541,27 @@ row opens upstream's `HomepageSettings`. With the flag off, Brave's copied
 search index provider lacks upstream's new `removeEntryForKey(PREF_HOMEPAGE)`,
 so settings search lists a Homepage row under Appearance that isn't there.
 
-- [ ] `android/java/org/chromium/chrome/browser/settings/AppearancePreferences.java:84`:
+- [x] `android/java/org/chromium/chrome/browser/settings/AppearancePreferences.java:84`:
       point the inflated row at `BraveHomepageSettings` and apply Brave's hide
-      rule, as `BraveMainPreferencesBase.java:365,439,534` does for Main
-- [ ] `AppearancePreferences.java:463-530` `SEARCH_INDEX_DATA_PROVIDER`: the
+      rule, as `BraveMainPreferencesBase.java:365,439,534` does for Main. Fixed
+      by "[cr158][Android] Adapt the rows kAndroidBottomBar moves into
+      Appearance"
+- [x] `AppearancePreferences.java:482-560` `SEARCH_INDEX_DATA_PROVIDER`: the
       `PREF_HOMEPAGE` removal landed in "[cr158][Android] Fix duplicate
       Appearance entries in the settings search index" (unconditionally, where
-      upstream removes it only with the row hidden). Pre-existing, it still
-      lacks the `PREF_TAB_POSITION` removal
+      upstream removes it only with the row hidden). The `PREF_TAB_POSITION` and
+      bookmark bar removals and the "Address bar shortcut" retitling landed in
+      "[cr158][Android] Sync the Appearance search index with the shown rows"
+- [ ] `AppearancePreferences.java:420` `applyOrdering()` has no entry for
+      `tab_position`, so it keeps its XML order 6 and ties with `homepage`,
+      leaving the two rows sorted by translated title. Reachable on an unfolded
+      foldable with `AndroidVerticalTabs` on; a non-foldable tablet keeps
+      `homepage` in main settings, so the orders don't meet
+- [ ] `AppearancePreferences.java:542`: upstream also puts the bookmark bar
+      visibility state in the search entry's summary, via the package-private
+      `AppearanceSettingsFragment.getBookmarkBarVisibilityStateSummaryRes()`.
+      Mirroring it needs a visibility plaster for a cosmetic, flag-gated,
+      tablet-only string
 
 ### Android: `UndoBarController.showUndoBar(List, List, boolean)` removed
 
