@@ -133,7 +133,6 @@ jobs:
           enable_brave_stats_updater = false
 
           # Compilation performance optimizations:
-          use_thin_lto = true
           treat_warnings_as_errors = false
           EOF
           }
