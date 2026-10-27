@@ -617,6 +617,24 @@ public class BraveTabbedAppMenuPropertiesDelegate extends TabbedAppMenuPropertie
                                 0,
                                 isMenuIconAtStart())));
 
+        // New Tor Tab
+        if (ChromeSharedPreferences.getInstance()
+                .readBoolean(BravePreferenceKeys.BRAVE_TOR_ENABLED, false)) {
+            modelList.add(
+                    new MVCListAdapter.ListItem(
+                            AppMenuHandler.AppMenuItemType.STANDARD,
+                            AppMenuItemUtils.buildBaseModelForTextItem(
+                                            mAppMenuItemTheme,
+                                            R.id.brave_tor_tab_menu_id,
+                                            isMenuIconAtStart())
+                                    .with(AppMenuItemProperties.TITLE, "New Tor Tab")
+                                    .with(
+                                            AppMenuItemProperties.ICON,
+                                            AppCompatResources.getDrawable(
+                                                    mContext, R.drawable.ic_tor_onion))
+                                    .build()));
+        }
+
         // Add to Group - omitted from the Customize menu when the "Enable tab groups" master
         // switch is off, so it is not offered as a customizable item.
         if (ChromeSharedPreferences.getInstance()

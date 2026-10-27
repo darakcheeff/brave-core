@@ -957,6 +957,10 @@ public abstract class BraveActivity extends ChromeActivity
     @Override
     public boolean onOptionsItemSelected(
             int itemId, @Nullable Bundle menuItemData, @Nullable MotionEventInfo triggeringMotion) {
+        if (itemId == R.id.brave_tor_tab_menu_id) {
+            org.chromium.chrome.browser.tor.BraveTorController.openTorTab(this, null);
+            return true;
+        }
         if (itemId == R.id.new_tab_menu_id) {
             LayoutManagerChrome layoutManager =
                     (LayoutManagerChrome)

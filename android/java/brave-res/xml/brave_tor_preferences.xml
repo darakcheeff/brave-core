@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2026 The Brave Authors. All rights reserved.
+     This Source Code Form is subject to the terms of the Mozilla Public
+     License, v. 2.0. If a copy of the MPL was not distributed with this file,
+     You can obtain one at https://mozilla.org/MPL/2.0/. -->
+
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:title="Tor Network (.onion) Integration">
+
+        <org.chromium.components.browser_ui.settings.ChromeSwitchPreference
+            android:key="pref_tor_enabled"
+            android:title="Enable Tor Network"
+            android:summary="Enables embedded Tor daemon for browsing .onion hidden services and anonymous routing without Orbot"
+            android:defaultValue="false" />
+
+        <org.chromium.components.browser_ui.settings.ChromeBasePreference
+            android:key="pref_tor_status"
+            android:title="Tor Connection Status"
+            android:summary="Disconnected" />
+
+        <org.chromium.components.browser_ui.settings.ChromeBasePreference
+            android:key="pref_tor_new_identity"
+            android:title="New Tor Identity"
+            android:summary="Reset current Tor circuits and obtain a new exit node IP address" />
+
+        <org.chromium.components.browser_ui.settings.ChromeSwitchPreference
+            android:key="pref_tor_auto_onion"
+            android:title="Auto-route .onion addresses"
+            android:summary="Automatically open .onion links through the Tor network"
+            android:defaultValue="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Bridges (Censorship Circumvention)">
+
+        <org.chromium.components.browser_ui.settings.ChromeBasePreference
+            android:key="pref_tor_bridges"
+            android:title="Bridges Configuration"
+            android:summary="None (Direct connection)" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Advanced Port Settings">
+
+        <org.chromium.components.browser_ui.settings.ChromeBasePreference
+            android:key="pref_tor_socks_port"
+            android:title="SOCKS5 Proxy Port"
+            android:summary="127.0.0.1:9050" />
+
+        <org.chromium.components.browser_ui.settings.ChromeBasePreference
+            android:key="pref_tor_control_port"
+            android:title="Tor Control Port"
+            android:summary="127.0.0.1:9051" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

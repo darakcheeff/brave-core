@@ -151,6 +151,13 @@ public final class BravePreferenceKeys {
     public static final String BRAVE_MCP_SERVER_AUTH_TOKEN = "brave_mcp_server_auth_token";
     public static final String BRAVE_STEALTH_CDP_ENABLED = "brave_stealth_cdp_enabled";
 
+    public static final String BRAVE_TOR_ENABLED = "brave_tor_enabled";
+    public static final String BRAVE_TOR_AUTO_ONION = "brave_tor_auto_onion";
+    public static final String BRAVE_TOR_SOCKS_PORT = "brave_tor_socks_port";
+    public static final String BRAVE_TOR_CONTROL_PORT = "brave_tor_control_port";
+    public static final String BRAVE_TOR_BRIDGES_MODE = "brave_tor_bridges_mode";
+    public static final String BRAVE_TOR_CUSTOM_BRIDGES = "brave_tor_custom_bridges";
+
     /*
      * Checks if preference key is used in Brave.
      * It's no op currently. We might reconsider
