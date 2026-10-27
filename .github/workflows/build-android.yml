@@ -1,6 +1,6 @@
 name: Build Brave Android APK (Incremental Checkpointed)
 
-on:
+'on':
   workflow_dispatch:
     inputs:
       target_cpu:
@@ -187,14 +187,20 @@ jobs:
           export TARGET_ARCH="${{ inputs.target_cpu }}"
           export RUSTUP_HOME="$GITHUB_WORKSPACE/src/third_party/rust-toolchain"
 
-          cat << 'EOF' > "$GITHUB_WORKSPACE/src/brave.pth"
-import sys, os; brave_script = os.path.join(os.environ.get('GITHUB_WORKSPACE', ''), 'src/brave/script'); brave_script in sys.path or sys.path.insert(0, brave_script)
-EOF
-          echo "$GITHUB_WORKSPACE/src/brave/script" >> "$GITHUB_WORKSPACE/src/brave.pth"
-          echo "$GITHUB_WORKSPACE/src/tools/grit/grit/extern" >> "$GITHUB_WORKSPACE/src/brave.pth"
-          echo "$GITHUB_WORKSPACE/src/brave/vendor/requests" >> "$GITHUB_WORKSPACE/src/brave.pth"
-          echo "$GITHUB_WORKSPACE/src/build" >> "$GITHUB_WORKSPACE/src/brave.pth"
-          echo "$GITHUB_WORKSPACE/src/third_party/depot_tools" >> "$GITHUB_WORKSPACE/src/brave.pth"
+          python3 -c "
+          import os
+          gw = os.environ.get('GITHUB_WORKSPACE', '')
+          pth_path = os.path.join(gw, 'src', 'brave.pth')
+          paths = [
+              os.path.join(gw, 'src', 'brave', 'script'),
+              os.path.join(gw, 'src', 'tools', 'grit', 'grit', 'extern'),
+              os.path.join(gw, 'src', 'brave', 'vendor', 'requests'),
+              os.path.join(gw, 'src', 'build'),
+              os.path.join(gw, 'src', 'third_party', 'depot_tools'),
+          ]
+          with open(pth_path, 'w') as f:
+              f.write('\n'.join(paths) + '\n')
+          "
 
           find "$GITHUB_WORKSPACE/src/third_party/cpython3" -type d \( -name "site-packages" -o -name "dist-packages" \) -exec cp "$GITHUB_WORKSPACE/src/brave.pth" {} \; 2>/dev/null || true
           python3 -c "import site; [sys.stdout.write(p+'\n') for p in site.getsitepackages()]" 2>/dev/null | while read -r sp; do
