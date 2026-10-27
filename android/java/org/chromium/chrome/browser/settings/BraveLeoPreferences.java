@@ -17,7 +17,6 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 
 import org.chromium.ai_chat.mojom.ModelWithSubtitle;
-import org.chromium.ai_chat.mojom.PremiumStatus;
 import org.chromium.base.BraveFeatureList;
 import org.chromium.base.BravePreferenceKeys;
 import org.chromium.base.Log;
@@ -25,15 +24,11 @@ import org.chromium.base.supplier.MonotonicObservableSupplier;
 import org.chromium.base.supplier.ObservableSuppliers;
 import org.chromium.base.supplier.SettableMonotonicObservableSupplier;
 import org.chromium.chrome.R;
-import org.chromium.chrome.browser.billing.InAppPurchaseWrapper;
-import org.chromium.chrome.browser.billing.LinkSubscriptionUtils;
 import org.chromium.chrome.browser.brave_leo.BraveLeoMojomHelper;
 import org.chromium.chrome.browser.brave_leo.BraveLeoPrefUtils;
 import org.chromium.chrome.browser.brave_leo.BraveLeoUtils;
 import org.chromium.chrome.browser.flags.ChromeFeatureList;
 import org.chromium.chrome.browser.preferences.ChromeSharedPreferences;
-import org.chromium.chrome.browser.util.TabUtils;
-import org.chromium.components.browser_ui.settings.ChromeBasePreference;
 import org.chromium.components.browser_ui.settings.ChromeSwitchPreference;
 import org.chromium.components.browser_ui.settings.SettingsUtils;
 import org.chromium.components.browser_ui.settings.search.BaseSearchIndexProvider;
@@ -42,12 +37,8 @@ import org.chromium.components.browser_ui.settings.search.SettingsIndexData;
 public class BraveLeoPreferences extends BravePreferenceFragment
         implements Preference.OnPreferenceChangeListener {
     private static final String TAG = "BraveLeoPreferences";
-    private static final String PREF_LINK_SUBSCRIPTION = "link_subscription";
-    private static final String PREF_MANAGE_SUBSCRIPTION = "subscription_manage";
-    private static final String PREF_GO_PREMIUM = "go_premium";
     private static final String PREF_AUTOCOMPLETE = "autocomplete_switch";
     private static final String PREF_HISTORY = "history_switch";
-    private static final String PREF_SUBSCRIPTION_CATEGORY = "subscription_category";
     private static final String PREF_DEFAULT_MODEL = "default_model";
     public static final String PREF_LEO_QUICK_SEARCH_ENGINE = "leo_quick_search_engine";
 
@@ -93,11 +84,6 @@ public class BraveLeoPreferences extends BravePreferenceFragment
             mHistory.setChecked(BraveLeoPrefUtils.getIsHistoryEnabled());
             mHistory.setVisible(ChromeFeatureList.isEnabled(BraveFeatureList.AI_CHAT_HISTORY));
         }
-
-        BraveLeoUtils.verifySubscription(
-                (subscriptionActive) -> {
-                    checkLinkPurchase();
-                });
     }
 
     private void setModel() {
@@ -119,58 +105,6 @@ public class BraveLeoPreferences extends BravePreferenceFragment
                             }
                             pref.setSummary(BraveLeoUtils.getDefaultModelName(models, model));
                         });
-    }
-
-    private void checkLinkPurchase() {
-        ChromeBasePreference linkSubscription = findPreference(PREF_LINK_SUBSCRIPTION);
-        ChromeBasePreference manageSubscription = findPreference(PREF_MANAGE_SUBSCRIPTION);
-        ChromeBasePreference goPremium = findPreference(PREF_GO_PREMIUM);
-        PreferenceCategory category = findPreference(PREF_SUBSCRIPTION_CATEGORY);
-        if (linkSubscription == null
-                || manageSubscription == null
-                || goPremium == null
-                || category == null) {
-            Log.e(TAG, "Subscription pref is null");
-            return;
-        }
-        category.setVisible(true);
-        if (!BraveLeoPrefUtils.getIsSubscriptionActive(getProfile())) {
-            BraveLeoMojomHelper.getInstance(getProfile())
-                    .getPremiumStatus(
-                            (status, info) -> {
-                                if (status == PremiumStatus.ACTIVE) {
-                                    // We don't show Go Premium button
-                                    // if the status is Premium already
-                                    goPremium.setVisible(false);
-                                    category.setVisible(false);
-                                    return;
-                                }
-                                goPremium.setVisible(true);
-                                goPremium.setOnPreferenceClickListener(
-                                        preference -> {
-                                            BraveLeoUtils.goPremium(getActivity());
-                                            return true;
-                                        });
-                            });
-            linkSubscription.setVisible(false);
-            manageSubscription.setVisible(false);
-            return;
-        }
-        goPremium.setVisible(false);
-        linkSubscription.setVisible(!BraveLeoPrefUtils.isSubscriptionLinked());
-        manageSubscription.setVisible(true);
-        linkSubscription.setOnPreferenceClickListener(
-                preference -> {
-                    TabUtils.openURLWithBraveActivity(
-                            LinkSubscriptionUtils.getBraveAccountLinkUrl(
-                                    InAppPurchaseWrapper.SubscriptionProduct.LEO));
-                    return true;
-                });
-        manageSubscription.setOnPreferenceClickListener(
-                preference -> {
-                    BraveLeoUtils.openManageSubscription();
-                    return true;
-                });
     }
 
     private void showConfirmClearHistoryDialog() {
@@ -224,7 +158,6 @@ public class BraveLeoPreferences extends BravePreferenceFragment
     public void onResume() {
         super.onResume();
         setModel();
-        checkLinkPurchase();
     }
 
     public static final BaseSearchIndexProvider SEARCH_INDEX_DATA_PROVIDER =
@@ -234,11 +167,6 @@ public class BraveLeoPreferences extends BravePreferenceFragment
                 @Override
                 public void updateDynamicPreferences(Context context, SettingsIndexData indexData) {
                     String frag = BraveLeoPreferences.class.getName();
-                    // Subscription prefs are hidden by default and shown only at runtime based
-                    // on subscription state; exclude them from the search index.
-                    indexData.removeEntryForKey(frag, PREF_LINK_SUBSCRIPTION);
-                    indexData.removeEntryForKey(frag, PREF_MANAGE_SUBSCRIPTION);
-                    indexData.removeEntryForKey(frag, PREF_GO_PREMIUM);
                     if (!ChromeFeatureList.isEnabled(BraveFeatureList.AI_CHAT_HISTORY)) {
                         indexData.removeEntryForKey(frag, PREF_HISTORY);
                     }

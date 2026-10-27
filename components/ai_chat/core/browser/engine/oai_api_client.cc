@@ -349,6 +349,10 @@ void OAIAPIClient::PerformRequest(
   if (!opts.api_key.empty()) {
     headers.emplace("Authorization", base::StrCat({"Bearer ", opts.api_key}));
   }
+  if (opts.endpoint.spec().find("openrouter.ai") != std::string::npos) {
+    headers.emplace("HTTP-Referer", "https://brave.com");
+    headers.emplace("X-Title", "Brave Leo");
+  }
 
   if (is_sse_enabled) {
     auto on_received = base::BindRepeating(

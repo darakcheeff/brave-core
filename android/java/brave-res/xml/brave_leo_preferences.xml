@@ -32,25 +32,11 @@
             android:key="default_model"
             android:title="@string/leo_default_model_pref" />
 
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:key="subscription_category"
-        android:title="@string/leo_subscription_pref">
-
-        <org.chromium.components.browser_ui.settings.ChromeBasePreference
-            android:key="link_subscription"
-            android:title="@string/link_subscription_title_leo"
-            android:summary="@string/link_subscription_summary_leo"
-            app:isPreferenceVisible="false"/>
-        <org.chromium.components.browser_ui.settings.ChromeBasePreference
-            android:key="subscription_manage"
-            android:title="@string/manage_subscription_leo"
-            app:isPreferenceVisible="false"/>
-        <org.chromium.components.browser_ui.settings.ChromeBasePreference
-            android:key="go_premium"
-            android:title="@string/leo_go_premium_pref"
-            app:isPreferenceVisible="false"/>
+        <Preference
+            android:fragment="org.chromium.chrome.browser.settings.BraveLeoCustomModelPreferences"
+            android:key="custom_model_settings"
+            android:title="Custom Model (OpenRouter / OpenAI)"
+            android:summary="Configure custom API endpoint, model and key" />
 
     </PreferenceCategory>
 

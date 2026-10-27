@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--* Copyright (c) 2024 The Brave Authors. All rights reserved.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:key="custom_provider_status_category"
+        android:title="Custom Provider Status">
+
+        <org.chromium.components.browser_ui.settings.ChromeSwitchPreference
+            android:key="custom_provider_enable_switch"
+            android:title="Enable Custom Provider"
+            android:summary="Route Leo queries to custom OpenAI-compatible / OpenRouter API"
+            android:defaultValue="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="custom_provider_presets_category"
+        android:title="Quick Presets">
+
+        <Preference
+            android:key="preset_openrouter_gemini"
+            android:title="OpenRouter: Gemini 2.5 Flash"
+            android:summary="google/gemini-2.5-flash via openrouter.ai" />
+
+        <Preference
+            android:key="preset_openrouter_deepseek"
+            android:title="OpenRouter: DeepSeek Chat"
+            android:summary="deepseek/deepseek-chat via openrouter.ai" />
+
+        <Preference
+            android:key="preset_local_ollama"
+            android:title="Local Ollama"
+            android:summary="http://localhost:11434/v1/chat/completions" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="custom_provider_config_category"
+        android:title="Endpoint Configuration">
+
+        <Preference
+            android:key="custom_endpoint_pref"
+            android:title="API Base URL / Endpoint" />
+
+        <Preference
+            android:key="custom_api_key_pref"
+            android:title="API Key" />
+
+        <Preference
+            android:key="custom_model_name_pref"
+            android:title="Model Identifier" />
+
+        <Preference
+            android:key="custom_context_size_pref"
+            android:title="Context Size (Tokens)" />
+
+        <Preference
+            android:key="custom_system_prompt_pref"
+            android:title="Custom System Prompt" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

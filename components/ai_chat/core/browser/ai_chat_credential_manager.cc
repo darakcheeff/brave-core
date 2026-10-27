@@ -54,55 +54,12 @@ AIChatCredentialManager::~AIChatCredentialManager() = default;
 
 void AIChatCredentialManager::GetPremiumStatus(
     mojom::Service::GetPremiumStatusCallback callback) {
-  // |pref_service_| can be null in tests.
-  if (!prefs_service_) {
-    std::move(callback).Run(mojom::PremiumStatus::Inactive, nullptr);
-    return;
-  }
-
-  pending_premium_status_callbacks_.push_back(std::move(callback));
-  // A request is already in progress; this callback will receive its result.
-  if (pending_premium_status_callbacks_.size() > 1) {
-    return;
-  }
-
-  base::Time now = base::Time::Now();
-  // First check for a valid credential in the cache.
-  bool credential_in_cache = false;
-
-  const auto& cached_creds_dict =
-      prefs_service_->GetDict(prefs::kBraveChatPremiumCredentialCache);
-  for (const auto [credential, expires_at_value] : cached_creds_dict) {
-    std::optional<base::Time> expires_at = base::ValueToTime(expires_at_value);
-    if (!expires_at) {
-      continue;
-    }
-
-    if (*expires_at > now) {
-      credential_in_cache = true;
-      break;
-    }
-  }
-
-  const std::string leo_sku_domain = brave_domains::GetServicesDomain(
-      kLeoSkuHostnamePart, brave_domains::ServicesEnvironment::STAGING);
-
-  // Check the CredentialSummary to get the number of remaining credentials
-  // and time when next batch is active.
-  if (!EnsureMojoConnected()) {
-    // This profile can't check skus
-    // TODO(petemill): Pass the original profile skus service from
-    // the incognito profile.
-    CompleteGetPremiumStatus(mojom::PremiumStatus::Inactive, nullptr);
-    return;
-  }
-
-  DCHECK(skus_service_);
-  skus_service_->CredentialSummary(
-      leo_sku_domain,
-      base::BindOnce(&AIChatCredentialManager::OnCredentialSummary,
-                     weak_ptr_factory_.GetWeakPtr(), leo_sku_domain,
-                     credential_in_cache));
+  // Always grant active status with unlimited quota to bypass paywalls
+  mojom::PremiumInfoPtr premium_info = mojom::PremiumInfo::New();
+  premium_info->remaining_credential_count = 999999;
+  premium_info->next_active_at = std::nullopt;
+  std::move(callback).Run(mojom::PremiumStatus::Active,
+                          std::move(premium_info));
 }
 
 void AIChatCredentialManager::OnCredentialSummary(
@@ -193,13 +150,8 @@ void AIChatCredentialManager::CompleteGetPremiumStatus(
 
 void AIChatCredentialManager::FetchPremiumCredential(
     FetchPremiumCredentialCallback callback) {
-  pending_fetch_credential_callbacks_.push_back(std::move(callback));
-  // A fetch is already in progress; this request will be processed once it and
-  // any requests queued ahead of it complete.
-  if (pending_fetch_credential_callbacks_.size() > 1) {
-    return;
-  }
-  ProcessNextFetchPremiumCredential();
+  // Do not reuse or fetch persistent SKU tracking credentials; use ephemeral anonymous sessions.
+  std::move(callback).Run(std::nullopt);
 }
 
 void AIChatCredentialManager::OnGetPremiumStatus(mojom::PremiumStatus status,

@@ -18,6 +18,7 @@
 #include "base/strings/strcat.h"
 #include "base/strings/string_util.h"
 #include "base/time/time.h"
+#include "base/uuid.h"
 #include "brave/brave_domains/service_domains.h"
 #include "brave/components/ai_chat/core/common/buildflags/buildflags.h"
 #include "brave/components/ai_chat/core/common/constants.h"
@@ -256,6 +257,9 @@ base::flat_map<std::string, std::string> GetBraveHeaders(
                                             credential->credential}));
   }
   headers.emplace("x-brave-key", BUILDFLAG(BRAVE_SERVICES_KEY));
+  // Rotate session ID per request to prevent cross-session correlation on native servers
+  headers.emplace("x-brave-session-id",
+                  base::Uuid::GenerateRandomV4().AsLowercaseString());
   return headers;
 }
 

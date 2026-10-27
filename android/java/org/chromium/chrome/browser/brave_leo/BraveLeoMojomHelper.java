@@ -9,7 +9,11 @@ import org.jni_zero.JNINamespace;
 import org.jni_zero.NativeMethods;
 
 import org.chromium.ai_chat.mojom.AiChatSettingsHelper;
+import org.chromium.ai_chat.mojom.CustomModelOptions;
+import org.chromium.ai_chat.mojom.Model;
+import org.chromium.ai_chat.mojom.ModelOptions;
 import org.chromium.ai_chat.mojom.ModelWithSubtitle;
+import org.chromium.ai_chat.mojom.OperationResult;
 import org.chromium.ai_chat.mojom.PremiumStatus;
 import org.chromium.chrome.browser.browsing_data.TimePeriod;
 import org.chromium.content_public.browser.BrowserContextHandle;
@@ -19,6 +23,7 @@ import org.chromium.mojo.bindings.Interface.Proxy.Handler;
 import org.chromium.mojo.system.MessagePipeHandle;
 import org.chromium.mojo.system.MojoException;
 import org.chromium.mojo.system.impl.CoreImpl;
+import org.chromium.url.mojom.Url;
 
 /**
  * Helper to interact with native AIChatSettingsHelper. Check ai_chat_settings_helper.{h|cc}, for
@@ -121,6 +126,99 @@ public class BraveLeoMojomHelper implements ConnectionErrorHandler {
         }
 
         mAIChatAndroidHelper.setDefaultModelKey(modelKey);
+    }
+
+    public void getCustomModels(AiChatSettingsHelper.GetCustomModels_Response callback) {
+        if (mAIChatAndroidHelper == null) {
+            callback.call(new Model[0]);
+            return;
+        }
+        mAIChatAndroidHelper.getCustomModels(callback);
+    }
+
+    public void addCustomModel(Model model, AiChatSettingsHelper.AddCustomModel_Response callback) {
+        if (mAIChatAndroidHelper == null) {
+            callback.call(OperationResult.SUCCESS);
+            return;
+        }
+        mAIChatAndroidHelper.addCustomModel(model, callback);
+    }
+
+    public void saveCustomModel(
+            int index, Model model, AiChatSettingsHelper.SaveCustomModel_Response callback) {
+        if (mAIChatAndroidHelper == null) {
+            callback.call(OperationResult.SUCCESS);
+            return;
+        }
+        mAIChatAndroidHelper.saveCustomModel(index, model, callback);
+    }
+
+    public void deleteCustomModel(int index) {
+        if (mAIChatAndroidHelper == null) {
+            return;
+        }
+        mAIChatAndroidHelper.deleteCustomModel(index);
+    }
+
+    public void applyCustomProviderSettings() {
+        if (!BraveLeoPrefUtils.isCustomProviderEnabled()) {
+            // Revert default to chat-automatic if custom provider disabled
+            getDefaultModelKey(
+                    currentKey -> {
+                        if (currentKey != null && currentKey.startsWith("custom:")) {
+                            setDefaultModelKey("chat-automatic");
+                        }
+                    });
+            return;
+        }
+
+        String endpointUrl = BraveLeoPrefUtils.getCustomProviderEndpoint();
+        String apiKey = BraveLeoPrefUtils.getCustomProviderApiKey();
+        String modelName = BraveLeoPrefUtils.getCustomProviderModelName();
+        int contextSize = BraveLeoPrefUtils.getCustomProviderContextSize();
+        String systemPrompt = BraveLeoPrefUtils.getCustomProviderSystemPrompt();
+
+        Model customModel = new Model();
+        customModel.key = "";
+        customModel.displayName = modelName;
+        customModel.options = new ModelOptions();
+        CustomModelOptions customOpts = new CustomModelOptions();
+        customOpts.modelRequestName = modelName;
+        customOpts.endpoint = new Url();
+        customOpts.endpoint.url = endpointUrl;
+        customOpts.apiKey = apiKey;
+        customOpts.contextSize = contextSize;
+        customOpts.maxAssociatedContentLength = contextSize * 4;
+        customOpts.longConversationWarningCharacterLimit = contextSize * 3;
+        customOpts.modelSystemPrompt = systemPrompt;
+        customModel.options.setCustomModelOptions(customOpts);
+        customModel.visionSupport = true;
+        customModel.supportsTools = true;
+        customModel.supportedCapabilities = new int[0];
+
+        getCustomModels(
+                existingModels -> {
+                    if (existingModels != null && existingModels.length > 0) {
+                        customModel.key = existingModels[0].key;
+                        saveCustomModel(
+                                0,
+                                customModel,
+                                result -> {
+                                    setDefaultModelKey(customModel.key);
+                                });
+                    } else {
+                        addCustomModel(
+                                customModel,
+                                result -> {
+                                    getCustomModels(
+                                            newModels -> {
+                                                if (newModels != null && newModels.length > 0) {
+                                                    setDefaultModelKey(newModels[0].key);
+                                                }
+                                            });
+                                });
+                    }
+                });
     }
 
     public void deleteConversations(@TimePeriod int timePeriod) {

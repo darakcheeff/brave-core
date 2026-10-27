@@ -63,20 +63,10 @@ public class BraveLeoPrefUtils {
     }
 
     public static boolean getIsSubscriptionActive(Profile profile) {
-        // The subscription pref is only registered when the AI Chat feature is enabled
-        // (see ai_chat::prefs::RegisterProfilePrefs, gated on IsAIChatEnabled()). Reading an
-        // unregistered pref trips a CHECK in PrefService, so bail out when AI Chat is disabled.
-        // No AI Chat means no Leo subscription anyway, so returning false is correct.
         if (!ChromeFeatureList.isEnabled(BraveFeatureList.AI_CHAT)) {
             return false;
         }
-        Profile profileToUse = profile == null ? BraveLeoPrefUtils.getProfile() : profile;
-        if (profileToUse == null) {
-            Log.e(TAG, "BraveLeoPrefUtils.getIsSubscriptionActive profile is null");
-            return false;
-        }
-        return UserPrefs.get(profileToUse)
-                .getBoolean(BravePref.BRAVE_CHAT_SUBSCRIPTION_ACTIVE_ANDROID);
+        return true;
     }
 
     public static void setChatPurchaseToken(String token) {
@@ -187,5 +177,62 @@ public class BraveLeoPrefUtils {
     public static boolean shouldShowLeoQuickSearchEngine() {
         return ChromeSharedPreferences.getInstance()
                 .readBoolean(BraveLeoPreferences.PREF_LEO_QUICK_SEARCH_ENGINE, true);
+    }
+
+    public static final String PREF_CUSTOM_PROVIDER_ENABLED = "brave_leo_custom_provider_enabled";
+    public static final String PREF_CUSTOM_PROVIDER_ENDPOINT = "brave_leo_custom_provider_endpoint";
+    public static final String PREF_CUSTOM_PROVIDER_API_KEY = "brave_leo_custom_provider_api_key";
+    public static final String PREF_CUSTOM_PROVIDER_MODEL_NAME = "brave_leo_custom_provider_model_name";
+    public static final String PREF_CUSTOM_PROVIDER_CONTEXT_SIZE = "brave_leo_custom_provider_context_size";
+    public static final String PREF_CUSTOM_PROVIDER_SYSTEM_PROMPT = "brave_leo_custom_provider_system_prompt";
+
+    public static boolean isCustomProviderEnabled() {
+        return ChromeSharedPreferences.getInstance().readBoolean(PREF_CUSTOM_PROVIDER_ENABLED, false);
+    }
+
+    public static void setCustomProviderEnabled(boolean enabled) {
+        ChromeSharedPreferences.getInstance().writeBoolean(PREF_CUSTOM_PROVIDER_ENABLED, enabled);
+    }
+
+    public static String getCustomProviderEndpoint() {
+        return ChromeSharedPreferences.getInstance().readString(
+                PREF_CUSTOM_PROVIDER_ENDPOINT, "https://openrouter.ai/api/v1/chat/completions");
+    }
+
+    public static void setCustomProviderEndpoint(String endpoint) {
+        ChromeSharedPreferences.getInstance().writeString(PREF_CUSTOM_PROVIDER_ENDPOINT, endpoint);
+    }
+
+    public static String getCustomProviderApiKey() {
+        return ChromeSharedPreferences.getInstance().readString(PREF_CUSTOM_PROVIDER_API_KEY, "");
+    }
+
+    public static void setCustomProviderApiKey(String apiKey) {
+        ChromeSharedPreferences.getInstance().writeString(PREF_CUSTOM_PROVIDER_API_KEY, apiKey);
+    }
+
+    public static String getCustomProviderModelName() {
+        return ChromeSharedPreferences.getInstance().readString(
+                PREF_CUSTOM_PROVIDER_MODEL_NAME, "google/gemini-2.5-flash");
+    }
+
+    public static void setCustomProviderModelName(String modelName) {
+        ChromeSharedPreferences.getInstance().writeString(PREF_CUSTOM_PROVIDER_MODEL_NAME, modelName);
+    }
+
+    public static int getCustomProviderContextSize() {
+        return ChromeSharedPreferences.getInstance().readInt(PREF_CUSTOM_PROVIDER_CONTEXT_SIZE, 32768);
+    }
+
+    public static void setCustomProviderContextSize(int contextSize) {
+        ChromeSharedPreferences.getInstance().writeInt(PREF_CUSTOM_PROVIDER_CONTEXT_SIZE, contextSize);
+    }
+
+    public static String getCustomProviderSystemPrompt() {
+        return ChromeSharedPreferences.getInstance().readString(PREF_CUSTOM_PROVIDER_SYSTEM_PROMPT, "");
+    }
+
+    public static void setCustomProviderSystemPrompt(String systemPrompt) {
+        ChromeSharedPreferences.getInstance().writeString(PREF_CUSTOM_PROVIDER_SYSTEM_PROMPT, systemPrompt);
     }
 }

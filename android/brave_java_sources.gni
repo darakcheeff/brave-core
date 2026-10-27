@@ -338,6 +338,7 @@ brave_java_sources = [
   "../../brave/android/java/org/chromium/chrome/browser/settings/BraveDialogPreference.java",
   "../../brave/android/java/org/chromium/chrome/browser/settings/BraveFragmentDependencyProvider.java",
   "../../brave/android/java/org/chromium/chrome/browser/settings/BraveInlineTextButtonPreference.java",
+  "../../brave/android/java/org/chromium/chrome/browser/settings/BraveLeoCustomModelPreferences.java",
   "../../brave/android/java/org/chromium/chrome/browser/settings/BraveLeoDefaultModelPreferences.java",
   "../../brave/android/java/org/chromium/chrome/browser/settings/BraveLeoPreferences.java",
   "../../brave/android/java/org/chromium/chrome/browser/settings/BraveLeoRadioButtonGroupDefaultModelPreference.java",
