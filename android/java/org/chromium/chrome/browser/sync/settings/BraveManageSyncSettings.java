@@ -30,10 +30,12 @@ import org.chromium.base.supplier.SettableMonotonicObservableSupplier;
 import org.chromium.chrome.R;
 import org.chromium.chrome.browser.flags.ChromeFeatureList;
 import org.chromium.chrome.browser.password_manager.settings.ReauthenticationManager;
+import org.chromium.chrome.browser.profiles.ProfileManager;
 import org.chromium.components.browser_ui.settings.ChromeSwitchPreference;
 import org.chromium.components.browser_ui.settings.search.BaseSearchIndexProvider;
 import org.chromium.components.browser_ui.settings.search.SettingsIndexData;
 import org.chromium.components.sync.UserSelectableType;
+import org.chromium.components.user_prefs.UserPrefs;
 import org.chromium.ui.widget.Toast;
 
 import java.util.Optional;
@@ -127,6 +129,21 @@ public class BraveManageSyncSettings extends ManageSyncSettings {
 
             mSyncTypeSwitchPreferencesMap.put(UserSelectableType.AI_CHAT, syncAIChat);
         }
+
+        // Brave Shields Rules & Filters sync toggle
+        ChromeSwitchPreference syncShields =
+                new ChromeSwitchPreference(getPreferenceManager().getContext(), null);
+        syncShields.setKey("account_section_shields_toggle");
+        syncShields.setTitle("Brave Shields Rules & Filters");
+        syncShields.setSummary("Synchronize custom adblock rules and filter lists across devices");
+        syncShields.setChecked(isShieldsSyncEnabled());
+        syncShields.setOnPreferenceChangeListener(
+                (preference, newValue) -> {
+                    boolean enabled = (Boolean) newValue;
+                    setShieldsSyncEnabled(enabled);
+                    return true;
+                });
+        getPreferenceScreen().addPreference(syncShields);
 
         mPrefSyncPasswords =
                 (ChromeSwitchPreference) findPreference(PREF_ACCOUNT_SECTION_PASSWORDS_TOGGLE);
@@ -342,6 +359,21 @@ public class BraveManageSyncSettings extends ManageSyncSettings {
             mPasswordsSummaryUpdater.cancel();
             mPasswordsSummaryUpdater.purge();
             mPasswordsSummaryUpdater = null;
+        }
+    }
+
+    private boolean isShieldsSyncEnabled() {
+        if (ProfileManager.isInitialized()) {
+            return UserPrefs.get(ProfileManager.getLastUsedRegularProfile())
+                    .getBoolean("brave.sync.shields_enabled");
+        }
+        return true;
+    }
+
+    private void setShieldsSyncEnabled(boolean enabled) {
+        if (ProfileManager.isInitialized()) {
+            UserPrefs.get(ProfileManager.getLastUsedRegularProfile())
+                    .setBoolean("brave.sync.shields_enabled", enabled);
         }
     }
 

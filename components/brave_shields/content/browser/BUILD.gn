@@ -44,6 +44,8 @@ static_library("browser") {
     "domain_block_tab_storage.h",
     "filter_list_service.cc",
     "filter_list_service.h",
+    "shields_sync_bridge.cc",
+    "shields_sync_bridge.h",
   ]
 
   deps = [

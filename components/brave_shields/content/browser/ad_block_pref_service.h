@@ -23,6 +23,7 @@ class PrefRegistrySyncable;
 
 namespace brave_shields {
 
+class ShieldsSyncBridge;
 class AdBlockPrefService : public KeyedService,
                            public net::ProxyConfigService::Observer {
  public:
@@ -53,6 +54,7 @@ class AdBlockPrefService : public KeyedService,
 
   std::unique_ptr<PrefProxyConfigTracker> pref_proxy_config_tracker_;
   std::unique_ptr<net::ProxyConfigService> proxy_config_service_;
+  std::unique_ptr<ShieldsSyncBridge> shields_sync_bridge_;
 
   net::ProxyConfigService::ConfigAvailability last_proxy_config_availability_;
   net::ProxyConfigWithAnnotation last_proxy_config_;

@@ -51,6 +51,8 @@ inline constexpr char kAllowElementBlockerInPrivateMode[] =
     "brave.allow_element_blocker_in_private_mode";
 inline constexpr char kShredBrowsingHistoryEnabled[] =
     "brave.shields.shred_browsing_history";
+inline constexpr char kShieldsSyncPayload[] = "brave.sync.shields_payload";
+inline constexpr char kShieldsSyncEnabled[] = "brave.sync.shields_enabled";
 
 }  // namespace prefs
 }  // namespace brave_shields

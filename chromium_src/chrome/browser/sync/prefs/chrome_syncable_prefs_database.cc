@@ -46,6 +46,8 @@ enum {
   kProfileContentSettingsPartitionedExceptionsFingerprintingV2 = 300027,
   kProfileContentSettingsPartitionedExceptionsBraveShields = 300028,
   kProfileContentSettingsPartitionedExceptionsBraveSpeedreader = 300029,
+  kShieldsSyncPayload = 300030,
+  kShieldsSyncEnabled = 300031,
 };
 }  // namespace brave_syncable_prefs_ids
 
@@ -225,6 +227,16 @@ const auto& BraveSyncablePreferences() {
             kProfileContentSettingsPartitionedExceptionsTrackers,
         syncer::PREFERENCES, sync_preferences::PrefSensitivity::kNone,
         sync_preferences::MergeBehavior::kMergeableDict,
+        sync_preferences::WriteBehavior::kWriteToBoth}},
+      {"brave.sync.shields_payload",
+       {brave_syncable_prefs_ids::kShieldsSyncPayload,
+        syncer::PREFERENCES, sync_preferences::PrefSensitivity::kNone,
+        sync_preferences::MergeBehavior::kNone,
+        sync_preferences::WriteBehavior::kWriteToBoth}},
+      {"brave.sync.shields_enabled",
+       {brave_syncable_prefs_ids::kShieldsSyncEnabled,
+        syncer::PREFERENCES, sync_preferences::PrefSensitivity::kNone,
+        sync_preferences::MergeBehavior::kNone,
         sync_preferences::WriteBehavior::kWriteToBoth}},
   });
   return kBraveSyncablePrefsAllowList;

@@ -31,6 +31,7 @@
 #include "brave/components/brave_search/common/brave_search_utils.h"
 #include "brave/components/brave_search_conversion/utils.h"
 #include "brave/components/brave_shields/content/browser/ad_block_pref_service.h"
+#include "brave/components/brave_shields/content/browser/shields_sync_bridge.h"
 #include "brave/components/brave_shields/core/browser/brave_shields_p3a.h"
 #include "brave/components/brave_shields/core/browser/brave_shields_settings_service.h"
 #include "brave/components/brave_shields/core/common/pref_names.h"
@@ -607,6 +608,7 @@ void RegisterProfilePrefs(user_prefs::PrefRegistrySyncable* registry) {
   registry->RegisterBooleanPref(kEnableMediaRouterOnRestart, true);
 
   brave_shields::BraveShieldsSettingsService::RegisterProfilePrefs(registry);
+  brave_shields::ShieldsSyncBridge::RegisterProfilePrefs(registry);
 
 #if BUILDFLAG(ENABLE_EXTENSIONS_CORE)
   extensions::features::RegisterProfilePrefs(registry);

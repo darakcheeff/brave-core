@@ -8,6 +8,7 @@
 #include <utility>
 
 #include "base/check.h"
+#include "brave/components/brave_shields/content/browser/shields_sync_bridge.h"
 #include "brave/components/brave_shields/core/browser/brave_shields_locale_utils.h"
 #include "brave/components/brave_shields/core/common/pref_names.h"
 #include "components/pref_registry/pref_registry_syncable.h"
@@ -51,6 +52,11 @@ AdBlockPrefService::AdBlockPrefService(bool is_regular_profile,
                             true);
   }
 
+  if (is_regular_profile) {
+    shields_sync_bridge_ =
+        std::make_unique<ShieldsSyncBridge>(prefs, local_state);
+  }
+
   ManageAdBlockOnlyModeByLocale(local_state, locale);
 }
 
@@ -80,6 +86,8 @@ AdBlockPrefService::GetLatestProxyConfig(
 }
 
 void AdBlockPrefService::Shutdown() {
+  shields_sync_bridge_.reset();
+
   // `pref_proxy_config_tracker_` has a reference to `proxy_config_service_`,
   // therefore detach `pref_proxy_config_tracker_` first, to prevent the
   // reference from dangling.
