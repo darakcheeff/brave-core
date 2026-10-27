@@ -65,7 +65,6 @@ jobs:
       - name: Setup PNPM & depot_tools
         run: |
           corepack enable || npm install -g pnpm@latest --no-fund --no-audit
-          pnpm config set runtime-on-fail ignore
           if [ ! -d "$HOME/depot_tools" ]; then
             git clone --depth 1 https://chromium.googlesource.com/chromium/tools/depot_tools.git "$HOME/depot_tools"
           fi
