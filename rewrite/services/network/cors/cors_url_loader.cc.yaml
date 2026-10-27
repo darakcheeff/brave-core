@@ -22,11 +22,15 @@ substitutions:
   - description: |
       Taint the origin when a .onion request redirects cross-origin.
 
-      Upstream's rule does not taint a request redirected away from its own
-      origin.
+      A same-origin request keeps its .onion initiator when the loader is
+      created, and upstream's rule does not taint a request redirected away
+      from its own origin.
     preempt_function_impl:
       function_name: CorsURLLoader::CheckTainted
       code: |-
+        // The initiator is still the .onion origin only if the request
+        // started same-origin; one made opaque in the constructor never
+        // matches here.
         if (IsCrossOriginOnionRequest(request_.request_initiator,
                                       redirect_info.new_url)) {
           tainted_ = true;

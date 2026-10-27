@@ -112,7 +112,9 @@ class OnionCorsOriginBrowserTest : public InProcessBrowserTest {
       response->set_content_type("text/html");
       response->set_content("<html></html>");
     } else if (path == kAllowNullOriginPath) {
+      // Allows the null origin, including the preflight for a PUT.
       response->AddCustomHeader("Access-Control-Allow-Origin", "null");
+      response->AddCustomHeader("Access-Control-Allow-Methods", "PUT");
     } else if (path == kRedirectPath) {
       // Redirects to the URL in the query, keeping the request's method.
       response->set_code(net::HTTP_TEMPORARY_REDIRECT);
@@ -147,14 +149,17 @@ IN_PROC_BROWSER_TEST_F(OnionCorsOriginBrowserTest, PreflightOrigin) {
 IN_PROC_BROWSER_TEST_F(OnionCorsOriginBrowserTest, AllowNullOrigin) {
   content::WebContents* web_contents = OpenOnionPage();
 
-  // The CORS check runs against the same opaque origin the request sent.
+  // The server allows the null origin, so the preflight succeeds and the PUT
+  // follows it. The CORS checks run against the same opaque origin each
+  // request sent.
   EXPECT_EQ(
       "allowed",
       content::EvalJs(
           web_contents,
           content::JsReplace(kFetchScript, CrossOriginURL(kAllowNullOriginPath),
-                             base::DictValue().Set("method", "GET"))));
-  EXPECT_EQ(LastOrigin("GET", kAllowNullOriginPath), "null");
+                             base::DictValue().Set("method", "PUT"))));
+  EXPECT_EQ(LastOrigin("OPTIONS", kAllowNullOriginPath), "null");
+  EXPECT_EQ(LastOrigin("PUT", kAllowNullOriginPath), "null");
 }
 
 IN_PROC_BROWSER_TEST_F(OnionCorsOriginBrowserTest,

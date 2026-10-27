@@ -1,5 +1,5 @@
 diff --git a/services/network/cors/cors_url_loader.cc b/services/network/cors/cors_url_loader.cc
-index 237985a6c1563facaa22fa58f60c4e75408cbb3b..173275b5c0ac51013dff6f0448a7eba6257d5923 100644
+index 237985a6c1563facaa22fa58f60c4e75408cbb3b..2efcadd2c5d50afd36f1a8903a1b28c89f40c489 100644
 --- a/services/network/cors/cors_url_loader.cc
 +++ b/services/network/cors/cors_url_loader.cc
 @@ -463,6 +463,10 @@ CorsURLLoader::CorsURLLoader(
@@ -13,10 +13,13 @@ index 237985a6c1563facaa22fa58f60c4e75408cbb3b..173275b5c0ac51013dff6f0448a7eba6
    TRACE_EVENT("loading", "CorsURLLoader::CorsURLLoader",
                net::NetLogWithSourceToFlow(net_log_), "url", request_.url.spec(),
                "process_id", process_id_, "request_id", request_id_,
-@@ -930,6 +934,10 @@ void CorsURLLoader::OnReceiveResponse(
+@@ -930,6 +934,13 @@ void CorsURLLoader::OnReceiveResponse(
  }
  
  void CorsURLLoader::CheckTainted(const net::RedirectInfo& redirect_info) {
++  // The initiator is still the .onion origin only if the request
++  // started same-origin; one made opaque in the constructor never
++  // matches here.
 +  if (IsCrossOriginOnionRequest(request_.request_initiator,
 +                                redirect_info.new_url)) {
 +    tainted_ = true;
