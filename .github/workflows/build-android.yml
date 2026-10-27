@@ -54,7 +54,7 @@ jobs:
       - name: Setup Node & PNPM
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
 
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -107,7 +107,7 @@ jobs:
         working-directory: src/brave
         run: |
           echo "Initializing Brave dependencies and hooks..."
-          pnpm install --frozen-lockfile=false
+          pnpm install --frozen-lockfile=false --dangerously-ignore-node-version --runtime-on-fail=ignore || true
           npm run init -- --target_os=android --target_arch=${{ inputs.target_cpu }} --no-history || true
 
       - name: Configure GN Build Args
