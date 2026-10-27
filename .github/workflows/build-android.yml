@@ -107,7 +107,7 @@ jobs:
         run: |
           echo "Initializing Brave dependencies and hooks..."
           pnpm install --no-frozen-lockfile
-          pnpm run init -- --target_os=android --target_arch=${{ inputs.target_cpu }} --no-history
+          node ./build/commands/scripts/sync.ts --init --target_os=android --target_arch=${{ inputs.target_cpu }} --no-history
 
       - name: Configure GN Build Args
         run: |
@@ -146,7 +146,7 @@ jobs:
           OUT_DIR="$GITHUB_WORKSPACE/src/out/${{ inputs.build_type }}"
           if ! [ -f "$OUT_DIR/build.ninja" ]; then
             echo "build.ninja missing, generating Ninja files with gn..."
-            pnpm run gn -- gen "$OUT_DIR" || node ./build/commands/scripts/gn.js gen "$OUT_DIR" || gn gen "$OUT_DIR"
+            node ./build/commands/scripts/gn.js gen "$OUT_DIR" || pnpm run gn gen "$OUT_DIR" || gn gen "$OUT_DIR"
           fi
 
           NINJA_BIN="/usr/bin/ninja"
