@@ -27,6 +27,7 @@ public abstract class BraveCommandLineInitUtil {
     private static final String PREF_QA_VLOG_REWARDS = "qa_vlog_rewards";
     private static final String PREF_QA_COMMAND_LINE = "qa_command_line";
     private static final String PREF_LINK_SUBSCRIPTION_ON_STAGING = "link_subscription_on_staging";
+    private static final String PREF_ACTIVE_PROFILE_DIR = "brave_active_profile_directory";
     private static final String TEST_VARIATIONS_SERVER_URL_FILE =
             "/data/local/tmp/brave-test-variations-server-url";
     private static final String TEST_DAY_ZERO_EXPT_FILE =
@@ -102,5 +103,36 @@ public abstract class BraveCommandLineInitUtil {
         if (CommandLine.getInstance().hasSwitch("variations-pr")) {
             CommandLine.getInstance().appendSwitch("accept-empty-variations-seed-signature");
         }
+
+        // Multi-Profile path isolation: configure --profile-directory
+        String processName = getProcessName();
+        if (processName.contains(":profile_1")) {
+            CommandLine.getInstance().appendSwitchWithValue("profile-directory", "Profiles/profile_1");
+        } else if (processName.contains(":profile_2")) {
+            CommandLine.getInstance().appendSwitchWithValue("profile-directory", "Profiles/profile_2");
+        } else if (processName.contains(":profile_3")) {
+            CommandLine.getInstance().appendSwitchWithValue("profile-directory", "Profiles/profile_3");
+        } else if (processName.contains(":profile_4")) {
+            CommandLine.getInstance().appendSwitchWithValue("profile-directory", "Profiles/profile_4");
+        } else {
+            String activeProfileDir = sharedPreferences.getString(PREF_ACTIVE_PROFILE_DIR, "");
+            if (activeProfileDir != null && !activeProfileDir.isEmpty() && !activeProfileDir.equals("Default")) {
+                CommandLine.getInstance().appendSwitchWithValue("profile-directory", activeProfileDir);
+            }
+        }
+    }
+
+    private static String getProcessName() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+            return android.app.Application.getProcessName();
+        }
+        try (BufferedReader reader = new BufferedReader(new FileReader("/proc/self/cmdline"))) {
+            String line = reader.readLine();
+            if (line != null) {
+                return line.trim();
+            }
+        } catch (IOException ignored) {
+        }
+        return "";
     }
 }

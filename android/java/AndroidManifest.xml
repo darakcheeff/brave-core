@@ -191,3 +191,52 @@
 <activity android:name="org.chromium.chrome.browser.searchwidget.SearchWidgetProviderActivity"
     android:theme="@style/Theme.Chromium.SearchActivity"
     android:exported="true"/>
+
+<!-- Multi-profile multi-instance activities for Android 10 EMUI split-screen & multi-window support -->
+<activity
+    android:name="org.chromium.chrome.browser.profiles.BraveMultiInstanceActivity1"
+    android:theme="@style/Theme.Chromium.Activity"
+    android:exported="false"
+    android:launchMode="singleTask"
+    android:taskAffinity="org.chromium.chrome.browser.BraveActivity.Profile_1"
+    android:process=":profile_1"
+    android:resizeableActivity="true"
+    android:supportsPictureInPicture="true"
+    android:windowSoftInputMode="adjustResize"
+    android:configChanges="orientation|keyboardHidden|keyboard|screenSize|mcc|mnc|screenLayout|smallestScreenSize|uiMode|density" />
+
+<activity
+    android:name="org.chromium.chrome.browser.profiles.BraveMultiInstanceActivity2"
+    android:theme="@style/Theme.Chromium.Activity"
+    android:exported="false"
+    android:launchMode="singleTask"
+    android:taskAffinity="org.chromium.chrome.browser.BraveActivity.Profile_2"
+    android:process=":profile_2"
+    android:resizeableActivity="true"
+    android:supportsPictureInPicture="true"
+    android:windowSoftInputMode="adjustResize"
+    android:configChanges="orientation|keyboardHidden|keyboard|screenSize|mcc|mnc|screenLayout|smallestScreenSize|uiMode|density" />
+
+<activity
+    android:name="org.chromium.chrome.browser.profiles.BraveMultiInstanceActivity3"
+    android:theme="@style/Theme.Chromium.Activity"
+    android:exported="false"
+    android:launchMode="singleTask"
+    android:taskAffinity="org.chromium.chrome.browser.BraveActivity.Profile_3"
+    android:process=":profile_3"
+    android:resizeableActivity="true"
+    android:supportsPictureInPicture="true"
+    android:windowSoftInputMode="adjustResize"
+    android:configChanges="orientation|keyboardHidden|keyboard|screenSize|mcc|mnc|screenLayout|smallestScreenSize|uiMode|density" />
+
+<activity
+    android:name="org.chromium.chrome.browser.profiles.BraveMultiInstanceActivity4"
+    android:theme="@style/Theme.Chromium.Activity"
+    android:exported="false"
+    android:launchMode="singleTask"
+    android:taskAffinity="org.chromium.chrome.browser.BraveActivity.Profile_4"
+    android:process=":profile_4"
+    android:resizeableActivity="true"
+    android:supportsPictureInPicture="true"
+    android:windowSoftInputMode="adjustResize"
+    android:configChanges="orientation|keyboardHidden|keyboard|screenSize|mcc|mnc|screenLayout|smallestScreenSize|uiMode|density" />

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 The Brave Authors. All rights reserved.
+     Use of this source code is governed by a BSD-style license that can be
+     found in the LICENSE file. -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:key="active_profile_category"
+        android:title="Active Profile">
+
+        <org.chromium.components.browser_ui.settings.ChromeBasePreference
+            android:key="pref_active_profile_info"
+            android:icon="@drawable/ic_profile_switcher"
+            android:title="Personal"
+            android:summary="Storage: Default" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="profiles_list_category"
+        android:title="Profiles">
+
+        <org.chromium.components.browser_ui.settings.ChromeBasePreference
+            android:key="pref_add_profile"
+            android:title="Add New Profile"
+            android:summary="Create an isolated profile with separate history, bookmarks, and cookies" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="multi_window_category"
+        android:title="Split-Screen &amp; Multi-Window (Android 10 EMUI)">
+
+        <org.chromium.components.browser_ui.settings.ChromeBasePreference
+            android:key="pref_multi_window_info"
+            android:selectable="false"
+            android:summary="On Huawei Android 10 EMUI, each profile can run in an independent task window. Select 'Split Screen' on any profile to run side-by-side without session conflicts." />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

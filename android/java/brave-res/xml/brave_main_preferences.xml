@@ -17,6 +17,13 @@
         android:order="2"
         android:title="@string/prefs_section_features"/>
     <org.chromium.components.browser_ui.settings.ChromeBasePreference
+        android:fragment="org.chromium.chrome.browser.settings.BraveProfileSwitcherFragment"
+        android:key="brave_profiles"
+        android:icon="@drawable/ic_profile_switcher"
+        android:order="0"
+        android:title="Profiles"
+        android:summary="Manage isolated profiles and split-screen windows"/>
+    <org.chromium.components.browser_ui.settings.ChromeBasePreference
         android:fragment="org.chromium.chrome.browser.privacy.settings.BravePrivacySettings"
         android:key="brave_shields_and_privacy"
         android:icon="@drawable/ic_shield_done"

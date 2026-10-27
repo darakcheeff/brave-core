@@ -181,6 +181,7 @@ import org.chromium.chrome.browser.safe_browsing.SafeBrowsingState;
 import org.chromium.chrome.browser.search_engines.TemplateUrlServiceFactory;
 import org.chromium.chrome.browser.set_default_browser.BraveSetDefaultBrowserUtils;
 import org.chromium.chrome.browser.settings.BraveNewsPreferencesV2;
+import org.chromium.chrome.browser.settings.BraveProfileSwitcherFragment;
 import org.chromium.chrome.browser.settings.BraveSearchEngineUtils;
 import org.chromium.chrome.browser.settings.BraveWalletPreferences;
 import org.chromium.chrome.browser.settings.SettingsNavigationFactory;
@@ -555,6 +556,8 @@ public abstract class BraveActivity extends ChromeActivity
                     braveTabbedAppMenuPropertiesDelegate.buildPageActionsModelList());
         } else if (id == R.id.brave_shred_id) {
             shredData(currentTab);
+        } else if (id == R.id.brave_profiles_id) {
+            openBraveProfilesSettings();
         } else {
             return false;
         }
@@ -1800,6 +1803,11 @@ public abstract class BraveActivity extends ChromeActivity
     public void openBraveNewsSettings() {
         SettingsNavigation settingsLauncher = SettingsNavigationFactory.createSettingsNavigation();
         settingsLauncher.startSettings(this, BraveNewsPreferencesV2.class);
+    }
+
+    public void openBraveProfilesSettings() {
+        SettingsNavigation settingsLauncher = SettingsNavigationFactory.createSettingsNavigation();
+        settingsLauncher.startSettings(this, BraveProfileSwitcherFragment.class);
     }
 
     public void openBraveContentFilteringSettings() {

@@ -1089,6 +1089,7 @@ public class BraveTabbedAppMenuPropertiesDelegate extends TabbedAppMenuPropertie
         // Policy-controlled items (Leo, Rewards, News, VPN) are handled by
         // updateMenuItemsBasedOnPolicy() - they are not added here to avoid showing them
         // if policy disables them
+        modelList.add(buildProfilesMenuItem());
         modelList.add(buildCustomMenuItem());
         modelList.add(buildExitItem());
     }
@@ -1216,6 +1217,18 @@ public class BraveTabbedAppMenuPropertiesDelegate extends TabbedAppMenuPropertie
                         R.id.exit_id,
                         R.string.menu_exit,
                         shouldShowIconBeforeItem() ? R.drawable.ic_outside : 0,
+                        isMenuIconAtStart()));
+    }
+
+    private MVCListAdapter.ListItem buildProfilesMenuItem() {
+        return new MVCListAdapter.ListItem(
+                AppMenuHandler.AppMenuItemType.STANDARD,
+                AppMenuItemUtils.buildModelForStandardMenuItem(
+                        mContext,
+                        mAppMenuItemTheme,
+                        R.id.brave_profiles_id,
+                        R.string.brave_profiles_title,
+                        shouldShowIconBeforeItem() ? R.drawable.ic_profile_switcher : 0,
                         isMenuIconAtStart()));
     }
 
