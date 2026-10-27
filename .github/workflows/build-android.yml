@@ -82,6 +82,7 @@ jobs:
         id: restore_checkpoint
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
         run: |
           CHECKPOINT_TAG="android-${{ inputs.target_cpu }}-checkpoint"
           OUT_DIR="$GITHUB_WORKSPACE/src/out/android_${{ inputs.build_type }}"
@@ -127,6 +128,33 @@ jobs:
             cp -r "$GITHUB_WORKSPACE/src/brave/browser/download/internal/android/java/res/"* "$GITHUB_WORKSPACE/src/chrome/browser/download/internal/android/java/res/"
           fi
           echo "Verified themed_app_icon.xml: $(ls -l $GITHUB_WORKSPACE/src/chrome/android/java/res_chromium_base/drawable-night/themed_app_icon.xml 2>/dev/null || echo 'not found')"
+
+          python3 -c "
+          import os
+          p = os.path.join(os.environ.get('GITHUB_WORKSPACE', ''), 'src', 'base', 'logging', 'rust_logger', 'print_rust_log_ffi.cc')
+          if os.path.exists(p):
+              with open(p, 'r') as f:
+                  content = f.read()
+              if 'auto ShouldPrintRustLog' not in content and 'ShouldPrintRustLog' in content:
+                  old_str = 'if (!ShouldPrintRustLog(severity)) {'
+                  new_str = '\n'.join([
+                      '  auto ShouldPrintRustLog = [](int32_t& sev) -> bool {',
+                      '    switch (sev) {',
+                      '      case LOGGING_INFO:',
+                      '      case LOGGING_WARNING:',
+                      '        sev = LOGGING_VERBOSE;',
+                      '        break;',
+                      '      default:',
+                      '        return true;',
+                      '    }',
+                      '    return VLOG_IS_ON(-sev);',
+                      '  };',
+                      '  if (!ShouldPrintRustLog(severity)) {',
+                  ])
+                  with open(p, 'w') as f:
+                      f.write(content.replace(old_str, new_str, 1))
+                  print('Inlined ShouldPrintRustLog into print_rust_log_ffi.cc')
+          " || true
 
           OUT_DIR_ANDROID="$GITHUB_WORKSPACE/src/out/android_${{ inputs.build_type }}"
           OUT_DIR_PLAIN="$GITHUB_WORKSPACE/src/out/${{ inputs.build_type }}"
@@ -256,6 +284,7 @@ jobs:
         if: steps.package.outputs.apk_exists == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
         run: |
           TAG="v-android-${{ inputs.target_cpu }}-$(date +'%Y%m%d%H%M')"
           RELEASE_TITLE="Brave Android Custom (${{ inputs.target_cpu }})"
@@ -273,6 +302,7 @@ jobs:
         if: always() && steps.package.outputs.apk_exists != 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
         run: |
           OUT_DIR="$GITHUB_WORKSPACE/src/out/android_${{ inputs.build_type }}"
           if [ -f "$GITHUB_WORKSPACE/src/out/${{ inputs.build_type }}/build.ninja" ]; then
