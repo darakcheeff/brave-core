@@ -34,6 +34,10 @@ jobs:
     name: Build Android APK (${{ inputs.target_cpu }})
     runs-on: ubuntu-latest
     timeout-minutes: 360
+    env:
+      PYTHONPATH: ${{ github.workspace }}/src/brave/script:${{ github.workspace }}/src/tools/grit/grit/extern:${{ github.workspace }}/src/brave/vendor/requests:${{ github.workspace }}/src/build:${{ github.workspace }}/src/third_party/depot_tools
+      PYTHONUNBUFFERED: "1"
+      TARGET_ARCH: ${{ inputs.target_cpu }}
 
     steps:
       - name: Free Disk Space
@@ -71,6 +75,13 @@ jobs:
           bash "$HOME/depot_tools/ensure_bootstrap" || true
           echo "$HOME/depot_tools" >> $GITHUB_PATH
 
+      - name: Initialize Chromium & Dependencies
+        working-directory: src/brave
+        run: |
+          echo "Initializing Brave dependencies and hooks..."
+          pnpm install --no-frozen-lockfile
+          node ./build/commands/scripts/sync.ts --init --target_os=android --target_arch=${{ inputs.target_cpu }} --no-history
+
       - name: Restore Build Checkpoint
         id: restore_checkpoint
         env:
@@ -100,14 +111,6 @@ jobs:
           else
             echo "No existing checkpoint found. Performing initial build setup."
           fi
-
-      - name: Initialize Chromium & Dependencies
-        if: env.checkpoint_restored != 'true'
-        working-directory: src/brave
-        run: |
-          echo "Initializing Brave dependencies and hooks..."
-          pnpm install --no-frozen-lockfile
-          node ./build/commands/scripts/sync.ts --init --target_os=android --target_arch=${{ inputs.target_cpu }} --no-history
 
       - name: Configure GN Build Args
         working-directory: src/brave
@@ -181,6 +184,29 @@ jobs:
           fi
           echo "Output directory verified: $OUT_DIR"
 
+          # Configure Brave python environment and propagate brave.pth
+          export PYTHONPATH="$GITHUB_WORKSPACE/src/brave/script:$GITHUB_WORKSPACE/src/tools/grit/grit/extern:$GITHUB_WORKSPACE/src/brave/vendor/requests:$GITHUB_WORKSPACE/src/build:$GITHUB_WORKSPACE/src/third_party/depot_tools:$PYTHONPATH"
+          export PATH="$HOME/depot_tools/python-bin:$HOME/depot_tools:$GITHUB_WORKSPACE/src/third_party/rust-toolchain/bin:$PATH"
+          export PYTHONUNBUFFERED=1
+          export TARGET_ARCH="${{ inputs.target_cpu }}"
+          export RUSTUP_HOME="$GITHUB_WORKSPACE/src/third_party/rust-toolchain"
+
+          cat << 'EOF' > "$GITHUB_WORKSPACE/src/brave.pth"
+import sys, os; brave_script = os.path.join(os.environ.get('GITHUB_WORKSPACE', ''), 'src/brave/script'); brave_script in sys.path or sys.path.insert(0, brave_script)
+EOF
+          echo "$GITHUB_WORKSPACE/src/brave/script" >> "$GITHUB_WORKSPACE/src/brave.pth"
+          echo "$GITHUB_WORKSPACE/src/tools/grit/grit/extern" >> "$GITHUB_WORKSPACE/src/brave.pth"
+          echo "$GITHUB_WORKSPACE/src/brave/vendor/requests" >> "$GITHUB_WORKSPACE/src/brave.pth"
+          echo "$GITHUB_WORKSPACE/src/build" >> "$GITHUB_WORKSPACE/src/brave.pth"
+          echo "$GITHUB_WORKSPACE/src/third_party/depot_tools" >> "$GITHUB_WORKSPACE/src/brave.pth"
+
+          find "$GITHUB_WORKSPACE/src/third_party/cpython3" -type d \( -name "site-packages" -o -name "dist-packages" \) -exec cp "$GITHUB_WORKSPACE/src/brave.pth" {} \; 2>/dev/null || true
+          python3 -c "import site; [sys.stdout.write(p+'\n') for p in site.getsitepackages()]" 2>/dev/null | while read -r sp; do
+            if [ -d "$sp" ] && [ -w "$sp" ]; then
+              cp "$GITHUB_WORKSPACE/src/brave.pth" "$sp/" 2>/dev/null || true
+            fi
+          done
+
           NINJA_BIN="$HOME/depot_tools/ninja"
           if ! [ -x "$NINJA_BIN" ]; then
             NINJA_BIN="$(which ninja)"
@@ -242,7 +268,7 @@ jobs:
           gh release delete "$CHECKPOINT_TAG" --yes --cleanup-tag || true
 
       - name: Save Release Checkpoint (on incomplete or timeout)
-        if: always() && steps.package.outputs.apk_exists != 'true' && steps.build.outcome == 'success'
+        if: always() && steps.package.outputs.apk_exists != 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
