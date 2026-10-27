@@ -127,10 +127,12 @@ class OnionCorsOriginBrowserTest : public InProcessBrowserTest {
   }
 
   content::ContentMockCertVerifier mock_cert_verifier_;
-  net::EmbeddedTestServer https_server_;
   base::Lock lock_;
   std::map<std::pair<std::string, std::string>, std::string> last_origin_
       GUARDED_BY(lock_);
+  // Declared after the state its callbacks use, so the server shuts down
+  // before that state is destroyed.
+  net::EmbeddedTestServer https_server_;
 };
 
 IN_PROC_BROWSER_TEST_F(OnionCorsOriginBrowserTest, PreflightOrigin) {
