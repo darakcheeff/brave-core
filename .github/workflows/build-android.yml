@@ -34,10 +34,6 @@ jobs:
     name: Build Android APK (${{ inputs.target_cpu }})
     runs-on: ubuntu-latest
     timeout-minutes: 360
-    env:
-      PYTHONPATH: "${{ github.workspace }}/src/brave/script:${{ github.workspace }}/src/tools/grit/grit/extern:${{ github.workspace }}/src/brave/vendor/requests:${{ github.workspace }}/src/build:${{ github.workspace }}/src/third_party/depot_tools"
-      PYTHONUNBUFFERED: "1"
-      TARGET_ARCH: "${{ inputs.target_cpu }}"
 
     steps:
       - name: Free Disk Space
