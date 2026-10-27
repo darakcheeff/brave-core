@@ -24,6 +24,13 @@
         android:title="Profiles"
         android:summary="Manage isolated profiles and split-screen windows"/>
     <org.chromium.components.browser_ui.settings.ChromeBasePreference
+        android:fragment="org.chromium.chrome.browser.settings.BraveBackupRestoreFragment"
+        android:key="brave_backup_restore"
+        android:icon="@drawable/ic_backup_restore"
+        android:order="0"
+        android:title="Backup &amp; Restore"
+        android:summary="Export and import encrypted .bravebak archives of profiles and data"/>
+    <org.chromium.components.browser_ui.settings.ChromeBasePreference
         android:fragment="org.chromium.chrome.browser.privacy.settings.BravePrivacySettings"
         android:key="brave_shields_and_privacy"
         android:icon="@drawable/ic_shield_done"

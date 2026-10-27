@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 The Brave Authors. All rights reserved.
+     Use of this source code is governed by a BSD-style license that can be
+     found in the LICENSE file. -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:key="backup_export_category"
+        android:title="Export Backup">
+
+        <org.chromium.components.browser_ui.settings.ChromeBasePreference
+            android:key="pref_create_backup"
+            android:icon="@drawable/ic_backup_restore"
+            android:title="Create Backup (.bravebak)"
+            android:summary="Export profiles, bookmarks, extensions, and shields rules into an encrypted container" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="backup_import_category"
+        android:title="Restore Backup">
+
+        <org.chromium.components.browser_ui.settings.ChromeBasePreference
+            android:key="pref_restore_backup"
+            android:icon="@drawable/ic_backup_restore"
+            android:title="Restore from Backup (.bravebak)"
+            android:summary="Import and restore all profiles and settings from a previously saved backup file" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="backup_security_category"
+        android:title="Security &amp; Storage">
+
+        <org.chromium.components.browser_ui.settings.ChromeBasePreference
+            android:key="pref_backup_info"
+            android:selectable="false"
+            android:summary="Backups are protected using AES-256-GCM encryption with PBKDF2 key derivation. Saved files can be restored across different Android devices or stored securely on an SD card or USB flash drive." />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
