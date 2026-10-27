@@ -85,6 +85,10 @@
 #include "extensions/buildflags/buildflags.h"
 #include "third_party/widevine/cdm/buildflags.h"
 
+#if BUILDFLAG(ENABLE_EXTENSIONS_CORE)
+#include "brave/browser/extensions/updater/features.h"
+#endif
+
 #if BUILDFLAG(ENABLE_BRAVE_NEWS)
 #include "brave/components/brave_news/browser/brave_news_controller.h"
 #include "brave/components/brave_news/browser/brave_news_p3a.h"
@@ -603,6 +607,10 @@ void RegisterProfilePrefs(user_prefs::PrefRegistrySyncable* registry) {
   registry->RegisterBooleanPref(kEnableMediaRouterOnRestart, true);
 
   brave_shields::BraveShieldsSettingsService::RegisterProfilePrefs(registry);
+
+#if BUILDFLAG(ENABLE_EXTENSIONS_CORE)
+  extensions::features::RegisterProfilePrefs(registry);
+#endif
 
   RegisterProfilePrefsForMigration(registry);
 

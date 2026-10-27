@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 The Brave Authors. All rights reserved.
+     Use of this source code is governed by a BSD-style license that can be
+     found in the LICENSE file. -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:key="extensions_security_category"
+        android:title="Extension Security &amp; Updates">
+
+        <org.chromium.components.browser_ui.settings.ChromeSwitchPreference
+            android:key="pref_extension_auto_update"
+            android:title="Automatic Extension Updates"
+            android:summary="Automatically check and update installed extensions in background"
+            android:defaultValue="true" />
+
+        <org.chromium.components.browser_ui.settings.ChromeBasePreference
+            android:key="pref_manual_update_check"
+            android:title="Check for Updates Now"
+            android:summary="Manually check updates for unpinned extensions" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="extensions_store_category"
+        android:title="Web Store">
+
+        <org.chromium.components.browser_ui.settings.ChromeBasePreference
+            android:key="pref_open_webstore"
+            android:title="Open Chrome Web Store"
+            android:summary="Browse and install new extensions" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="installed_extensions_category"
+        android:title="Installed Extensions &amp; Version Pinning">
+
+        <org.chromium.components.browser_ui.settings.ChromeBasePreference
+            android:key="pref_extensions_help"
+            android:selectable="false"
+            android:summary="Enable 'Version Pin' on an extension to lock its current version and block updates, protecting against compromised developer accounts." />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

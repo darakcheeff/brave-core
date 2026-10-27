@@ -7,8 +7,8 @@ index b538f65c4a375b267e73948bf6cb228f84bf83c5..e1782fb51ea00ac46ad8ad5018b8fda6
    alive_ = true;
    // Check soon, and set up the first delayed check.
 -  if (!g_skip_scheduled_checks_for_tests) {
-+  if (!g_skip_scheduled_checks_for_tests && base::FeatureList::IsEnabled(
-+        extensions::features::kBraveAutoUpdateExtensions)) {
++  if (!g_skip_scheduled_checks_for_tests &&
++      extensions::features::IsAutoUpdateEnabled(pref_service_)) {
      CheckSoon();
      ScheduleNextCheck();
    }
@@ -16,8 +16,7 @@ index b538f65c4a375b267e73948bf6cb228f84bf83c5..e1782fb51ea00ac46ad8ad5018b8fda6
  }
  
  void ExtensionUpdater::NextCheck() {
-+  if (!base::FeatureList::IsEnabled(
-+      extensions::features::kBraveAutoUpdateExtensions)) return;
++  if (!extensions::features::IsAutoUpdateEnabled(pref_service_)) return;
    if (!alive_) {
      return;
    }

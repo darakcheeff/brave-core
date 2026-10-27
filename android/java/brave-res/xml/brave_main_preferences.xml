@@ -47,6 +47,13 @@
         android:order="4"
         android:title="@string/menu_brave_leo"/>
     <org.chromium.components.browser_ui.settings.ChromeBasePreference
+        android:fragment="org.chromium.chrome.browser.settings.BraveExtensionPreferences"
+        android:key="brave_extensions"
+        android:icon="@drawable/ic_extension"
+        android:order="4"
+        android:title="Extensions"
+        android:summary="Manage extensions and security controls"/>
+    <org.chromium.components.browser_ui.settings.ChromeBasePreference
         android:fragment="org.chromium.chrome.browser.playlist.settings.BravePlaylistPreferences"
         android:key="brave_playlist"
         android:icon="@drawable/ic_open_playlist"

@@ -16,8 +16,7 @@ substitutions:
       re_pattern: '(ExtensionUpdater::Start\(\) \{.*?if \()([^)]*)(\))'
       re_flags: [DOTALL]
       replace: |-
-        \1\2 && base::FeatureList::IsEnabled(
-                extensions::features::kBraveAutoUpdateExtensions)\3
+        \1\2 && extensions::features::IsAutoUpdateEnabled(pref_service_)\3
 
   - description: |
       Skip individual scheduled update checks when Brave auto-update is
@@ -25,5 +24,16 @@ substitutions:
     preempt_function_impl:
       function_name: ExtensionUpdater::NextCheck
       return_if: |-
-        !base::FeatureList::IsEnabled(
-            extensions::features::kBraveAutoUpdateExtensions)
+        !extensions::features::IsAutoUpdateEnabled(pref_service_)
+
+  - description: |
+      Filter out pinned extensions from update checks to protect against compromised developer updates.
+    regex:
+      re_pattern: '(void ExtensionUpdater::CheckNow\(CheckParams params\) \{)'
+      replace: |-
+        \1
+          if (pref_service_) {
+            std::erase_if(params.ids, [this](const auto& id) {
+              return extensions::features::IsExtensionPinned(pref_service_, id);
+            });
+          }
