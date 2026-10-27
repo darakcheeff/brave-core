@@ -124,11 +124,6 @@ jobs:
           symbol_level = 0
           blink_symbol_level = 0
 
-          # Feature enablement:
-          enable_extensions = true
-          enable_extensions_core = true
-          enable_tor = true
-
           # Commercial/Telemetry debloat:
           enable_brave_wallet = false
           enable_brave_rewards = false

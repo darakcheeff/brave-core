@@ -15,10 +15,6 @@ enable_mdns = true
 # We want it to be enabled for all configurations
 disable_android_lint = false
 
-# Enable modern extensions system on Android
-enable_extensions = true
-enable_extensions_core = true
-
 # Custom de-bloat: disable all paid, commercial and telemetry features
 enable_brave_wallet = false
 enable_brave_rewards = false
