@@ -77,7 +77,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           CHECKPOINT_TAG="android-${{ inputs.target_cpu }}-checkpoint"
-          OUT_DIR="$GITHUB_WORKSPACE/src/out/${{ inputs.build_type }}"
+          OUT_DIR="$GITHUB_WORKSPACE/src/out/android_${{ inputs.build_type }}"
           mkdir -p "$OUT_DIR"
 
           if [ "${{ inputs.clean_checkpoint }}" = "true" ]; then
@@ -111,9 +111,12 @@ jobs:
 
       - name: Configure GN Build Args
         run: |
-          OUT_DIR="$GITHUB_WORKSPACE/src/out/${{ inputs.build_type }}"
-          mkdir -p "$OUT_DIR"
-          cat << 'EOF' > "$OUT_DIR/args.gn"
+          OUT_DIR_ANDROID="$GITHUB_WORKSPACE/src/out/android_${{ inputs.build_type }}"
+          OUT_DIR_PLAIN="$GITHUB_WORKSPACE/src/out/${{ inputs.build_type }}"
+          mkdir -p "$OUT_DIR_ANDROID" "$OUT_DIR_PLAIN"
+
+          write_args() {
+            cat << 'EOF' > "$1/args.gn"
           target_os = "android"
           target_cpu = "${{ inputs.target_cpu }}"
           is_debug = false
@@ -137,17 +140,32 @@ jobs:
           use_thin_lto = true
           treat_warnings_as_errors = false
           EOF
-          echo "Generated $OUT_DIR/args.gn successfully."
+          }
+          write_args "$OUT_DIR_ANDROID"
+          write_args "$OUT_DIR_PLAIN"
+          echo "Generated args.gn in $OUT_DIR_ANDROID and $OUT_DIR_PLAIN successfully."
 
       - name: Compile Android APK
         id: build
         working-directory: src/brave
         run: |
-          OUT_DIR="$GITHUB_WORKSPACE/src/out/${{ inputs.build_type }}"
+          OUT_DIR="$GITHUB_WORKSPACE/src/out/android_${{ inputs.build_type }}"
+          if [ -f "$GITHUB_WORKSPACE/src/out/${{ inputs.build_type }}/build.ninja" ]; then
+            OUT_DIR="$GITHUB_WORKSPACE/src/out/${{ inputs.build_type }}"
+          fi
+
           if ! [ -f "$OUT_DIR/build.ninja" ]; then
             echo "build.ninja missing, generating Ninja files with gn..."
             node ./build/commands/scripts/gn.js gen ${{ inputs.build_type }} --target_os=android
           fi
+
+          # Detect actual output directory containing build.ninja
+          if [ -f "$GITHUB_WORKSPACE/src/out/android_${{ inputs.build_type }}/build.ninja" ]; then
+            OUT_DIR="$GITHUB_WORKSPACE/src/out/android_${{ inputs.build_type }}"
+          elif [ -f "$GITHUB_WORKSPACE/src/out/${{ inputs.build_type }}/build.ninja" ]; then
+            OUT_DIR="$GITHUB_WORKSPACE/src/out/${{ inputs.build_type }}"
+          fi
+          echo "Output directory verified: $OUT_DIR"
 
           NINJA_BIN="$HOME/depot_tools/ninja"
           if ! [ -x "$NINJA_BIN" ]; then
@@ -160,7 +178,11 @@ jobs:
       - name: Locate and Package Output APK
         id: package
         run: |
-          OUT_DIR="$GITHUB_WORKSPACE/src/out/${{ inputs.build_type }}"
+          OUT_DIR="$GITHUB_WORKSPACE/src/out/android_${{ inputs.build_type }}"
+          if [ -f "$GITHUB_WORKSPACE/src/out/${{ inputs.build_type }}/build.ninja" ]; then
+            OUT_DIR="$GITHUB_WORKSPACE/src/out/${{ inputs.build_type }}"
+          fi
+
           APK_PATH=$(find "$OUT_DIR/apks" -name "*.apk" 2>/dev/null | head -n 1)
           if [ -n "$APK_PATH" ] && [ -f "$APK_PATH" ]; then
             DEST="Brave-${{ inputs.target_cpu }}-${{ inputs.build_type }}.apk"
@@ -202,11 +224,14 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          OUT_DIR="$GITHUB_WORKSPACE/src/out/${{ inputs.build_type }}"
+          OUT_DIR="$GITHUB_WORKSPACE/src/out/android_${{ inputs.build_type }}"
+          if [ -f "$GITHUB_WORKSPACE/src/out/${{ inputs.build_type }}/build.ninja" ]; then
+            OUT_DIR="$GITHUB_WORKSPACE/src/out/${{ inputs.build_type }}"
+          fi
           CHECKPOINT_TAG="android-${{ inputs.target_cpu }}-checkpoint"
 
           if [ -d "$OUT_DIR" ] && ( [ -f "$OUT_DIR/.ninja_log" ] || [ -f "$OUT_DIR/build.ninja" ] ); then
-            echo "Compilation interrupted or timed out. Packaging out directory..."
+            echo "Compilation interrupted or timed out. Packaging out directory: $OUT_DIR..."
             tar -I 'zstd -1 -T0' -cf checkpoint.tar.zst -C "$OUT_DIR" .
             split -b 1800M -d checkpoint.tar.zst "checkpoint-android-${{ inputs.target_cpu }}.tar.zst.part_"
             rm -f checkpoint.tar.zst
