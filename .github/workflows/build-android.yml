@@ -1,0 +1,198 @@
+name: Build Brave Android APK (Incremental Checkpointed)
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_cpu:
+        description: 'Target CPU architecture'
+        required: true
+        default: 'arm64'
+        type: choice
+        options:
+          - 'arm64'
+          - 'arm'
+      build_type:
+        description: 'Build Type'
+        required: true
+        default: 'Release'
+        type: choice
+        options:
+          - 'Release'
+          - 'Debug'
+      clean_checkpoint:
+        description: 'Clean build (ignore and wipe checkpoint)'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  build-apk:
+    name: Build Android APK (${{ inputs.target_cpu }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Free Disk Space
+        run: |
+          echo "=== Disk space before cleanup ==="
+          df -h /
+          sudo rm -rf \
+            /usr/share/dotnet \
+            /opt/ghc \
+            /usr/local/share/boost \
+            /usr/local/share/powershell \
+            /usr/share/swift \
+            "$AGENT_TOOLSDIRECTORY" || true
+          sudo docker image prune --all --force || true
+          echo "=== Disk space after cleanup ==="
+          df -h /
+
+      - name: Install Build Tooling
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq zstd curl git python3 ninja-build openjdk-17-jdk
+          git clone --depth 1 https://chromium.googlesource.com/chromium/tools/depot_tools.git "$HOME/depot_tools"
+          echo "$HOME/depot_tools" >> $GITHUB_PATH
+
+      - name: Restore Build Checkpoint
+        id: restore_checkpoint
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          CHECKPOINT_TAG="android-${{ inputs.target_cpu }}-checkpoint"
+          OUT_DIR="src/out/${{ inputs.build_type }}"
+          mkdir -p "$OUT_DIR"
+
+          if [ "${{ inputs.clean_checkpoint }}" = "true" ]; then
+            echo "Clean build requested. Skipping checkpoint restore."
+            exit 0
+          fi
+
+          if gh release view "$CHECKPOINT_TAG" >/dev/null 2>&1; then
+            echo "Checkpoint found in $CHECKPOINT_TAG. Downloading parts..."
+            mkdir -p /tmp/checkpoint
+            gh release download "$CHECKPOINT_TAG" --dir /tmp/checkpoint || true
+            if compgen -G "/tmp/checkpoint/checkpoint-android-${{ inputs.target_cpu }}.tar.zst*" > /dev/null; then
+              echo "Extracting checkpoint archive into $OUT_DIR..."
+              cat /tmp/checkpoint/checkpoint-android-${{ inputs.target_cpu }}.tar.zst* | tar -I zstd -xf - -C "$OUT_DIR"
+              rm -rf /tmp/checkpoint
+              echo "Normalizing git commit mtimes to prevent ninja cache invalidation..."
+              python3 tools/ci/normalize-source-mtimes.py .
+            fi
+          else
+            echo "No existing checkpoint found. Performing initial build setup."
+          fi
+
+      - name: Configure GN Build Args
+        run: |
+          OUT_DIR="src/out/${{ inputs.build_type }}"
+          mkdir -p "$OUT_DIR"
+          cat << 'EOF' > "$OUT_DIR/args.gn"
+          target_os = "android"
+          target_cpu = "${{ inputs.target_cpu }}"
+          is_debug = false
+          is_official_build = true
+          symbol_level = 0
+          blink_symbol_level = 0
+
+          # Feature enablement:
+          enable_extensions = true
+          enable_extensions_core = true
+          enable_tor = true
+
+          # Commercial/Telemetry debloat:
+          enable_brave_wallet = false
+          enable_brave_rewards = false
+          enable_brave_vpn = false
+          enable_brave_ads = false
+          enable_brave_stats_updater = false
+
+          # Compilation performance optimizations:
+          use_thin_lto = true
+          treat_warnings_as_errors = false
+          EOF
+          echo "Generated $OUT_DIR/args.gn successfully."
+
+      - name: Compile Android APK
+        id: build
+        run: |
+          OUT_DIR="src/out/${{ inputs.build_type }}"
+          # Allocate up to 330 minutes for Ninja compilation, leaving 30 minutes for checkpoint saving
+          timeout 330m ninja -C "$OUT_DIR" chrome_public_apk || true
+
+      - name: Locate and Package Output APK
+        id: package
+        run: |
+          OUT_DIR="src/out/${{ inputs.build_type }}"
+          APK_PATH=$(find "$OUT_DIR/apks" -name "*.apk" 2>/dev/null | head -n 1)
+          if [ -n "$APK_PATH" ] && [ -f "$APK_PATH" ]; then
+            DEST="Brave-${{ inputs.target_cpu }}-${{ inputs.build_type }}.apk"
+            cp "$APK_PATH" "$DEST"
+            echo "apk_exists=true" >> $GITHUB_OUTPUT
+            echo "apk_file=$DEST" >> $GITHUB_OUTPUT
+            echo "Found compiled APK: $APK_PATH -> $DEST"
+          else
+            echo "apk_exists=false" >> $GITHUB_OUTPUT
+            echo "Compilation not completed yet."
+          fi
+
+      - name: Upload APK Artifact
+        if: steps.package.outputs.apk_exists == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: Brave-${{ inputs.target_cpu }}-APK
+          path: ${{ steps.package.outputs.apk_file }}
+
+      - name: Publish GitHub Release
+        if: steps.package.outputs.apk_exists == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="v-android-${{ inputs.target_cpu }}-$(date +'%Y%m%d%H%M')"
+          RELEASE_TITLE="Brave Android Custom (${{ inputs.target_cpu }})"
+          CHECKPOINT_TAG="android-${{ inputs.target_cpu }}-checkpoint"
+
+          echo "Publishing release $TAG with APK..."
+          gh release create "$TAG" "${{ steps.package.outputs.apk_file }}" \
+            --title "$RELEASE_TITLE" \
+            --notes "Custom GMS-free Brave Android APK build with debloat, multi-profile, Leo AI, extensions pinning, stealth MCP, and embedded Tor."
+
+          echo "Build finished! Cleaning up checkpoint release..."
+          gh release delete "$CHECKPOINT_TAG" --yes --cleanup-tag || true
+
+      - name: Save Release Checkpoint (on incomplete or timeout)
+        if: always() && steps.package.outputs.apk_exists != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          OUT_DIR="src/out/${{ inputs.build_type }}"
+          CHECKPOINT_TAG="android-${{ inputs.target_cpu }}-checkpoint"
+
+          if [ -d "$OUT_DIR" ] && [ -f "$OUT_DIR/.ninja_log" ]; then
+            echo "Compilation interrupted or timed out. Packaging out directory..."
+            tar -I 'zstd -1 -T0' -cf checkpoint.tar.zst -C "$OUT_DIR" .
+            split -b 1800M -d checkpoint.tar.zst "checkpoint-android-${{ inputs.target_cpu }}.tar.zst.part_"
+            rm -f checkpoint.tar.zst
+
+            echo "Uploading checkpoint chunk files to $CHECKPOINT_TAG..."
+            if gh release view "$CHECKPOINT_TAG" >/dev/null 2>&1; then
+              gh release upload "$CHECKPOINT_TAG" checkpoint-android-${{ inputs.target_cpu }}.tar.zst.part_* --clobber
+            else
+              gh release create "$CHECKPOINT_TAG" checkpoint-android-${{ inputs.target_cpu }}.tar.zst.part_* \
+                --title "Android ${{ inputs.target_cpu }} Build Checkpoint" \
+                --prerelease \
+                --notes "Automated incremental build checkpoint for GitHub Actions runner."
+            fi
+            echo "Checkpoint successfully saved. Subsequent build will resume from this state."
+          else
+            echo "No ninja build artifacts found to checkpoint."
+          fi
