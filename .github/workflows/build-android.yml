@@ -36,12 +36,6 @@ jobs:
     timeout-minutes: 360
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          path: src/brave
-          fetch-depth: 0
-
       - name: Free Disk Space
         run: |
           echo "=== Disk space before cleanup ==="
@@ -57,10 +51,22 @@ jobs:
           echo "=== Disk space after cleanup ==="
           df -h /
 
+      - name: Setup Node & PNPM
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          path: src/brave
+          fetch-depth: 0
+
       - name: Install Build Tooling
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq zstd curl git python3 ninja-build openjdk-17-jdk
+          npm install -g pnpm
           git clone --depth 1 https://chromium.googlesource.com/chromium/tools/depot_tools.git "$HOME/depot_tools"
           export PATH="$HOME/depot_tools:$PATH"
           python3 "$HOME/depot_tools/ensure_bootstrap.py" || true
@@ -72,7 +78,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           CHECKPOINT_TAG="android-${{ inputs.target_cpu }}-checkpoint"
-          OUT_DIR="src/out/${{ inputs.build_type }}"
+          OUT_DIR="$GITHUB_WORKSPACE/src/out/${{ inputs.build_type }}"
           mkdir -p "$OUT_DIR"
 
           if [ "${{ inputs.clean_checkpoint }}" = "true" ]; then
@@ -89,15 +95,24 @@ jobs:
               cat /tmp/checkpoint/checkpoint-android-${{ inputs.target_cpu }}.tar.zst* | tar -I zstd -xf - -C "$OUT_DIR"
               rm -rf /tmp/checkpoint
               echo "Normalizing git commit mtimes to prevent ninja cache invalidation..."
-              python3 src/brave/tools/ci/normalize-source-mtimes.py src/brave
+              python3 "$GITHUB_WORKSPACE/src/brave/tools/ci/normalize-source-mtimes.py" "$GITHUB_WORKSPACE/src/brave"
+              echo "checkpoint_restored=true" >> $GITHUB_ENV
             fi
           else
             echo "No existing checkpoint found. Performing initial build setup."
           fi
 
+      - name: Initialize Chromium & Dependencies
+        if: env.checkpoint_restored != 'true'
+        working-directory: src/brave
+        run: |
+          echo "Initializing Brave dependencies and hooks..."
+          pnpm install --frozen-lockfile=false
+          npm run init -- --target_os=android --target_arch=${{ inputs.target_cpu }} --no-history || true
+
       - name: Configure GN Build Args
         run: |
-          OUT_DIR="src/out/${{ inputs.build_type }}"
+          OUT_DIR="$GITHUB_WORKSPACE/src/out/${{ inputs.build_type }}"
           mkdir -p "$OUT_DIR"
           cat << 'EOF' > "$OUT_DIR/args.gn"
           target_os = "android"
@@ -127,8 +142,14 @@ jobs:
 
       - name: Compile Android APK
         id: build
+        working-directory: src/brave
         run: |
-          OUT_DIR="src/out/${{ inputs.build_type }}"
+          OUT_DIR="$GITHUB_WORKSPACE/src/out/${{ inputs.build_type }}"
+          if ! [ -f "$OUT_DIR/build.ninja" ]; then
+            echo "build.ninja missing, generating Ninja files with gn..."
+            npm run gn -- gen "$OUT_DIR" || gn gen "$OUT_DIR" || true
+          fi
+
           NINJA_BIN="/usr/bin/ninja"
           if ! [ -x "$NINJA_BIN" ]; then
             NINJA_BIN="ninja"
@@ -140,7 +161,7 @@ jobs:
       - name: Locate and Package Output APK
         id: package
         run: |
-          OUT_DIR="src/out/${{ inputs.build_type }}"
+          OUT_DIR="$GITHUB_WORKSPACE/src/out/${{ inputs.build_type }}"
           APK_PATH=$(find "$OUT_DIR/apks" -name "*.apk" 2>/dev/null | head -n 1)
           if [ -n "$APK_PATH" ] && [ -f "$APK_PATH" ]; then
             DEST="Brave-${{ inputs.target_cpu }}-${{ inputs.build_type }}.apk"
@@ -182,7 +203,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          OUT_DIR="src/out/${{ inputs.build_type }}"
+          OUT_DIR="$GITHUB_WORKSPACE/src/out/${{ inputs.build_type }}"
           CHECKPOINT_TAG="android-${{ inputs.target_cpu }}-checkpoint"
 
           if [ -d "$OUT_DIR" ] && [ -f "$OUT_DIR/.ninja_log" ]; then
