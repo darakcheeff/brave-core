@@ -20,15 +20,7 @@ public class BraveRewardsPolicy {
 
     /** Returns true if Rewards is disabled by policy for the given profile. */
     public static boolean isDisabledByPolicy(@Nullable Profile profile) {
-        if (sDisabledByPolicyForTesting != null) {
-            return sDisabledByPolicyForTesting;
-        }
-        if (profile == null) {
-            return false;
-        }
-        PrefService prefService = UserPrefs.get(profile);
-        return prefService.isManagedPreference(BravePref.DISABLED_BY_POLICY)
-                && prefService.getBoolean(BravePref.DISABLED_BY_POLICY);
+        return true;
     }
 
     /** Overrides the policy state in tests. Automatically reset after the test finishes. */

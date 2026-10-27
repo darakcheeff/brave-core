@@ -314,8 +314,7 @@ public class BraveVpnUtils {
     }
 
     public static boolean isVpnFeatureSupported(Context context) {
-        return isRegionSupported()
-                && ChromiumPlayServicesAvailability.isGooglePlayServicesAvailable(context);
+        return false;
     }
 
     public static String countryCodeToEmoji(String countryCode) {

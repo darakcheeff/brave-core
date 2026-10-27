@@ -17,11 +17,6 @@ import org.chromium.components.user_prefs.UserPrefs;
 public class BraveNewsPolicy {
     /** Returns true if News is disabled by policy for the given profile. */
     public static boolean isDisabledByPolicy(@Nullable Profile profile) {
-        if (profile == null) {
-            return false;
-        }
-        PrefService prefService = UserPrefs.get(profile);
-        return prefService.isManagedPreference(BravePref.BRAVE_NEWS_DISABLED_BY_POLICY)
-                && prefService.getBoolean(BravePref.BRAVE_NEWS_DISABLED_BY_POLICY);
+        return true;
     }
 }

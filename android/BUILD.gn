@@ -28,7 +28,7 @@ java_cpp_template("brave_config_java") {
   defines = [
     "BRAVE_ANDROID_DEVELOPER_OPTIONS_CODE=\"$brave_android_developer_options_code\"",
     "BRAVE_ANDROID_WEBCOMPAT_REPORT_ENDPOINT=\"$webcompat_report_api_endpoint\"",
-    "BRAVE_ANDROID_WEB_DISCOVERY_ENABLED=$enable_web_discovery_native",
+    "BRAVE_ANDROID_WEB_DISCOVERY_ENABLED=false",
     "BRAVE_ANDROID_ENABLE_EMAIL_ALIASES=$enable_email_aliases",
   ]
 }
@@ -62,6 +62,13 @@ action_with_pydeps("brave_policy_constants_java_srcjar") {
 
 android_library("qrreader_java") {
   sources = [
+    "java/com/google/android/gms/common/images/Size.java",
+    "java/com/google/android/gms/vision/Detector.java",
+    "java/com/google/android/gms/vision/Frame.java",
+    "java/com/google/android/gms/vision/MultiProcessor.java",
+    "java/com/google/android/gms/vision/Tracker.java",
+    "java/com/google/android/gms/vision/barcode/Barcode.java",
+    "java/com/google/android/gms/vision/barcode/BarcodeDetector.java",
     "java/org/chromium/chrome/browser/qrreader/BarcodeTracker.java",
     "java/org/chromium/chrome/browser/qrreader/BarcodeTrackerFactory.java",
     "java/org/chromium/chrome/browser/qrreader/CameraSource.java",
@@ -72,9 +79,7 @@ android_library("qrreader_java") {
   deps = [
     "//base:base_java",
     "//build/android:build_java",
-    "//third_party/android_deps:google_play_services_base_java",
-    "//third_party/android_deps:google_play_services_vision_common_java",
-    "//third_party/android_deps:google_play_services_vision_java",
+    "//brave/third_party/zxing:zxing_java",
     "//third_party/androidx:androidx_activity_activity_java",
     "//third_party/androidx:androidx_annotation_annotation_java",
   ]

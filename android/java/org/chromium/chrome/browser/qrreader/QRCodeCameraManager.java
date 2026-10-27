@@ -14,8 +14,6 @@ import android.hardware.display.DisplayManager;
 import android.view.Display;
 import android.view.Surface;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.vision.MultiProcessor;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
@@ -147,25 +145,7 @@ public class QRCodeCameraManager
         }
         Context context = activity.getApplicationContext();
 
-        // Barcode detection is backed by Google Play Services, so there is nothing to create
-        // without it. The check lives here, on the path taken when the host opens the scanner,
-        // rather than in startCameraSource(), which also runs on every window focus change, resume
-        // and rotation. Notifying the host from there made the error dialog reappear in a loop:
-        // showing it took window focus away, dismissing it gave the focus back, and regaining the
-        // focus restarted the camera source, which showed the dialog again.
-        int playServicesStatus =
-                GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context);
-        if (playServicesStatus != ConnectionResult.SUCCESS) {
-            mCallback.onPlayServicesUnavailable(
-                    GoogleApiAvailability.getInstance()
-                            .getErrorDialog(activity, playServicesStatus, RC_HANDLE_GMS));
-            return;
-        }
-
-        // A barcode detector is created to track barcodes. An associated multi-processor instance
-        // is set to receive the barcode detection results, track the barcodes, and maintain
-        // graphics for each barcode on screen. The factory is used by the multi-processor to
-        // create a separate tracker instance for each barcode.
+        // A barcode detector is created to track barcodes using offline ZXing engine.
         BarcodeDetector barcodeDetector =
                 new BarcodeDetector.Builder(context).setBarcodeFormats(Barcode.ALL_FORMATS).build();
         BarcodeTrackerFactory barcodeFactory = new BarcodeTrackerFactory(this);

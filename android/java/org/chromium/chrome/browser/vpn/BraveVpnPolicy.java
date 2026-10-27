@@ -17,11 +17,6 @@ import org.chromium.components.user_prefs.UserPrefs;
 public class BraveVpnPolicy {
     /** Returns true if VPN is disabled by policy for the given profile. */
     public static boolean isDisabledByPolicy(@Nullable Profile profile) {
-        if (profile == null) {
-            return false;
-        }
-        PrefService prefService = UserPrefs.get(profile);
-        return prefService.isManagedPreference(BravePref.MANAGED_BRAVE_VPN_DISABLED)
-                && prefService.getBoolean(BravePref.MANAGED_BRAVE_VPN_DISABLED);
+        return true;
     }
 }

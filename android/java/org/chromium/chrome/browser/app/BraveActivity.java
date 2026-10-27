@@ -49,15 +49,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.brave.playlist.util.ConstantUtils;
 import com.brave.playlist.util.PlaylistPreferenceUtils;
 import com.brave.playlist.util.PlaylistUtils;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.play.core.appupdate.AppUpdateInfo;
-import com.google.android.play.core.appupdate.AppUpdateManager;
-import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
-import com.google.android.play.core.install.InstallStateUpdatedListener;
-import com.google.android.play.core.install.model.AppUpdateType;
-import com.google.android.play.core.install.model.InstallStatus;
-import com.google.android.play.core.install.model.UpdateAvailability;
 import com.wireguard.android.backend.GoBackend;
 
 import org.jni_zero.JNINamespace;
@@ -353,7 +345,6 @@ public abstract class BraveActivity extends ChromeActivity
     private UsageMonitor mUsageMonitor;
     private NotificationPermissionController mNotificationPermissionController;
     private MiscAndroidMetricsConnectionErrorHandler mMiscAndroidMetricsConnectionErrorHandler;
-    private AppUpdateManager mAppUpdateManager;
     private boolean mWalletBadgeVisible;
     private boolean mSpoofCustomTab;
 
@@ -440,17 +431,6 @@ public abstract class BraveActivity extends ChromeActivity
 
         executeInitSafeBrowsing(0);
 
-        if (mAppUpdateManager == null) {
-            mAppUpdateManager = AppUpdateManagerFactory.create(BraveActivity.this);
-        }
-        mAppUpdateManager
-                .getAppUpdateInfo()
-                .addOnSuccessListener(
-                        appUpdateInfo -> {
-                            if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
-                                completeUpdateSnackbar();
-                            }
-                        });
         // Executes Leo voice prompt if it was triggered from quick search app widget
         maybeExecuteLeoVoicePrompt();
 
@@ -614,9 +594,6 @@ public abstract class BraveActivity extends ChromeActivity
         }
 
         BraveSafeBrowsingApiHandler.getInstance().shutdownSafeBrowsing();
-        if (mAppUpdateManager != null) {
-            mAppUpdateManager.unregisterListener(mInstallStateUpdatedListener);
-        }
         getYouTubePictureInPictureController().onDestroy();
         super.onDestroyInternal();
         cleanUpWalletNativeServices();
@@ -1548,12 +1525,6 @@ public abstract class BraveActivity extends ChromeActivity
             BraveMultiWindowUtils.setCheckUpgradeEnableMultiWindows(true);
         }
 
-        if (System.currentTimeMillis()
-                > ChromeSharedPreferences.getInstance()
-                        .readLong(BravePreferenceKeys.BRAVE_IN_APP_UPDATE_TIMING, 0)) {
-            checkAppUpdate();
-        }
-
         if (!isFirstInstall
                 && !BravePrefServiceBridge.getInstance().getPlayYTVideoInBrowserEnabled()
                 && ChromeSharedPreferences.getInstance()
@@ -1705,81 +1676,6 @@ public abstract class BraveActivity extends ChromeActivity
                 && BRAVE_SEARCH_ENGINE_KEYWORD.equals(
                         defaultSearchEngineTemplateUrl.getKeyword())) {
             UserPrefs.get(getCurrentProfile()).setBoolean(Pref.SEARCH_SUGGEST_ENABLED, true);
-        }
-    }
-
-    private void setInAppUpdateTiming() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-        calendar.add(Calendar.MONTH, MONTH_1);
-        ChromeSharedPreferences.getInstance()
-                .writeLong(
-                        BravePreferenceKeys.BRAVE_IN_APP_UPDATE_TIMING, calendar.getTimeInMillis());
-    }
-
-    private void completeUpdateSnackbar() {
-        Snackbar snackbar =
-                Snackbar.make(
-                                getResources().getString(R.string.in_app_update_text),
-                                new SnackbarController() {
-                                    @Override
-                                    public void onDismissNoAction(Object actionData) {}
-
-                                    @Override
-                                    public void onAction(Object actionData) {
-                                        if (mAppUpdateManager != null) {
-                                            mAppUpdateManager.completeUpdate();
-                                            mAppUpdateManager.unregisterListener(
-                                                    mInstallStateUpdatedListener);
-                                        }
-                                    }
-                                },
-                                Snackbar.TYPE_ACTION,
-                                Snackbar.UMA_UNKNOWN)
-                        .setAction(getResources().getString(R.string.update), null)
-                        .setDefaultLines(false)
-                        .setDuration(10000);
-        Tab currentTab = getActivityTabProvider().get();
-        if (currentTab != null) {
-            SnackbarManager snackbarManager =
-                    SnackbarManagerProvider.from(currentTab.getWindowAndroid());
-            snackbarManager.showSnackbar(snackbar);
-        }
-    }
-
-    private final InstallStateUpdatedListener mInstallStateUpdatedListener =
-            installState -> {
-                if (installState.installStatus() == InstallStatus.DOWNLOADED) {
-                    completeUpdateSnackbar();
-                }
-            };
-
-    private void checkAppUpdate() {
-        mAppUpdateManager = AppUpdateManagerFactory.create(BraveActivity.this);
-        mAppUpdateManager.registerListener(mInstallStateUpdatedListener);
-
-        Task<AppUpdateInfo> appUpdateInfoTask = mAppUpdateManager.getAppUpdateInfo();
-
-        appUpdateInfoTask.addOnSuccessListener(
-                appUpdateInfo -> {
-                    if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
-                        if (appUpdateInfo.updatePriority() >= 4 /* high priority */
-                                && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
-                            startAppUpdateFlow(appUpdateInfo, AppUpdateType.IMMEDIATE);
-                        } else {
-                            startAppUpdateFlow(appUpdateInfo, AppUpdateType.FLEXIBLE);
-                        }
-                    }
-                });
-    }
-
-    private void startAppUpdateFlow(AppUpdateInfo appUpdateInfo, int appUpdateType) {
-        try {
-            mAppUpdateManager.startUpdateFlowForResult(
-                    appUpdateInfo, appUpdateType, BraveActivity.this, 1);
-            setInAppUpdateTiming();
-        } catch (IntentSender.SendIntentException e) {
-            throw new RuntimeException(e);
         }
     }
 
