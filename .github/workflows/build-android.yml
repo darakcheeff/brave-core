@@ -129,6 +129,26 @@ jobs:
           fi
           echo "Verified themed_app_icon.xml: $(ls -l $GITHUB_WORKSPACE/src/chrome/android/java/res_chromium_base/drawable-night/themed_app_icon.xml 2>/dev/null || echo 'not found')"
 
+          # Build and install redirect_cc wrapper to emulate Siso's redirect_cc under Ninja
+          CLANG_DIR="$GITHUB_WORKSPACE/src/third_party/llvm-build/Release+Asserts/bin"
+          if [ -d "$CLANG_DIR" ]; then
+            echo "Building redirect_cc wrapper for Ninja compilation..."
+            gcc -O2 "$GITHUB_WORKSPACE/src/brave/tools/ci/redirect_cc.c" -o /tmp/redirect_cc
+            for tool in clang clang++; do
+              TARGET="$CLANG_DIR/$tool"
+              REAL="$CLANG_DIR/$tool.real"
+              if [ -e "$TARGET" ] && [ ! -e "$REAL" ]; then
+                REAL_TARGET="$(readlink -f "$TARGET")"
+                cp "$REAL_TARGET" "$REAL"
+                chmod +x "$REAL"
+                rm -f "$TARGET"
+                cp /tmp/redirect_cc "$TARGET"
+                chmod +x "$TARGET"
+                echo "Successfully installed redirect_cc wrapper for $tool -> $REAL"
+              fi
+            done
+          fi
+
           python3 -c "
           import os
           p = os.path.join(os.environ.get('GITHUB_WORKSPACE', ''), 'src', 'base', 'logging', 'rust_logger', 'print_rust_log_ffi.cc')
@@ -214,6 +234,7 @@ jobs:
           export PYTHONUNBUFFERED=1
           export TARGET_ARCH="${{ inputs.target_cpu }}"
           export RUSTUP_HOME="$GITHUB_WORKSPACE/src/third_party/rust-toolchain"
+          export REDIRECT_CC_DEBUG=1
 
           python3 -c "
           import os
