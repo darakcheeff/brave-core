@@ -45,6 +45,21 @@ def main():
                     except OSError:
                         pass
 
+    # For shallow clones, set remaining files to the earliest timestamp found (or safe past timestamp)
+    fallback_time = cur_time if cur_time is not None else 1700000000
+    for root, _, files in os.walk(repo_root):
+        if ".git" in root.split(os.sep):
+            continue
+        for f in files:
+            full_path = os.path.join(root, f)
+            rel_path = os.path.relpath(full_path, repo_root)
+            if rel_path not in seen_files:
+                try:
+                    os.utime(full_path, (fallback_time, fallback_time))
+                    count += 1
+                except OSError:
+                    pass
+
     print(f"Successfully normalized timestamps for {count} source files.")
 
 if __name__ == "__main__":
