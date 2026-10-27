@@ -62,14 +62,14 @@ jobs:
           path: src/brave
           fetch-depth: 0
 
-      - name: Install Build Tooling
+      - name: Setup PNPM & depot_tools
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq zstd curl git python3 ninja-build openjdk-17-jdk
-          npm install -g pnpm
-          git clone --depth 1 https://chromium.googlesource.com/chromium/tools/depot_tools.git "$HOME/depot_tools"
-          export PATH="$HOME/depot_tools:$PATH"
-          python3 "$HOME/depot_tools/ensure_bootstrap.py" || true
+          corepack enable || npm install -g pnpm@latest --no-fund --no-audit
+          pnpm config set runtime-on-fail ignore
+          if [ ! -d "$HOME/depot_tools" ]; then
+            git clone --depth 1 https://chromium.googlesource.com/chromium/tools/depot_tools.git "$HOME/depot_tools"
+          fi
+          bash "$HOME/depot_tools/ensure_bootstrap" || true
           echo "$HOME/depot_tools" >> $GITHUB_PATH
 
       - name: Restore Build Checkpoint
