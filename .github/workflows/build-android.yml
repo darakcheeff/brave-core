@@ -110,7 +110,25 @@ jobs:
           node ./build/commands/scripts/sync.ts --init --target_os=android --target_arch=${{ inputs.target_cpu }} --no-history
 
       - name: Configure GN Build Args
+        working-directory: src/brave
         run: |
+          echo "Updating Brave branding and preparing Android resources..."
+          node ./build/commands/scripts/build.ts ${{ inputs.build_type }} --prepare_only --target_os=android --target_arch=${{ inputs.target_cpu }} || true
+
+          # Direct fallback to ensure all required Android resource directories are 100% populated
+          if [ ! -f "$GITHUB_WORKSPACE/src/chrome/android/java/res_chromium_base/drawable-night/themed_app_icon.xml" ]; then
+            echo "Applying direct copy of Android resources into Chromium tree..."
+            mkdir -p "$GITHUB_WORKSPACE/src/chrome/android/java/res_chromium_base"
+            cp -r "$GITHUB_WORKSPACE/src/brave/app/theme/brave/android/res_brave_base/"* "$GITHUB_WORKSPACE/src/chrome/android/java/res_chromium_base/"
+            mkdir -p "$GITHUB_WORKSPACE/src/chrome/android/java/res_chromium"
+            cp -r "$GITHUB_WORKSPACE/src/brave/app/theme/brave/android/res_brave/"* "$GITHUB_WORKSPACE/src/chrome/android/java/res_chromium/"
+            mkdir -p "$GITHUB_WORKSPACE/src/chrome/android/java/res"
+            cp -r "$GITHUB_WORKSPACE/src/brave/android/java/res/"* "$GITHUB_WORKSPACE/src/chrome/android/java/res/"
+            mkdir -p "$GITHUB_WORKSPACE/src/chrome/browser/download/internal/android/java/res"
+            cp -r "$GITHUB_WORKSPACE/src/brave/browser/download/internal/android/java/res/"* "$GITHUB_WORKSPACE/src/chrome/browser/download/internal/android/java/res/"
+          fi
+          echo "Verified themed_app_icon.xml: $(ls -l $GITHUB_WORKSPACE/src/chrome/android/java/res_chromium_base/drawable-night/themed_app_icon.xml 2>/dev/null || echo 'not found')"
+
           OUT_DIR_ANDROID="$GITHUB_WORKSPACE/src/out/android_${{ inputs.build_type }}"
           OUT_DIR_PLAIN="$GITHUB_WORKSPACE/src/out/${{ inputs.build_type }}"
           mkdir -p "$OUT_DIR_ANDROID" "$OUT_DIR_PLAIN"
@@ -128,7 +146,8 @@ jobs:
           # Commercial/Telemetry debloat:
           enable_brave_wallet = false
           enable_brave_rewards = false
-          enable_brave_vpn = false
+          enable_brave_vpn_v1 = false
+          enable_brave_vpn_v2 = false
           enable_brave_ads = false
           enable_brave_stats_updater = false
 
