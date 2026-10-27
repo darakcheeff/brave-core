@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2026 The Brave Authors. All rights reserved.
+     This Source Code Form is subject to the terms of the Mozilla Public
+     License, v. 2.0. If a copy of the MPL was not distributed with this file,
+     You can obtain one at https://mozilla.org/MPL/2.0/. -->
+
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:title="In-Browser MCP Server (AI Agents)">
+
+        <org.chromium.components.browser_ui.settings.ChromeSwitchPreference
+            android:key="pref_mcp_server_enabled"
+            android:title="Enable Native MCP Server"
+            android:summary="Direct JSON-RPC interface for AI agents (Claude, Cursor, Antigravity) on 127.0.0.1 without DevTools CDP detection"
+            android:defaultValue="false" />
+
+        <org.chromium.components.browser_ui.settings.ChromeBasePreference
+            android:key="pref_mcp_server_port"
+            android:title="Server Port"
+            android:summary="127.0.0.1:8765" />
+
+        <org.chromium.components.browser_ui.settings.ChromeBasePreference
+            android:key="pref_mcp_server_auth_token"
+            android:title="Bearer Auth Token"
+            android:summary="Tap to view, copy, or regenerate security token" />
+
+        <org.chromium.components.browser_ui.settings.ChromeBasePreference
+            android:key="pref_mcp_copy_config"
+            android:title="Copy AI Agent Config"
+            android:summary="Copy configuration JSON for Claude Desktop, Cursor, or python agents" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Stealth CDP &amp; Anti-Detection">
+
+        <org.chromium.components.browser_ui.settings.ChromeSwitchPreference
+            android:key="pref_stealth_cdp_enabled"
+            android:title="Stealth Automation Cloaking"
+            android:summary="Forces navigator.webdriver to false and suppresses automation infobars to bypass Cloudflare Turnstile, DataDome, and Akamai"
+            android:defaultValue="true" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

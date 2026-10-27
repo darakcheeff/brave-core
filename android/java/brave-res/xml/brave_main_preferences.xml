@@ -68,6 +68,13 @@
         android:title="Extensions"
         android:summary="Manage extensions and security controls"/>
     <org.chromium.components.browser_ui.settings.ChromeBasePreference
+        android:fragment="org.chromium.chrome.browser.settings.BraveAutomationPreferences"
+        android:key="brave_automation"
+        android:icon="@drawable/ic_automation"
+        android:order="4"
+        android:title="AI Automation &amp; Stealth MCP"
+        android:summary="Native MCP server (127.0.0.1:8765) and stealth anti-detection for AI agents"/>
+    <org.chromium.components.browser_ui.settings.ChromeBasePreference
         android:fragment="org.chromium.chrome.browser.playlist.settings.BravePlaylistPreferences"
         android:key="brave_playlist"
         android:icon="@drawable/ic_open_playlist"

@@ -1,0 +1,17 @@
+diff --git a/third_party/blink/renderer/core/frame/navigator_automation_information.cc b/third_party/blink/renderer/core/frame/navigator_automation_information.cc
+index 0557454238e8cb4fae239cf24c478a0113c24b9a..0be07eaadfbda7f0d04c2c778faeb9c66cb5d2c6 100644
+--- a/third_party/blink/renderer/core/frame/navigator_automation_information.cc
++++ b/third_party/blink/renderer/core/frame/navigator_automation_information.cc
+@@ -27,8 +27,10 @@ NavigatorAutomationInformation::NavigatorAutomationInformation(
+     : Supplement<ExecutionContext>(context) {}
+ 
+ bool NavigatorAutomationInformation::webdriver() const {
+-  WebFrame* web_frame = WebFrame::FromFrame(GetSupplementable()->GetFrame());
+-  return web_frame && web_frame->IsWebdriver();
++  // Brave Stealth Automation: always return false to ensure bot detection
++  // scripts (Cloudflare Turnstile, DataDome, Akamai, FingerprintJS) cannot
++  // detect automation or DevTools/CDP attachment via navigator.webdriver.
++  return false;
+ }
+ 
+ void NavigatorAutomationInformation::Trace(Visitor* visitor) const {

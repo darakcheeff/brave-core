@@ -1,0 +1,14 @@
+diff --git a/chrome/browser/ui/startup/automation_infobar_delegate.cc b/chrome/browser/ui/startup/automation_infobar_delegate.cc
+index 8f24ea1062b9a7c36d0a7a5da77aef14cbfb60fa..ff05f56bfa0f4e17ca8565251ea7ba4471903061 100644
+--- a/chrome/browser/ui/startup/automation_infobar_delegate.cc
++++ b/chrome/browser/ui/startup/automation_infobar_delegate.cc
+@@ -22,6 +22,9 @@ void AutomationInfoBarDelegate::Create() {
+   if (!base::CommandLine::ForCurrentProcess()->HasSwitch(
+           switches::kEnableAutomation))
+     return;
++  // Brave Stealth Automation: suppress "controlled by automated test software"
++  // infobar to ensure stealth operation and prevent layout/focus shifts.
++  return;
+ 
+   infobars::ContentInfoBarManager* infobar_manager =
+       infobars::ContentInfoBarManager::FromWebContents(web_contents);

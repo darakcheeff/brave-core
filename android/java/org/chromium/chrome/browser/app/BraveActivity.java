@@ -147,6 +147,7 @@ import org.chromium.chrome.browser.informers.BraveSyncAccountDeletedInformer;
 import org.chromium.chrome.browser.layouts.LayoutType;
 import org.chromium.chrome.browser.lifetime.ApplicationLifetime;
 import org.chromium.chrome.browser.media.BraveYouTubePictureInPictureController;
+import org.chromium.chrome.browser.mcp.BraveMcpServerManager;
 import org.chromium.chrome.browser.misc_metrics.MiscAndroidMetricsConnectionErrorHandler;
 import org.chromium.chrome.browser.misc_metrics.MiscAndroidMetricsFactory;
 import org.chromium.chrome.browser.multiwindow.BraveMultiWindowUtils;
@@ -598,6 +599,7 @@ public abstract class BraveActivity extends ChromeActivity
 
         BraveSafeBrowsingApiHandler.getInstance().shutdownSafeBrowsing();
         getYouTubePictureInPictureController().onDestroy();
+        BraveMcpServerManager.getInstance().onActivityDestroyed(this);
         super.onDestroyInternal();
         cleanUpWalletNativeServices();
         cleanUpMiscAndroidMetrics();
@@ -1131,6 +1133,7 @@ public abstract class BraveActivity extends ChromeActivity
     public void onResume() {
         super.onResume();
         mIsProcessingPendingDappsTxRequest = false;
+        BraveMcpServerManager.getInstance().setCurrentActivity(this);
 
         PostTask.postTask(
                 TaskTraits.BEST_EFFORT_MAY_BLOCK, () -> { BraveStatsUtil.removeShareStatsFile(); });
@@ -1261,6 +1264,8 @@ public abstract class BraveActivity extends ChromeActivity
     @Override
     public void finishNativeInitialization() {
         super.finishNativeInitialization();
+
+        BraveMcpServerManager.getInstance().initIfEnabled(this);
 
         boolean isFirstInstall = PackageUtils.isFirstInstall(this);
 

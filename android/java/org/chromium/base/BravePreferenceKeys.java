@@ -146,6 +146,11 @@ public final class BravePreferenceKeys {
     public static final String BRAVE_NTP_TOP_SITES_DISPLAY_MODE =
             "brave_ntp_top_sites_display_mode";
 
+    public static final String BRAVE_MCP_SERVER_ENABLED = "brave_mcp_server_enabled";
+    public static final String BRAVE_MCP_SERVER_PORT = "brave_mcp_server_port";
+    public static final String BRAVE_MCP_SERVER_AUTH_TOKEN = "brave_mcp_server_auth_token";
+    public static final String BRAVE_STEALTH_CDP_ENABLED = "brave_stealth_cdp_enabled";
+
     /*
      * Checks if preference key is used in Brave.
      * It's no op currently. We might reconsider
