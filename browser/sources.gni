@@ -1001,8 +1001,12 @@ if (is_android) {
     "//brave/browser/android:android_browser_process",
     "//brave/browser/android:tabs_impl",
     "//brave/browser/android/preferences",
-    "//brave/browser/notifications",
   ]
+  if (enable_brave_ads) {
+    brave_chrome_browser_allow_circular_includes_from += [
+      "//brave/browser/notifications",
+    ]
+  }
 }
 
 # TODO(https://github.com/brave/brave-browser/issues/43310):

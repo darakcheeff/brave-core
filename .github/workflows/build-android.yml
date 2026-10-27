@@ -168,7 +168,15 @@ jobs:
           fi
           echo "Using ninja binary: $NINJA_BIN"
           # Allocate up to 330 minutes for Ninja compilation, leaving 30 minutes for checkpoint saving
-          timeout 330m "$NINJA_BIN" -C "$OUT_DIR" chrome_public_apk || true
+          NINJA_EXIT=0
+          timeout 330m "$NINJA_BIN" -C "$OUT_DIR" chrome_public_apk || NINJA_EXIT=$?
+          if [ $NINJA_EXIT -eq 124 ] || [ $NINJA_EXIT -eq 137 ]; then
+            echo "Ninja timed out gracefully at 330m to allow checkpoint saving."
+            echo "timed_out=true" >> $GITHUB_OUTPUT
+          elif [ $NINJA_EXIT -ne 0 ]; then
+            echo "Ninja compilation failed with exit code $NINJA_EXIT"
+            exit $NINJA_EXIT
+          fi
 
       - name: Locate and Package Output APK
         id: package
@@ -215,7 +223,7 @@ jobs:
           gh release delete "$CHECKPOINT_TAG" --yes --cleanup-tag || true
 
       - name: Save Release Checkpoint (on incomplete or timeout)
-        if: always() && steps.package.outputs.apk_exists != 'true'
+        if: always() && steps.package.outputs.apk_exists != 'true' && steps.build.outcome == 'success'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
