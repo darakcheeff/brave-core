@@ -146,12 +146,12 @@ jobs:
           OUT_DIR="$GITHUB_WORKSPACE/src/out/${{ inputs.build_type }}"
           if ! [ -f "$OUT_DIR/build.ninja" ]; then
             echo "build.ninja missing, generating Ninja files with gn..."
-            node ./build/commands/scripts/gn.js gen "$OUT_DIR" || pnpm run gn gen "$OUT_DIR" || gn gen "$OUT_DIR"
+            node ./build/commands/scripts/gn.js gen ${{ inputs.build_type }} --target_os=android
           fi
 
-          NINJA_BIN="/usr/bin/ninja"
+          NINJA_BIN="$HOME/depot_tools/ninja"
           if ! [ -x "$NINJA_BIN" ]; then
-            NINJA_BIN="ninja"
+            NINJA_BIN="$(which ninja)"
           fi
           echo "Using ninja binary: $NINJA_BIN"
           # Allocate up to 330 minutes for Ninja compilation, leaving 30 minutes for checkpoint saving
@@ -205,7 +205,7 @@ jobs:
           OUT_DIR="$GITHUB_WORKSPACE/src/out/${{ inputs.build_type }}"
           CHECKPOINT_TAG="android-${{ inputs.target_cpu }}-checkpoint"
 
-          if [ -d "$OUT_DIR" ] && [ -f "$OUT_DIR/.ninja_log" ]; then
+          if [ -d "$OUT_DIR" ] && ( [ -f "$OUT_DIR/.ninja_log" ] || [ -f "$OUT_DIR/build.ninja" ] ); then
             echo "Compilation interrupted or timed out. Packaging out directory..."
             tar -I 'zstd -1 -T0' -cf checkpoint.tar.zst -C "$OUT_DIR" .
             split -b 1800M -d checkpoint.tar.zst "checkpoint-android-${{ inputs.target_cpu }}.tar.zst.part_"
