@@ -120,7 +120,8 @@ jobs:
           target_os = "android"
           target_cpu = "${{ inputs.target_cpu }}"
           is_debug = false
-          is_official_build = true
+          is_official_build = false
+          brave_services_key = "custom_android_build_key"
           symbol_level = 0
           blink_symbol_level = 0
 
