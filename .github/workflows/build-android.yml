@@ -39,6 +39,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
+          path: src/brave
           fetch-depth: 0
 
       - name: Free Disk Space
@@ -61,6 +62,8 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y -qq zstd curl git python3 ninja-build openjdk-17-jdk
           git clone --depth 1 https://chromium.googlesource.com/chromium/tools/depot_tools.git "$HOME/depot_tools"
+          export PATH="$HOME/depot_tools:$PATH"
+          python3 "$HOME/depot_tools/ensure_bootstrap.py" || true
           echo "$HOME/depot_tools" >> $GITHUB_PATH
 
       - name: Restore Build Checkpoint
@@ -86,7 +89,7 @@ jobs:
               cat /tmp/checkpoint/checkpoint-android-${{ inputs.target_cpu }}.tar.zst* | tar -I zstd -xf - -C "$OUT_DIR"
               rm -rf /tmp/checkpoint
               echo "Normalizing git commit mtimes to prevent ninja cache invalidation..."
-              python3 tools/ci/normalize-source-mtimes.py .
+              python3 src/brave/tools/ci/normalize-source-mtimes.py src/brave
             fi
           else
             echo "No existing checkpoint found. Performing initial build setup."
@@ -126,8 +129,13 @@ jobs:
         id: build
         run: |
           OUT_DIR="src/out/${{ inputs.build_type }}"
+          NINJA_BIN="/usr/bin/ninja"
+          if ! [ -x "$NINJA_BIN" ]; then
+            NINJA_BIN="ninja"
+          fi
+          echo "Using ninja binary: $NINJA_BIN"
           # Allocate up to 330 minutes for Ninja compilation, leaving 30 minutes for checkpoint saving
-          timeout 330m ninja -C "$OUT_DIR" chrome_public_apk || true
+          timeout 330m "$NINJA_BIN" -C "$OUT_DIR" chrome_public_apk || true
 
       - name: Locate and Package Output APK
         id: package
