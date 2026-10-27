@@ -1255,7 +1255,6 @@
 -All/BookmarkBubbleViewShoppingCollectionBrowserTest.*/*
 -All/BrowserCommandControllerBrowserTestShowSigninWhenPaused.ExecuteShowSigninWhenPaused/ReplaceSyncPromosDisabled
 -All/BrowserCommandControllerBrowserTestShowSigninWhenPaused.ExecuteShowSigninWhenPaused/ReplaceSyncPromosEnabled
--All/ForceSigninProfilePickerCreationFlowBrowserTest.ForceSignin*
 -All/GlicEnablingGeminiEntBrowserTest.VerifySettings/*
 -All/GlicProfileManagerDidSelectProfileTest.DidSelectProfile_Consented/*
 -All/GlicProfileManagerDidSelectProfileTest.DidSelectProfile_NoConsent/*
@@ -1307,6 +1306,7 @@
 -EnterpriseSigninServiceTest.CurrentlyActiveTabIsAlreadyLoginPage
 -EnterpriseSigninServiceTest.DoesNothingIfPolicyNotSet
 -EnterpriseSigninServiceTest.OpensNewTabOnSyncPaused
+-ForceSigninProfilePickerCreationFlowBrowserTest.ForceSignin*
 -GaiaRemoteConsentFlowParamBrowserTest.*
 -GlicActuationOnWebPolicyTest.*
 -GlicApiTest*.*
