@@ -120,6 +120,11 @@ public abstract class BraveCommandLineInitUtil {
                 CommandLine.getInstance().appendSwitchWithValue("profile-directory", activeProfileDir);
             }
         }
+
+        // Stealth Automation: disable AutomationControlled to ensure navigator.webdriver = false
+        // and suppress test/automation infobars across all WebContents
+        CommandLine.getInstance().appendSwitchWithValue("disable-blink-features", "AutomationControlled");
+        CommandLine.getInstance().appendSwitch("disable-infobars");
     }
 
     private static String getProcessName() {
