@@ -1,6 +1,11 @@
 name: Build Brave Android APK (Incremental Checkpointed)
 
 'on':
+  push:
+    branches:
+      - custom-android
+    paths:
+      - '.github/workflows/build-android.yml'
   workflow_dispatch:
     inputs:
       target_cpu:
