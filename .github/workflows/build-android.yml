@@ -263,11 +263,11 @@ jobs:
             NINJA_BIN="$(which ninja)"
           fi
           echo "Using ninja binary: $NINJA_BIN"
-          # Allocate up to 330 minutes for Ninja compilation, leaving 30 minutes for checkpoint saving
+          # Allocate 120 minutes for Ninja compilation, leaving ample margin for checkpoint saving and job chaining
           NINJA_EXIT=0
-          timeout 330m "$NINJA_BIN" -C "$OUT_DIR" chrome_public_apk || NINJA_EXIT=$?
+          timeout 120m "$NINJA_BIN" -C "$OUT_DIR" chrome_public_apk || NINJA_EXIT=$?
           if [ $NINJA_EXIT -eq 124 ] || [ $NINJA_EXIT -eq 137 ]; then
-            echo "Ninja timed out gracefully at 330m to allow checkpoint saving."
+            echo "Ninja reached incremental 120m threshold gracefully to save checkpoint."
             echo "timed_out=true" >> $GITHUB_OUTPUT
           elif [ $NINJA_EXIT -ne 0 ]; then
             echo "Ninja compilation failed with exit code $NINJA_EXIT"
@@ -320,7 +320,7 @@ jobs:
           gh release delete "$CHECKPOINT_TAG" --yes --cleanup-tag || true
 
       - name: Save Release Checkpoint (on incomplete or timeout)
-        if: always() && steps.package.outputs.apk_exists != 'true'
+        if: (always() || cancelled()) && steps.package.outputs.apk_exists != 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
@@ -347,6 +347,11 @@ jobs:
                 --notes "Automated incremental build checkpoint for GitHub Actions runner."
             fi
             echo "Checkpoint successfully saved. Subsequent build will resume from this state."
+
+            if [ "${{ steps.build.outputs.timed_out }}" = "true" ]; then
+              echo "Build timed out gracefully and saved checkpoint. Automatically dispatching next incremental run..."
+              gh workflow run "build-android.yml" --ref "${{ github.ref_name }}" -f clean_checkpoint=false || true
+            fi
           else
             echo "No ninja build artifacts found to checkpoint."
           fi
