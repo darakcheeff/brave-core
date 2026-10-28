@@ -139,19 +139,26 @@ jobs:
           if [ -d "$CLANG_DIR" ]; then
             echo "Building redirect_cc wrapper for Ninja compilation..."
             gcc -O2 "$GITHUB_WORKSPACE/src/brave/tools/ci/redirect_cc.c" -o /tmp/redirect_cc
-            for tool in clang clang++; do
-              TARGET="$CLANG_DIR/$tool"
-              REAL="$CLANG_DIR/$tool.real"
-              if [ -e "$TARGET" ] && [ ! -e "$REAL" ]; then
-                REAL_TARGET="$(readlink -f "$TARGET")"
-                cp "$REAL_TARGET" "$REAL"
-                chmod +x "$REAL"
-                rm -f "$TARGET"
-                cp /tmp/redirect_cc "$TARGET"
-                chmod +x "$TARGET"
-                echo "Successfully installed redirect_cc wrapper for $tool -> $REAL"
-              fi
-            done
+            
+            # Resolve real binary targets BEFORE replacing any of them to prevent symlink clobbering
+            REAL_CLANG="$(readlink -f "$CLANG_DIR/clang")"
+            REAL_CLANGXX="$(readlink -f "$CLANG_DIR/clang++")"
+
+            if [ -e "$REAL_CLANG" ] && [ ! -e "$CLANG_DIR/clang.real" ]; then
+              cp "$REAL_CLANG" "$CLANG_DIR/clang.real"
+              chmod +x "$CLANG_DIR/clang.real"
+            fi
+            if [ -e "$REAL_CLANGXX" ] && [ ! -e "$CLANG_DIR/clang++.real" ]; then
+              cp "$REAL_CLANGXX" "$CLANG_DIR/clang++.real"
+              chmod +x "$CLANG_DIR/clang++.real"
+            fi
+
+            rm -f "$CLANG_DIR/clang" "$CLANG_DIR/clang++"
+            cp /tmp/redirect_cc "$CLANG_DIR/clang"
+            chmod +x "$CLANG_DIR/clang"
+            cp /tmp/redirect_cc "$CLANG_DIR/clang++"
+            chmod +x "$CLANG_DIR/clang++"
+            echo "Successfully installed redirect_cc wrappers for clang and clang++"
           fi
 
           python3 -c "
@@ -182,34 +189,29 @@ jobs:
           " || true
 
           OUT_DIR_ANDROID="$GITHUB_WORKSPACE/src/out/android_${{ inputs.build_type }}"
-          OUT_DIR_PLAIN="$GITHUB_WORKSPACE/src/out/${{ inputs.build_type }}"
-          mkdir -p "$OUT_DIR_ANDROID" "$OUT_DIR_PLAIN"
+          mkdir -p "$OUT_DIR_ANDROID"
 
-          write_args() {
-            cat << 'EOF' > "$1/args.gn"
-          target_os = "android"
-          target_cpu = "${{ inputs.target_cpu }}"
-          is_debug = false
-          is_official_build = false
-          brave_services_key = "custom_android_build_key"
-          symbol_level = 0
-          blink_symbol_level = 0
+          # Establish base GN build configuration with Brave's scripts
+          node ./build/commands/scripts/gn.js gen ${{ inputs.build_type }} --target_os=android
 
-          # Commercial/Telemetry debloat:
-          enable_brave_wallet = false
-          enable_brave_rewards = false
-          enable_brave_vpn_v1 = false
-          enable_brave_vpn_v2 = false
-          enable_brave_ads = false
-          enable_brave_stats_updater = false
+          # Append optimization and debloat parameters to args.gn without clobbering imports
+          cat << 'EOF' >> "$OUT_DIR_ANDROID/args.gn"
 
-          # Compilation performance optimizations:
-          treat_warnings_as_errors = false
-          EOF
-          }
-          write_args "$OUT_DIR_ANDROID"
-          write_args "$OUT_DIR_PLAIN"
-          echo "Generated args.gn in $OUT_DIR_ANDROID and $OUT_DIR_PLAIN successfully."
+# Custom Android debloat and optimization flags:
+enable_brave_wallet = false
+enable_brave_rewards = false
+enable_brave_vpn_v1 = false
+enable_brave_vpn_v2 = false
+enable_brave_ads = false
+enable_brave_stats_updater = false
+treat_warnings_as_errors = false
+symbol_level = 0
+blink_symbol_level = 0
+EOF
+
+          # Regenerate Ninja build files so build.ninja has a fresh timestamp and never triggers interactive ninja regeneration
+          node ./build/commands/scripts/gn.js gen ${{ inputs.build_type }} --target_os=android
+          echo "Generated build.ninja and args.gn successfully."
 
       - name: Compile Android APK
         id: build
@@ -240,6 +242,7 @@ jobs:
           export TARGET_ARCH="${{ inputs.target_cpu }}"
           export RUSTUP_HOME="$GITHUB_WORKSPACE/src/third_party/rust-toolchain"
           export REDIRECT_CC_DEBUG=1
+          export NINJA_STATUS="[%f/%t] "
 
           python3 -c "
           import os

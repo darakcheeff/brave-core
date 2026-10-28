@@ -16,8 +16,15 @@
  * before delegating to the real Clang compiler.
  */
 int main(int argc, char* argv[]) {
-    char real_compiler[1024];
-    snprintf(real_compiler, sizeof(real_compiler), "%s.real", argv[0]);
+    char real_compiler[1024] = {0};
+    char exe_path[1024] = {0};
+    ssize_t len = readlink("/proc/self/exe", exe_path, sizeof(exe_path) - 10);
+    if (len > 0) {
+        exe_path[len] = '\0';
+        snprintf(real_compiler, sizeof(real_compiler), "%s.real", exe_path);
+    } else {
+        snprintf(real_compiler, sizeof(real_compiler), "%s.real", argv[0]);
+    }
 
     char** new_argv = malloc((argc + 1) * sizeof(char*));
     if (!new_argv) {
