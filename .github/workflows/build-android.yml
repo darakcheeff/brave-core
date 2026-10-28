@@ -195,19 +195,19 @@ jobs:
           node ./build/commands/scripts/gn.js gen ${{ inputs.build_type }} --target_os=android
 
           # Append optimization and debloat parameters to args.gn without clobbering imports
-          cat << 'EOF' >> "$OUT_DIR_ANDROID/args.gn"
-
-# Custom Android debloat and optimization flags:
-enable_brave_wallet = false
-enable_brave_rewards = false
-enable_brave_vpn_v1 = false
-enable_brave_vpn_v2 = false
-enable_brave_ads = false
-enable_brave_stats_updater = false
-treat_warnings_as_errors = false
-symbol_level = 0
-blink_symbol_level = 0
-EOF
+          {
+            echo ""
+            echo "# Custom Android debloat and optimization flags:"
+            echo "enable_brave_wallet = false"
+            echo "enable_brave_rewards = false"
+            echo "enable_brave_vpn_v1 = false"
+            echo "enable_brave_vpn_v2 = false"
+            echo "enable_brave_ads = false"
+            echo "enable_brave_stats_updater = false"
+            echo "treat_warnings_as_errors = false"
+            echo "symbol_level = 0"
+            echo "blink_symbol_level = 0"
+          } >> "$OUT_DIR_ANDROID/args.gn"
 
           # Regenerate Ninja build files so build.ninja has a fresh timestamp and never triggers interactive ninja regeneration
           node ./build/commands/scripts/gn.js gen ${{ inputs.build_type }} --target_os=android
