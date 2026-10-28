@@ -1,11 +1,6 @@
 name: Build Brave Android APK (Incremental Checkpointed)
 
-'on':
-  push:
-    branches:
-      - custom-android
-    paths:
-      - '.github/workflows/build-android.yml'
+on:
   workflow_dispatch:
     inputs:
       target_cpu:
@@ -36,7 +31,7 @@ permissions:
 
 jobs:
   build-apk:
-    name: Build Android APK (${{ inputs.target_cpu }})
+    name: Build Android APK (${{ inputs.target_cpu || 'arm64' }})
     runs-on: ubuntu-latest
     timeout-minutes: 360
 
