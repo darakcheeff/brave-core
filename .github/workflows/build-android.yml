@@ -82,6 +82,8 @@ jobs:
           git clone --depth=1 https://chromium.googlesource.com/external/github.com/llvm/llvm-project/clang/tools/clang-format.git "$GITHUB_WORKSPACE/src/third_party/clang-format/script" 2>/dev/null || true
           mkdir -p "$GITHUB_WORKSPACE/src/third_party/search_engines_data/resources"
           git clone --depth=1 https://chromium.googlesource.com/external/search_engines_data.git "$GITHUB_WORKSPACE/src/third_party/search_engines_data/resources" 2>/dev/null || true
+          mkdir -p "$GITHUB_WORKSPACE/src/third_party/webpagereplay/third_party/clang-format/script"
+          cp -r "$GITHUB_WORKSPACE/src/third_party/clang-format/script/." "$GITHUB_WORKSPACE/src/third_party/webpagereplay/third_party/clang-format/script/" 2>/dev/null || true
 
           node ./build/commands/scripts/sync.ts --init --target_os=android --target_arch=${{ inputs.target_cpu }} --no-history
 

@@ -87,7 +87,9 @@
           "src/testing/libfuzzer/fuzzers/wasm_corpus": null,
           "src/third_party/chromium-variations": null,
           "src/third_party/clang-format/script": null,
-          "src/third_party/search_engines_data/resources": null
+          "src/third_party/search_engines_data/resources": null,
+          "src/third_party/webpagereplay": null,
+          "src/third_party/webpagereplay/third_party/clang-format/script": null
         },
         "custom_vars": {
           "checkout_clang_coverage_tools": true,
