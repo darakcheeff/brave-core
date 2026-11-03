@@ -76,23 +76,7 @@ jobs:
         run: |
           echo "Initializing Brave dependencies and hooks..."
           pnpm install --no-frozen-lockfile
-
-          # Retry sync up to 3 times in case of transient upstream git RPC / HTTP 500 errors
-          SYNC_SUCCESS=false
-          for attempt in 1 2 3; do
-            echo "Running sync.ts (attempt $attempt/3)..."
-            if node ./build/commands/scripts/sync.ts --init --target_os=android --target_arch=${{ inputs.target_cpu }} --no-history; then
-              SYNC_SUCCESS=true
-              break
-            fi
-            echo "Sync attempt $attempt failed. Waiting 15s before retry..."
-            sleep 15
-          done
-
-          if [ "$SYNC_SUCCESS" != "true" ]; then
-            echo "Failed to sync Chromium dependencies after 3 attempts."
-            exit 1
-          fi
+          node ./build/commands/scripts/sync.ts --init --target_os=android --target_arch=${{ inputs.target_cpu }} --no-history
 
       - name: Restore Build Checkpoint
         id: restore_checkpoint
