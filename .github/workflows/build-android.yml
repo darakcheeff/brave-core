@@ -76,6 +76,11 @@ jobs:
         run: |
           echo "Initializing Brave dependencies and hooks..."
           pnpm install --no-frozen-lockfile
+
+          # Pre-clone clang-format script to satisfy any tools while bypassing upstream HTTP 500 on specific commit
+          mkdir -p "$GITHUB_WORKSPACE/src/third_party/clang-format/script"
+          git clone --depth=1 https://chromium.googlesource.com/external/github.com/llvm/llvm-project/clang/tools/clang-format.git "$GITHUB_WORKSPACE/src/third_party/clang-format/script" 2>/dev/null || true
+
           node ./build/commands/scripts/sync.ts --init --target_os=android --target_arch=${{ inputs.target_cpu }} --no-history
 
       - name: Restore Build Checkpoint

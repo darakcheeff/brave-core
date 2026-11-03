@@ -85,7 +85,8 @@
         },
         "custom_deps": {
           "src/testing/libfuzzer/fuzzers/wasm_corpus": null,
-          "src/third_party/chromium-variations": null
+          "src/third_party/chromium-variations": null,
+          "src/third_party/clang-format/script": null
         },
         "custom_vars": {
           "checkout_clang_coverage_tools": true,
