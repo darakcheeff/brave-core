@@ -87,6 +87,28 @@ jobs:
 
           node ./build/commands/scripts/sync.ts --init --target_os=android --target_arch=${{ inputs.target_cpu }} --no-history
 
+          # Deduplicate any entries in .gclient_entries to satisfy gclient_eval in depot_tools/gn.py
+          python3 -c "
+          import os
+          for p in [os.path.join(os.environ.get('GITHUB_WORKSPACE', ''), '.gclient_entries'), os.path.join(os.environ.get('GITHUB_WORKSPACE', ''), 'src', '.gclient_entries')]:
+              if os.path.exists(p):
+                  with open(p, 'r') as f:
+                      lines = f.readlines()
+                  seen = set()
+                  out = []
+                  for l in lines:
+                      s = l.strip()
+                      if ':' in s and (s.startswith('\"') or s.startswith('\'')):
+                          k = s.split(':')[0].strip('\"\' ')
+                          if k in seen:
+                              continue
+                          seen.add(k)
+                      out.append(l)
+                  with open(p, 'w') as f:
+                      f.writelines(out)
+                  print(f'Deduplicated entries in {p}')
+          " || true
+
       - name: Restore Build Checkpoint
         id: restore_checkpoint
         env:
@@ -194,6 +216,28 @@ jobs:
 
           OUT_DIR_ANDROID="$GITHUB_WORKSPACE/src/out/android_${{ inputs.build_type }}"
           mkdir -p "$OUT_DIR_ANDROID"
+
+          # Deduplicate any entries in .gclient_entries to satisfy gclient_eval in depot_tools/gn.py
+          python3 -c "
+          import os
+          for p in [os.path.join(os.environ.get('GITHUB_WORKSPACE', ''), '.gclient_entries'), os.path.join(os.environ.get('GITHUB_WORKSPACE', ''), 'src', '.gclient_entries')]:
+              if os.path.exists(p):
+                  with open(p, 'r') as f:
+                      lines = f.readlines()
+                  seen = set()
+                  out = []
+                  for l in lines:
+                      s = l.strip()
+                      if ':' in s and (s.startswith('\"') or s.startswith('\'')):
+                          k = s.split(':')[0].strip('\"\' ')
+                          if k in seen:
+                              continue
+                          seen.add(k)
+                      out.append(l)
+                  with open(p, 'w') as f:
+                      f.writelines(out)
+                  print(f'Deduplicated entries in {p}')
+          " || true
 
           # Establish base GN build configuration with Brave's scripts
           node ./build/commands/scripts/gn.js gen ${{ inputs.build_type }} --target_os=android
