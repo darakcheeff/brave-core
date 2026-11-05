@@ -394,14 +394,25 @@ jobs:
             rm -f checkpoint.tar.zst
 
             echo "Uploading checkpoint chunk files to $CHECKPOINT_TAG..."
-            if gh release view "$CHECKPOINT_TAG" >/dev/null 2>&1; then
-              gh release upload "$CHECKPOINT_TAG" checkpoint-android-${{ inputs.target_cpu }}.tar.zst.part_* --clobber
-            else
-              gh release create "$CHECKPOINT_TAG" checkpoint-android-${{ inputs.target_cpu }}.tar.zst.part_* \
-                --title "Android ${{ inputs.target_cpu }} Build Checkpoint" \
-                --prerelease \
-                --notes "Automated incremental build checkpoint for GitHub Actions runner."
-            fi
+            for attempt in 1 2 3 4 5; do
+              echo "Upload attempt $attempt of 5..."
+              if gh release view "$CHECKPOINT_TAG" >/dev/null 2>&1; then
+                if gh release upload "$CHECKPOINT_TAG" checkpoint-android-${{ inputs.target_cpu }}.tar.zst.part_* --clobber; then
+                  echo "Checkpoint uploaded successfully on attempt $attempt."
+                  break
+                fi
+              else
+                if gh release create "$CHECKPOINT_TAG" checkpoint-android-${{ inputs.target_cpu }}.tar.zst.part_* \
+                  --title "Android ${{ inputs.target_cpu }} Build Checkpoint" \
+                  --prerelease \
+                  --notes "Automated incremental build checkpoint for GitHub Actions runner."; then
+                  echo "Checkpoint release created successfully on attempt $attempt."
+                  break
+                fi
+              fi
+              echo "Upload attempt $attempt failed, retrying in 10s..."
+              sleep 10
+            done
             echo "Checkpoint successfully saved. Subsequent build will resume from this state."
 
             if [ "${{ steps.build.outputs.timed_out }}" = "true" ]; then
