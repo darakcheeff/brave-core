@@ -239,27 +239,60 @@ jobs:
                   print(f'Deduplicated entries in {p}')
           " || true
 
-          # Establish base GN build configuration with Brave's scripts
-          node ./build/commands/scripts/gn.js gen ${{ inputs.build_type }} --target_os=android
+          if [ ! -f "$OUT_DIR_ANDROID/build.ninja" ]; then
+            echo "Generating initial GN build configuration..."
+            node ./build/commands/scripts/gn.js gen ${{ inputs.build_type }} --target_os=android
 
-          # Append optimization and debloat parameters to args.gn without clobbering imports
-          {
-            echo ""
-            echo "# Custom Android debloat and optimization flags:"
-            echo "enable_brave_wallet = false"
-            echo "enable_brave_rewards = false"
-            echo "enable_brave_vpn_v1 = false"
-            echo "enable_brave_vpn_v2 = false"
-            echo "enable_brave_ads = false"
-            echo "enable_brave_stats_updater = false"
-            echo "treat_warnings_as_errors = false"
-            echo "symbol_level = 0"
-            echo "blink_symbol_level = 0"
-          } >> "$OUT_DIR_ANDROID/args.gn"
+            # Append optimization and debloat parameters to args.gn without clobbering imports
+            {
+              echo ""
+              echo "# Custom Android debloat and optimization flags:"
+              echo "enable_brave_wallet = false"
+              echo "enable_brave_rewards = false"
+              echo "enable_brave_vpn_v1 = false"
+              echo "enable_brave_vpn_v2 = false"
+              echo "enable_brave_ads = false"
+              echo "enable_brave_stats_updater = false"
+              echo "treat_warnings_as_errors = false"
+              echo "symbol_level = 0"
+              echo "blink_symbol_level = 0"
+            } >> "$OUT_DIR_ANDROID/args.gn"
 
-          # Regenerate Ninja build files so build.ninja has a fresh timestamp and never triggers interactive ninja regeneration
-          node ./build/commands/scripts/gn.js gen ${{ inputs.build_type }} --target_os=android
-          echo "Generated build.ninja and args.gn successfully."
+            node ./build/commands/scripts/gn.js gen ${{ inputs.build_type }} --target_os=android
+            echo "Generated build.ninja and args.gn successfully."
+          else
+            echo "Reusing existing build.ninja and args.gn from restored checkpoint."
+          fi
+
+          echo "Normalizing mtimes across entire source tree and toolchains to fixed epoch 1700000000..."
+          python3 -c "
+          import os
+          EPOCH = 1700000000
+          gw = os.environ.get('GITHUB_WORKSPACE', '')
+          src_dir = os.path.join(gw, 'src')
+          out_dir = os.path.join(src_dir, 'out')
+          depot_dir = os.path.join(os.environ.get('HOME', ''), 'depot_tools')
+          count = 0
+          for base_dir in [src_dir, depot_dir]:
+              if not os.path.exists(base_dir):
+                  continue
+              for root, dirs, files in os.walk(base_dir, topdown=True):
+                  dirs[:] = [d for d in dirs if d != '.git' and os.path.join(root, d) != out_dir]
+                  for name in files:
+                      p = os.path.join(root, name)
+                      try:
+                          os.utime(p, (EPOCH, EPOCH), follow_symlinks=False)
+                          count += 1
+                      except OSError:
+                          pass
+          for ag in [os.path.join(out_dir, 'android_${{ inputs.build_type }}', 'args.gn'), os.path.join(out_dir, '${{ inputs.build_type }}', 'args.gn')]:
+              if os.path.exists(ag):
+                  try:
+                      os.utime(ag, (EPOCH, EPOCH), follow_symlinks=False)
+                  except OSError:
+                      pass
+          print(f'Normalized mtime=1700000000 on {count} source/toolchain files.')
+          "
 
       - name: Compile Android APK
         id: build
@@ -307,10 +340,13 @@ jobs:
               f.write('\n'.join(paths) + '\n')
           "
 
-          find "$GITHUB_WORKSPACE/src/third_party/cpython3" -type d \( -name "site-packages" -o -name "dist-packages" \) -exec cp "$GITHUB_WORKSPACE/src/brave.pth" {} \; 2>/dev/null || true
+          touch -d "@1700000000" "$GITHUB_WORKSPACE/src/brave.pth" 2>/dev/null || true
+          find "$GITHUB_WORKSPACE/src/third_party/cpython3" -type d \( -name "site-packages" -o -name "dist-packages" \) -exec cp -p "$GITHUB_WORKSPACE/src/brave.pth" {} \; 2>/dev/null || true
+          find "$GITHUB_WORKSPACE/src/third_party/cpython3" -name "brave.pth" -exec touch -d "@1700000000" {} \; 2>/dev/null || true
           python3 -c "import site; [sys.stdout.write(p+'\n') for p in site.getsitepackages()]" 2>/dev/null | while read -r sp; do
             if [ -d "$sp" ] && [ -w "$sp" ]; then
-              cp "$GITHUB_WORKSPACE/src/brave.pth" "$sp/" 2>/dev/null || true
+              cp -p "$GITHUB_WORKSPACE/src/brave.pth" "$sp/" 2>/dev/null || true
+              touch -d "@1700000000" "$sp/brave.pth" 2>/dev/null || true
             fi
           done
 
@@ -319,9 +355,23 @@ jobs:
             NINJA_BIN="$(which ninja)"
           fi
           echo "Using ninja binary: $NINJA_BIN"
+          REMAINING_BEFORE=$("$NINJA_BIN" -C "$OUT_DIR" -n chrome_public_apk 2>/dev/null | grep -c '^\[[0-9]' || true)
+          echo "Remaining Ninja targets BEFORE compilation: $REMAINING_BEFORE"
+          echo "remaining_before=$REMAINING_BEFORE" >> $GITHUB_ENV
+
           # Allocate 120 minutes for Ninja compilation, leaving ample margin for checkpoint saving and job chaining
           NINJA_EXIT=0
-          timeout 120m "$NINJA_BIN" -C "$OUT_DIR" chrome_public_apk || NINJA_EXIT=$?
+          set +e
+          timeout 120m "$NINJA_BIN" -C "$OUT_DIR" chrome_public_apk 2>&1 | tee /tmp/ninja_build.log
+          NINJA_EXIT=${PIPESTATUS[0]}
+          set -e
+
+          REMAINING_AFTER=$("$NINJA_BIN" -C "$OUT_DIR" -n chrome_public_apk 2>/dev/null | grep -c '^\[[0-9]' || true)
+          LAST_PROGRESS=$(grep -E '^\[[0-9]+/[0-9]+\]' /tmp/ninja_build.log | tail -n 3 | tr '\r\n' '  ' | cut -c1-400 || true)
+          echo "Remaining Ninja targets AFTER compilation: $REMAINING_AFTER"
+          echo "remaining_after=$REMAINING_AFTER" >> $GITHUB_ENV
+          echo "last_progress=$LAST_PROGRESS" >> $GITHUB_ENV
+
           if [ $NINJA_EXIT -eq 124 ] || [ $NINJA_EXIT -eq 137 ]; then
             echo "Ninja reached incremental 120m threshold gracefully to save checkpoint."
             echo "timed_out=true" >> $GITHUB_OUTPUT
@@ -389,7 +439,7 @@ jobs:
 
           if [ -d "$OUT_DIR" ] && ( [ -f "$OUT_DIR/.ninja_log" ] || [ -f "$OUT_DIR/build.ninja" ] ); then
             echo "Compilation interrupted or timed out. Packaging out directory: $OUT_DIR..."
-            tar -I 'zstd -1 -T0' -cf checkpoint.tar.zst -C "$OUT_DIR" .
+            tar --format=pax -I 'zstd -1 -T0' -cf checkpoint.tar.zst -C "$OUT_DIR" .
             split -b 1800M -d checkpoint.tar.zst "checkpoint-android-${{ inputs.target_cpu }}.tar.zst.part_"
             rm -f checkpoint.tar.zst
 
@@ -413,6 +463,8 @@ jobs:
               echo "Upload attempt $attempt failed, retrying in 10s..."
               sleep 10
             done
+            NOTES="Incremental checkpoint (Run ${{ github.run_id }}). Remaining targets: ${remaining_before:-?} -> ${remaining_after:-?}. Last: ${last_progress:-none}"
+            gh release edit "$CHECKPOINT_TAG" --notes "$NOTES" || true
             echo "Checkpoint successfully saved. Subsequent build will resume from this state."
 
             if [ "${{ steps.build.outputs.timed_out }}" = "true" ]; then
