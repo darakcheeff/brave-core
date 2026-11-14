@@ -260,6 +260,9 @@ jobs:
 
             node ./build/commands/scripts/gn.js gen ${{ inputs.build_type }} --target_os=android
             echo "Generated build.ninja and args.gn successfully."
+          elif ! grep -q "decentralized_dns/core/constants.h" "$OUT_DIR_ANDROID/obj/brave/android/brave_android_java_enums_srcjar.ninja" 2>/dev/null; then
+            echo "Refreshing GN ninja files for updated Android Java/srcjar/mojom rules..."
+            node ./build/commands/scripts/gn.js gen ${{ inputs.build_type }} --target_os=android
           else
             echo "Reusing existing build.ninja and args.gn from restored checkpoint."
           fi
@@ -403,6 +406,11 @@ jobs:
             echo "Ninja reached incremental 120m threshold gracefully to save checkpoint."
             echo "timed_out=true" >> $GITHUB_OUTPUT
           elif [ $NINJA_EXIT -ne 0 ]; then
+            FAILURE_DETAIL=$(grep -E -A 8 'FAILED:|ninja: error:|fatal error:' /tmp/ninja_build.log | head -n 16 | tr '\r\n' ' ' | cut -c1-500 || true)
+            if [ -z "$FAILURE_DETAIL" ]; then
+              FAILURE_DETAIL=$(tail -n 10 /tmp/ninja_build.log | tr '\r\n' ' ' | cut -c1-500 || true)
+            fi
+            echo "failure_detail=$FAILURE_DETAIL" >> $GITHUB_ENV
             echo "Ninja compilation failed with exit code $NINJA_EXIT"
             exit $NINJA_EXIT
           fi
@@ -490,7 +498,7 @@ jobs:
               echo "Upload attempt $attempt failed, retrying in 10s..."
               sleep 10
             done
-            NOTES="Incremental checkpoint (Run ${{ github.run_id }}). Remaining targets: ${remaining_before:-?} -> ${remaining_after:-?}. Last: ${last_progress:-none}"
+            NOTES="Incremental checkpoint (Run ${{ github.run_id }}). Remaining targets: ${remaining_before:-?} -> ${remaining_after:-?}. Last: ${last_progress:-none}${failure_detail:+ | Error: $failure_detail}"
             gh release edit "$CHECKPOINT_TAG" --notes "$NOTES" || true
             echo "Checkpoint successfully saved. Subsequent build will resume from this state."
           else

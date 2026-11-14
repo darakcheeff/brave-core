@@ -6,7 +6,6 @@
 package org.chromium.chrome.browser.crypto_wallet.util;
 
 import org.jni_zero.JNINamespace;
-import org.jni_zero.NativeMethods;
 
 import org.chromium.chrome.browser.profiles.Profile;
 
@@ -28,7 +27,6 @@ public class WalletNativeUtils {
         return WalletNativeUtilsJni.get().isSnsTld(domain);
     }
 
-    @NativeMethods
     interface Natives {
         void resetWallet(Profile profile);
 
@@ -37,5 +35,32 @@ public class WalletNativeUtils {
         boolean isEnsTld(String domain);
 
         boolean isSnsTld(String domain);
+    }
+
+    static final class WalletNativeUtilsJni {
+        private static final Natives INSTANCE =
+                new Natives() {
+                    @Override
+                    public void resetWallet(Profile profile) {}
+
+                    @Override
+                    public boolean isUnstoppableDomainsTld(String domain) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean isEnsTld(String domain) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean isSnsTld(String domain) {
+                        return false;
+                    }
+                };
+
+        static Natives get() {
+            return INSTANCE;
+        }
     }
 }

@@ -6,7 +6,6 @@
 package org.chromium.chrome.browser.crypto_wallet;
 
 import org.jni_zero.JNINamespace;
-import org.jni_zero.NativeMethods;
 
 import org.chromium.brave_wallet.mojom.BlockchainRegistry;
 import org.chromium.chrome.browser.crypto_wallet.util.Utils;
@@ -52,10 +51,28 @@ public class BlockchainRegistryFactory {
         return CoreImpl.getInstance().acquireNativeHandle(nativeHandle).toMessagePipeHandle();
     }
 
-    @NativeMethods
     interface Natives {
         long getInterfaceToBlockchainRegistry();
 
         String getTokensIconsLocation(Profile profile);
+    }
+
+    static final class BlockchainRegistryFactoryJni {
+        private static final Natives INSTANCE =
+                new Natives() {
+                    @Override
+                    public long getInterfaceToBlockchainRegistry() {
+                        return 0L;
+                    }
+
+                    @Override
+                    public String getTokensIconsLocation(Profile profile) {
+                        return "";
+                    }
+                };
+
+        static Natives get() {
+            return INSTANCE;
+        }
     }
 }

@@ -6,7 +6,6 @@
 package org.chromium.chrome.browser.crypto_wallet;
 
 import org.jni_zero.JNINamespace;
-import org.jni_zero.NativeMethods;
 
 import org.chromium.brave_wallet.mojom.AssetRatioService;
 import org.chromium.brave_wallet.mojom.BraveWalletService;
@@ -128,7 +127,6 @@ public class BraveWalletServiceFactory {
         return CoreImpl.getInstance().acquireNativeHandle(nativeHandle).toMessagePipeHandle();
     }
 
-    @NativeMethods
     interface Natives {
         long getInterfaceToBraveWalletService(Profile profile);
 
@@ -143,5 +141,49 @@ public class BraveWalletServiceFactory {
         long getInterfaceToEthTxManagerProxy(Profile profile);
 
         long getInterfaceToSolanaTxManagerProxy(Profile profile);
+    }
+
+    static final class BraveWalletServiceFactoryJni {
+        private static final Natives INSTANCE =
+                new Natives() {
+                    @Override
+                    public long getInterfaceToBraveWalletService(Profile profile) {
+                        return 0L;
+                    }
+
+                    @Override
+                    public long getInterfaceToJsonRpcService(Profile profile) {
+                        return 0L;
+                    }
+
+                    @Override
+                    public long getInterfaceToKeyringService(Profile profile) {
+                        return 0L;
+                    }
+
+                    @Override
+                    public long getInterfaceToTxService(Profile profile) {
+                        return 0L;
+                    }
+
+                    @Override
+                    public long getInterfaceToAssetRatioService(Profile profile) {
+                        return 0L;
+                    }
+
+                    @Override
+                    public long getInterfaceToEthTxManagerProxy(Profile profile) {
+                        return 0L;
+                    }
+
+                    @Override
+                    public long getInterfaceToSolanaTxManagerProxy(Profile profile) {
+                        return 0L;
+                    }
+                };
+
+        static Natives get() {
+            return INSTANCE;
+        }
     }
 }

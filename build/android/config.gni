@@ -104,10 +104,8 @@ brave_chrome_java_deps = [
 brave_chrome_java_deps += brave_app_billing_deps
 brave_chrome_java_deps += brave_app_playlist_deps
 
-if (enable_brave_wallet) {
-  brave_chrome_java_deps +=
-      [ "//brave/components/brave_wallet/common:mojom_java" ]
-}
+brave_chrome_java_deps +=
+    [ "//brave/components/brave_wallet/common:mojom_java" ]
 
 brave_chrome_all_java_deps = [
   "//brave/android/features/tab_ui:java",

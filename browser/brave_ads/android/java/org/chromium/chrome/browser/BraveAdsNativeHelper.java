@@ -7,8 +7,8 @@
 
 package org.chromium.chrome.browser;
 
+import org.jni_zero.CalledByNative;
 import org.jni_zero.JNINamespace;
-import org.jni_zero.NativeMethods;
 
 import org.chromium.chrome.browser.profiles.Profile;
 
@@ -37,7 +37,9 @@ public class BraveAdsNativeHelper {
         BraveAdsNativeHelperJni.get().onNotificationAdClicked(profile, jNotificationId);
     }
 
-    @NativeMethods
+    @CalledByNative
+    private static void jniStub() {}
+
     interface Natives {
         boolean isSupportedRegion(Profile profile);
 
@@ -48,5 +50,33 @@ public class BraveAdsNativeHelper {
         void onNotificationAdClosed(Profile profile, String jNotificationId, boolean jByUser);
 
         void onNotificationAdClicked(Profile profile, String jNotificationId);
+    }
+
+    static final class BraveAdsNativeHelperJni {
+        private static final Natives INSTANCE =
+                new Natives() {
+                    @Override
+                    public boolean isSupportedRegion(Profile profile) {
+                        return false;
+                    }
+
+                    @Override
+                    public void clearData(Profile profile) {}
+
+                    @Override
+                    public void onNotificationAdShown(Profile profile, String jNotificationId) {}
+
+                    @Override
+                    public void onNotificationAdClosed(
+                            Profile profile, String jNotificationId, boolean jByUser) {}
+
+                    @Override
+                    public void onNotificationAdClicked(
+                            Profile profile, String jNotificationId) {}
+                };
+
+        static Natives get() {
+            return INSTANCE;
+        }
     }
 }

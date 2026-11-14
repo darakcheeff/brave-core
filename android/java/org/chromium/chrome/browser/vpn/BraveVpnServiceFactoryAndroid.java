@@ -5,8 +5,8 @@
 
 package org.chromium.chrome.browser.vpn;
 
+import org.jni_zero.CalledByNative;
 import org.jni_zero.JNINamespace;
-import org.jni_zero.NativeMethods;
 
 import org.chromium.brave_vpn.mojom.ServiceHandler;
 import org.chromium.chrome.browser.profiles.Profile;
@@ -54,8 +54,18 @@ public class BraveVpnServiceFactoryAndroid {
         return CoreImpl.getInstance().acquireNativeHandle(nativeHandle).toMessagePipeHandle();
     }
 
-    @NativeMethods
+    @CalledByNative
+    private static void jniStub() {}
+
     interface Natives {
         long getInterfaceToVpnService(Profile profile);
+    }
+
+    static final class BraveVpnServiceFactoryAndroidJni {
+        private static final Natives INSTANCE = profile -> -1L;
+
+        static Natives get() {
+            return INSTANCE;
+        }
     }
 }

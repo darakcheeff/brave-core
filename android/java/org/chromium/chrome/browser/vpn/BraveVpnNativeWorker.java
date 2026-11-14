@@ -9,7 +9,6 @@ package org.chromium.chrome.browser.vpn;
 
 import org.jni_zero.CalledByNative;
 import org.jni_zero.JNINamespace;
-import org.jni_zero.NativeMethods;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -193,7 +192,6 @@ public class BraveVpnNativeWorker {
         BraveVpnNativeWorkerJni.get().reportForegroundP3A(mNativeBraveVpnNativeWorker);
     }
 
-    @NativeMethods
     interface Natives {
         void init(BraveVpnNativeWorker caller);
 
@@ -251,5 +249,25 @@ public class BraveVpnNativeWorker {
                 long nativeBraveVpnNativeWorker, long sessionStartTimeMs, long sessionEndTimeMs);
 
         void reportForegroundP3A(long nativeBraveVpnNativeWorker);
+    }
+
+    static final class BraveVpnNativeWorkerJni {
+        private static final Natives INSTANCE =
+                (Natives)
+                        java.lang.reflect.Proxy.newProxyInstance(
+                                Natives.class.getClassLoader(),
+                                new Class<?>[] {Natives.class},
+                                (proxy, method, args) -> {
+                                    Class<?> rt = method.getReturnType();
+                                    if (rt == boolean.class) return false;
+                                    if (rt == int.class) return 0;
+                                    if (rt == long.class) return 0L;
+                                    if (rt == String.class) return "";
+                                    return null;
+                                });
+
+        static Natives get() {
+            return INSTANCE;
+        }
     }
 }

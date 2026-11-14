@@ -5,8 +5,8 @@
 
 package org.chromium.chrome.browser.brave_news;
 
+import org.jni_zero.CalledByNative;
 import org.jni_zero.JNINamespace;
-import org.jni_zero.NativeMethods;
 
 import org.chromium.base.Promise;
 import org.chromium.base.task.PostTask;
@@ -73,8 +73,18 @@ public class BraveNewsControllerFactory {
         return CoreImpl.getInstance().acquireNativeHandle(nativeHandle).toMessagePipeHandle();
     }
 
-    @NativeMethods
+    @CalledByNative
+    private static void jniStub() {}
+
     interface Natives {
         long getInterfaceToBraveNewsController(Profile profile);
+    }
+
+    static final class BraveNewsControllerFactoryJni {
+        private static final Natives INSTANCE = profile -> 0L;
+
+        static Natives get() {
+            return INSTANCE;
+        }
     }
 }

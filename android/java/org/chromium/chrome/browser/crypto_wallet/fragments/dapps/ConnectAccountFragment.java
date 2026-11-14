@@ -24,7 +24,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import org.jni_zero.CalledByNative;
-import org.jni_zero.NativeMethods;
 
 import org.chromium.base.Callback;
 import org.chromium.base.Log;
@@ -314,12 +313,20 @@ public class ConnectAccountFragment extends BaseDAppsFragment implements Permiss
         callback.onResult(result);
     }
 
-    @NativeMethods
     interface Natives {
         void connectAccount(
                 String accountAddress,
                 int accountIdCoin,
                 WebContents webContents,
                 Callback<Boolean> callback);
+    }
+
+    static final class ConnectAccountFragmentJni {
+        private static final Natives INSTANCE =
+                (accountAddress, accountIdCoin, webContents, callback) -> callback.onResult(false);
+
+        static Natives get() {
+            return INSTANCE;
+        }
     }
 }

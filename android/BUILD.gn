@@ -16,11 +16,7 @@ declare_args() {
 }
 
 java_cpp_enum("brave_android_java_enums_srcjar") {
-  sources = []
-
-  if (enable_brave_wallet) {
-    sources += [ "//brave/components/decentralized_dns/core/constants.h" ]
-  }
+  sources = [ "//brave/components/decentralized_dns/core/constants.h" ]
 }
 
 java_cpp_template("brave_config_java") {

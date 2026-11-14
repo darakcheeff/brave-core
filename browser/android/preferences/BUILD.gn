@@ -40,6 +40,7 @@ java_cpp_strings("java_pref_names_srcjar") {
     "//brave/components/ai_chat/core/common/pref_names.h",
     "//brave/components/brave_account/pref_names.h",
     "//brave/components/brave_adaptive_captcha/pref_names.h",
+    "//brave/components/brave_ads/core/public/prefs/pref_names.h",
     "//brave/components/brave_news/common/pref_names.h",
     "//brave/components/brave_origin/pref_names.h",
     "//brave/components/brave_rewards/core/pref_names.h",
@@ -50,6 +51,7 @@ java_cpp_strings("java_pref_names_srcjar") {
     "//brave/components/de_amp/common/pref_names.cc",
     "//brave/components/de_amp/common/pref_names.h",
     "//brave/components/debounce/core/common/pref_names.h",
+    "//brave/components/decentralized_dns/core/pref_names.h",
     "//brave/components/ntp_background_images/common/pref_names.h",
     "//brave/components/omnibox/browser/brave_omnibox_prefs.cc",
     "//brave/components/omnibox/browser/brave_omnibox_prefs.h",
@@ -57,14 +59,6 @@ java_cpp_strings("java_pref_names_srcjar") {
     "//brave/components/request_otr/common/pref_names.h",
     "//components/translate/core/browser/translate_pref_names.h",
   ]
-
-  if (enable_brave_ads) {
-    sources += [ "//brave/components/brave_ads/core/public/prefs/pref_names.h" ]
-  }
-
-  if (enable_brave_wallet) {
-    sources += [ "//brave/components/decentralized_dns/core/pref_names.h" ]
-  }
 
   template =
       "//brave/browser/preferences/android/java_templates/BravePref.java.tmpl"

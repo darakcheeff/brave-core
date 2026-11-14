@@ -21,7 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.card.MaterialCardView;
 
 import org.jni_zero.CalledByNative;
-import org.jni_zero.NativeMethods;
 
 import org.chromium.base.Log;
 import org.chromium.brave_wallet.mojom.AccountInfo;
@@ -331,7 +330,6 @@ public class BraveDappPermissionPromptDialog
         mKeyringService = BraveWalletServiceFactory.getInstance().getKeyringService(this);
     }
 
-    @NativeMethods
     interface Natives {
         void onPrimaryButtonClicked(
                 long nativeBraveDappPermissionPromptDialogController,
@@ -341,5 +339,28 @@ public class BraveDappPermissionPromptDialog
         void onNegativeButtonClicked(long nativeBraveDappPermissionPromptDialogController);
 
         void onDialogDismissed(long nativeBraveDappPermissionPromptDialogController);
+    }
+
+    static final class BraveDappPermissionPromptDialogJni {
+        private static final Natives INSTANCE =
+                new Natives() {
+                    @Override
+                    public void onPrimaryButtonClicked(
+                            long nativeBraveDappPermissionPromptDialogController,
+                            String[] accounts,
+                            int permissionLifetimeOption) {}
+
+                    @Override
+                    public void onNegativeButtonClicked(
+                            long nativeBraveDappPermissionPromptDialogController) {}
+
+                    @Override
+                    public void onDialogDismissed(
+                            long nativeBraveDappPermissionPromptDialogController) {}
+                };
+
+        static Natives get() {
+            return INSTANCE;
+        }
     }
 }

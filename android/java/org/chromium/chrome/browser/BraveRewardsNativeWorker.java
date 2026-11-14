@@ -14,7 +14,6 @@ import androidx.annotation.VisibleForTesting;
 
 import org.jni_zero.CalledByNative;
 import org.jni_zero.JNINamespace;
-import org.jni_zero.NativeMethods;
 import org.json.JSONException;
 
 import org.chromium.brave_rewards.mojom.PublisherStatus;
@@ -734,7 +733,6 @@ public class BraveRewardsNativeWorker {
 
     // Public so that tests outside this package can mock the rewards natives.
     @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
-    @NativeMethods
     public interface Natives {
         void init(BraveRewardsNativeWorker caller);
 
@@ -845,5 +843,27 @@ public class BraveRewardsNativeWorker {
         void getAdsAccountStatement(long nativeBraveRewardsNativeWorker);
 
         String getPayoutStatus(long nativeBraveRewardsNativeWorker);
+    }
+
+    static final class BraveRewardsNativeWorkerJni {
+        private static final Natives INSTANCE =
+                (Natives)
+                        java.lang.reflect.Proxy.newProxyInstance(
+                                Natives.class.getClassLoader(),
+                                new Class<?>[] {Natives.class},
+                                (proxy, method, args) -> {
+                                    Class<?> rt = method.getReturnType();
+                                    if (rt == boolean.class) return false;
+                                    if (rt == int.class) return 0;
+                                    if (rt == long.class) return 0L;
+                                    if (rt == double.class) return 0.0;
+                                    if (rt == double[].class) return new double[0];
+                                    if (rt == String.class) return "";
+                                    return null;
+                                });
+
+        static Natives get() {
+            return INSTANCE;
+        }
     }
 }

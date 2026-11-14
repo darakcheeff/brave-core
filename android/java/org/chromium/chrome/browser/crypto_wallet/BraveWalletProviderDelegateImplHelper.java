@@ -7,7 +7,6 @@ package org.chromium.chrome.browser.crypto_wallet;
 
 import org.jni_zero.CalledByNative;
 import org.jni_zero.JNINamespace;
-import org.jni_zero.NativeMethods;
 
 import org.chromium.base.Callback;
 import org.chromium.base.Log;
@@ -97,8 +96,16 @@ public class BraveWalletProviderDelegateImplHelper {
                 .isSolanaConnected(webContents, account, callbackWrapper);
     }
 
-    @NativeMethods
     interface Natives {
         void isSolanaConnected(WebContents webContents, String account, Callback<Boolean> callback);
+    }
+
+    static final class BraveWalletProviderDelegateImplHelperJni {
+        private static final Natives INSTANCE =
+                (webContents, account, callback) -> callback.onResult(false);
+
+        static Natives get() {
+            return INSTANCE;
+        }
     }
 }
