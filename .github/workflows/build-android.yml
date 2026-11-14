@@ -264,20 +264,23 @@ jobs:
             echo "Reusing existing build.ninja and args.gn from restored checkpoint."
           fi
 
-          echo "Normalizing mtimes across entire source tree and toolchains to fixed epoch 1700000000..."
-          python3 -c "
+          echo "Normalizing mtimes across entire workspace, .git, toolchains, and build.ninja.d inputs to fixed epoch 1700000000..."
+          BUILD_TYPE_ENV="${{ inputs.build_type }}" python3 - << 'PYEOF'
           import os
           EPOCH = 1700000000
           gw = os.environ.get('GITHUB_WORKSPACE', '')
           src_dir = os.path.join(gw, 'src')
           out_dir = os.path.join(src_dir, 'out')
           depot_dir = os.path.join(os.environ.get('HOME', ''), 'depot_tools')
+          build_type = os.environ.get('BUILD_TYPE_ENV', 'Release')
           count = 0
-          for base_dir in [src_dir, depot_dir]:
+          dirs_to_fix = []
+          for base_dir in [gw, depot_dir]:
               if not os.path.exists(base_dir):
                   continue
               for root, dirs, files in os.walk(base_dir, topdown=True):
-                  dirs[:] = [d for d in dirs if d != '.git' and os.path.join(root, d) != out_dir]
+                  dirs[:] = [d for d in dirs if os.path.join(root, d) != out_dir]
+                  dirs_to_fix.append(root)
                   for name in files:
                       p = os.path.join(root, name)
                       try:
@@ -285,14 +288,38 @@ jobs:
                           count += 1
                       except OSError:
                           pass
-          for ag in [os.path.join(out_dir, 'android_${{ inputs.build_type }}', 'args.gn'), os.path.join(out_dir, '${{ inputs.build_type }}', 'args.gn')]:
+          for d in reversed(dirs_to_fix):
+              try:
+                  os.utime(d, (EPOCH, EPOCH), follow_symlinks=False)
+              except OSError:
+                  pass
+          for od_name in [f'android_{build_type}', build_type]:
+              od = os.path.join(out_dir, od_name)
+              ag = os.path.join(od, 'args.gn')
               if os.path.exists(ag):
                   try:
                       os.utime(ag, (EPOCH, EPOCH), follow_symlinks=False)
                   except OSError:
                       pass
-          print(f'Normalized mtime=1700000000 on {count} source/toolchain files.')
-          "
+              bnd = os.path.join(od, 'build.ninja.d')
+              if os.path.exists(bnd):
+                  try:
+                      with open(bnd, 'r', errors='replace') as f:
+                          content = f.read().replace('\\\n', ' ')
+                      if ':' in content:
+                          deps = content.split(':', 1)[1].split()
+                          for dep in deps:
+                              dp = os.path.normpath(os.path.join(od, dep))
+                              if not dp.startswith(out_dir) or os.path.basename(dp) == 'args.gn':
+                                  if os.path.exists(dp):
+                                      try:
+                                          os.utime(dp, (EPOCH, EPOCH), follow_symlinks=False)
+                                      except OSError:
+                                          pass
+                  except Exception:
+                      pass
+          print(f'Normalized mtime=1700000000 on {count} workspace/toolchain files and build.ninja.d inputs.')
+          PYEOF
 
       - name: Compile Android APK
         id: build
@@ -466,11 +493,6 @@ jobs:
             NOTES="Incremental checkpoint (Run ${{ github.run_id }}). Remaining targets: ${remaining_before:-?} -> ${remaining_after:-?}. Last: ${last_progress:-none}"
             gh release edit "$CHECKPOINT_TAG" --notes "$NOTES" || true
             echo "Checkpoint successfully saved. Subsequent build will resume from this state."
-
-            if [ "${{ steps.build.outputs.timed_out }}" = "true" ]; then
-              echo "Build timed out gracefully and saved checkpoint. Automatically dispatching next incremental run..."
-              gh workflow run "build-android.yml" --ref "${{ github.ref_name }}" -f clean_checkpoint=false || true
-            fi
           else
             echo "No ninja build artifacts found to checkpoint."
           fi
