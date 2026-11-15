@@ -34,7 +34,7 @@ bool IsExtensionPinned(const PrefService* prefs,
   if (!prefs) {
     return false;
   }
-  const base::Value::List& list = prefs->GetList(kBravePinnedExtensionsList);
+  const base::ListValue& list = prefs->GetList(kBravePinnedExtensionsList);
   for (const auto& item : list) {
     if (item.is_string() && item.GetString() == extension_id) {
       return true;
@@ -50,7 +50,7 @@ void SetExtensionPinned(PrefService* prefs,
     return;
   }
   ScopedListPrefUpdate update(prefs, kBravePinnedExtensionsList);
-  base::Value::List& list = update.Get();
+  base::ListValue& list = update.Get();
   if (pinned) {
     for (const auto& item : list) {
       if (item.is_string() && item.GetString() == extension_id) {

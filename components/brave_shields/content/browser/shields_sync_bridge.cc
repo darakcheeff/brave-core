@@ -115,12 +115,12 @@ void ShieldsSyncBridge::OnLocalFiltersChanged() {
   std::string current_rules =
       local_state_->GetString(prefs::kAdBlockCustomFilters);
 
-  base::Value::Dict root;
+  base::DictValue root;
   root.Set("version", 1);
   root.Set("timestamp", static_cast<double>(
                             base::Time::Now().InMillisecondsSinceUnixEpoch()));
 
-  base::Value::Dict custom_filters;
+  base::DictValue custom_filters;
   custom_filters.Set("rules", current_rules);
   custom_filters.Set("updated_at",
                      static_cast<double>(
@@ -152,13 +152,13 @@ void ShieldsSyncBridge::OnRemotePayloadChanged() {
     return;
   }
 
-  std::optional<base::Value> parsed = base::JSONReader::Read(remote_payload);
-  if (!parsed || !parsed->is_dict()) {
+  std::optional<base::DictValue> parsed =
+      base::JSONReader::ReadDict(remote_payload, base::JSON_PARSE_RFC);
+  if (!parsed) {
     return;
   }
 
-  const base::Value::Dict& root = parsed->GetDict();
-  const base::Value::Dict* custom_filters = root.FindDict("custom_filters");
+  const base::DictValue* custom_filters = parsed->FindDict("custom_filters");
   if (!custom_filters) {
     return;
   }
