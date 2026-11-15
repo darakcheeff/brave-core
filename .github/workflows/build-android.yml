@@ -387,6 +387,30 @@ jobs:
             NINJA_BIN="$(which ninja)"
           fi
           echo "Using ninja binary: $NINJA_BIN"
+
+          # Strip duplicate com.google.android.gms.* classes from qrreader_java jars so R8 final_dex does not collide with google_play_services_*_java
+          if [ -f "$OUT_DIR/obj/brave/android/qrreader_java.javac.jar" ] && python3 -c "import sys, zipfile; z=zipfile.ZipFile(sys.argv[1]); sys.exit(0 if any(n.startswith('com/google/android/gms/') for n in z.namelist()) else 1)" "$OUT_DIR/obj/brave/android/qrreader_java.javac.jar"; then
+            echo "Rebuilding qrreader_java and stripping duplicate com/google/android/gms/* classes..."
+            rm -f "$OUT_DIR/obj/brave/android/qrreader_java.turbine.jar" \
+                  "$OUT_DIR/obj/brave/android/qrreader_java.javac.jar" \
+                  "$OUT_DIR/obj/brave/android/qrreader_java.dex.jar"
+            "$NINJA_BIN" -C "$OUT_DIR" obj/brave/android/qrreader_java.javac.jar obj/brave/android/qrreader_java.dex.jar
+            python3 - "$OUT_DIR/obj/brave/android/qrreader_java.javac.jar" "$OUT_DIR/obj/brave/android/qrreader_java.turbine.jar" << 'PYEOF'
+          import os, sys, zipfile
+          for jar_path in sys.argv[1:]:
+              if not os.path.exists(jar_path):
+                  continue
+              tmp_path = jar_path + ".tmp"
+              with zipfile.ZipFile(jar_path, 'r') as zin, zipfile.ZipFile(tmp_path, 'w') as zout:
+                  for item in zin.infolist():
+                      if not item.filename.startswith('com/google/android/gms/'):
+                          zout.writestr(item, zin.read(item.filename))
+              os.replace(tmp_path, jar_path)
+          if os.path.exists(sys.argv[2]):
+              os.utime(sys.argv[2], (1700000000, 1700000000))
+          PYEOF
+          fi
+
           REMAINING_BEFORE=$("$NINJA_BIN" -C "$OUT_DIR" -n chrome_public_apk 2>/dev/null | grep -c '^\[[0-9]' || true)
           echo "Remaining Ninja targets BEFORE compilation: $REMAINING_BEFORE"
           echo "remaining_before=$REMAINING_BEFORE" >> $GITHUB_ENV

@@ -27,8 +27,6 @@ import android.view.WindowManager;
 
 import androidx.annotation.RequiresPermission;
 
-import com.google.android.gms.common.images.Size;
-
 import org.chromium.base.Log;
 
 import java.io.IOException;

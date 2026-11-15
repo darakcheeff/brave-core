@@ -15,8 +15,6 @@
  */
 package org.chromium.chrome.browser.qrreader;
 
-import com.google.android.gms.vision.MultiProcessor;
-import com.google.android.gms.vision.Tracker;
 import com.google.android.gms.vision.barcode.Barcode;
 
 /**

@@ -33,10 +33,6 @@ import androidx.annotation.RequiresApi;
 import androidx.annotation.RequiresPermission;
 import androidx.annotation.StringDef;
 
-import com.google.android.gms.common.images.Size;
-import com.google.android.gms.vision.Detector;
-import com.google.android.gms.vision.Frame;
-
 import org.chromium.base.Log;
 
 import java.io.IOException;

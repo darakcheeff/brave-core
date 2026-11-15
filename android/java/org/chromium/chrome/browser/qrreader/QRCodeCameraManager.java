@@ -14,9 +14,7 @@ import android.hardware.display.DisplayManager;
 import android.view.Display;
 import android.view.Surface;
 
-import com.google.android.gms.vision.MultiProcessor;
 import com.google.android.gms.vision.barcode.Barcode;
-import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import org.chromium.base.Log;
 import org.chromium.build.annotations.NullMarked;

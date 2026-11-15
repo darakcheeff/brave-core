@@ -3,14 +3,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-package com.google.android.gms.vision.barcode;
+package org.chromium.chrome.browser.qrreader;
 
 import android.content.Context;
 
-import com.google.android.gms.vision.Detector;
-import com.google.android.gms.vision.Frame;
-import com.google.android.gms.vision.MultiProcessor;
-import com.google.android.gms.vision.Tracker;
+import com.google.android.gms.vision.barcode.Barcode;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.MultiFormatReader;
 import com.google.zxing.PlanarYUVLuminanceSource;
@@ -60,7 +57,10 @@ public class BarcodeDetector extends Detector<Barcode> {
             BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
             Result result = mReader.decodeWithState(bitmap);
             if (result != null && result.getText() != null) {
-                Barcode barcode = new Barcode(result.getText());
+                Barcode barcode = new Barcode();
+                barcode.displayValue = result.getText();
+                barcode.rawValue = result.getText();
+                barcode.format = Barcode.QR_CODE;
                 if (getProcessor() instanceof MultiProcessor) {
                     @SuppressWarnings("unchecked")
                     MultiProcessor<Barcode> processor = (MultiProcessor<Barcode>) getProcessor();
