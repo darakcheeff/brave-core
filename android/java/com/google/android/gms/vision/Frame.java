@@ -46,6 +46,10 @@ public class Frame {
             return this;
         }
 
+        public Builder setTimestampMillis(long timestampMillis) {
+            return this;
+        }
+
         public Builder setRotation(int rotation) {
             if (mFrame.mMetadata == null) {
                 mFrame.mMetadata = new Metadata();

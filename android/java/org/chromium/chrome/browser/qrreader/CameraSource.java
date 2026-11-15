@@ -1183,8 +1183,7 @@ public class CameraSource {
                     outputFrame = new Frame.Builder()
                             .setImageData(mPendingFrameData, mPreviewSize.getWidth(),
                                     mPreviewSize.getHeight(), ImageFormat.NV21)
-                            .setId(mPendingFrameId)
-                            .setTimestampMillis(mPendingTimeMillis)
+                            .setId(mPendingTimeMillis >= 0 ? mPendingFrameId : 0)
                             .setRotation(mRotation)
                             .build();
 
