@@ -11,7 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 
 import org.chromium.chrome.browser.app.BraveActivity;
-import org.chromium.chrome.browser.tabmodel.TabLaunchType;
+import org.chromium.chrome.browser.tab.TabLaunchType;
 import org.chromium.content_public.browser.LoadUrlParams;
 
 /**

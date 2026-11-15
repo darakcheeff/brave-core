@@ -18,7 +18,8 @@ import org.chromium.base.Log;
 import org.chromium.base.ThreadUtils;
 import org.chromium.chrome.browser.app.BraveActivity;
 import org.chromium.chrome.browser.tab.Tab;
-import org.chromium.chrome.browser.tabmodel.TabLaunchType;
+import org.chromium.chrome.browser.tab.TabLaunchType;
+import org.chromium.chrome.browser.tabmodel.TabClosureParams;
 import org.chromium.chrome.browser.tabmodel.TabModel;
 import org.chromium.chrome.browser.tabmodel.TabModelUtils;
 import org.chromium.content_public.browser.LoadUrlParams;
@@ -350,7 +351,8 @@ public final class BraveMcpToolHandler {
                         for (int i = 0; i < count; i++) {
                             Tab t = model.getTabAt(i);
                             if (t != null && t.getId() == tabId) {
-                                model.closeTab(t);
+                                model.getTabRemover()
+                                        .closeTabs(TabClosureParams.closeTab(t).build(), false);
                                 future.complete("Closed tab " + tabId);
                                 found = true;
                                 break;

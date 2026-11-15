@@ -1522,8 +1522,6 @@ public abstract class BraveActivity extends ChromeActivity
             calendar.setTime(new Date());
             calendar.add(Calendar.DATE, DAYS_7);
             BraveRewardsHelper.setRewardsOnboardingIconTiming(calendar.getTimeInMillis());
-
-            setInAppUpdateTiming();
         }
 
         // Check multiwindow toggle for upgrade case
