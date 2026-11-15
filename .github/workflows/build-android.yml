@@ -267,6 +267,12 @@ jobs:
             echo "Reusing existing build.ninja and args.gn from restored checkpoint."
           fi
 
+          if [ ! -f "$OUT_DIR_ANDROID/.brave_res_icons_fixed_v1" ]; then
+            echo "Invalidating cached brave/android:java_resources to pick up updated vector drawable colors..."
+            rm -rf "$OUT_DIR_ANDROID/obj/brave/android/java_resources"* "$OUT_DIR_ANDROID/gen/brave/android/java_resources"*
+            touch "$OUT_DIR_ANDROID/.brave_res_icons_fixed_v1"
+          fi
+
           echo "Normalizing mtimes across entire workspace, .git, toolchains, and build.ninja.d inputs to fixed epoch 1700000000..."
           BUILD_TYPE_ENV="${{ inputs.build_type }}" python3 - << 'PYEOF'
           import os
