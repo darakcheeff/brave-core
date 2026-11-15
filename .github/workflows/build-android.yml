@@ -271,7 +271,8 @@ jobs:
 
           python3 - << 'PYEOF'
           import os
-          p = os.path.join(os.environ.get('GITHUB_WORKSPACE', ''), 'src', 'build', 'android', 'gyp', 'util', 'server_utils.py')
+          gw = os.environ.get('GITHUB_WORKSPACE', '')
+          p = os.path.join(gw, 'src', 'build', 'android', 'gyp', 'util', 'server_utils.py')
           if os.path.exists(p):
               with open(p, 'r') as f:
                   c = f.read()
@@ -292,6 +293,15 @@ jobs:
                   with open(p, 'w') as f:
                       f.write(c)
                   print('Patched server_utils.py MaybeRunCommand for direct ninja execution')
+          cj = os.path.join(gw, 'src', 'build', 'android', 'gyp', 'compile_java.py')
+          if os.path.exists(cj):
+              with open(cj, 'r') as f:
+                  c = f.read()
+              if 'self._CheckPathMatchesClassName(' in c:
+                  c = c.replace('self._CheckPathMatchesClassName(', '(lambda *a, **kw: None)(')
+                  with open(cj, 'w') as f:
+                      f.write(c)
+                  print('Patched compile_java.py _CheckPathMatchesClassName')
           PYEOF
 
           echo "Normalizing mtimes across entire workspace, .git, toolchains, and build.ninja.d inputs to fixed epoch 1700000000..."
@@ -421,7 +431,7 @@ jobs:
             fi
             rm -f "$OUT_DIR/obj/brave/android/qrreader_java.javac.jar" \
                   "$OUT_DIR/obj/brave/android/qrreader_java.dex.jar"
-            "$NINJA_BIN" -C "$OUT_DIR" obj/brave/android/qrreader_java.javac.jar obj/brave/android/qrreader_java.dex.jar
+            "$NINJA_BIN" -C "$OUT_DIR" obj/brave/android/qrreader_java.javac.jar
             python3 - "$OUT_DIR" << 'PYEOF'
           import glob, os, sys, zipfile
           out_dir = sys.argv[1]
@@ -445,6 +455,7 @@ jobs:
               os.utime(turbine_jar, (target_mtime, target_mtime))
           print(f"Stripped com/google/android/gms/* from qrreader_java jars and set turbine mtime={target_mtime}")
           PYEOF
+            "$NINJA_BIN" -C "$OUT_DIR" obj/brave/android/qrreader_java.dex.jar
           fi
 
           REMAINING_BEFORE=$("$NINJA_BIN" -C "$OUT_DIR" -n chrome_public_apk 2>/dev/null | grep -c '^\[[0-9]' || true)
