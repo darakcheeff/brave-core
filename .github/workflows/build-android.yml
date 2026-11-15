@@ -260,7 +260,7 @@ jobs:
 
             node ./build/commands/scripts/gn.js gen ${{ inputs.build_type }} --target_os=android
             echo "Generated build.ninja and args.gn successfully."
-          elif ! grep -q "decentralized_dns/core/constants.h" "$OUT_DIR_ANDROID/obj/brave/android/brave_android_java_enums_srcjar.ninja" 2>/dev/null; then
+          elif ! grep -q "decentralized_dns/core/constants.h" "$OUT_DIR_ANDROID/obj/brave/android/brave_android_java_enums_srcjar.ninja" 2>/dev/null || ! grep -q "InAppPurchaseWrapper.java" "$OUT_DIR_ANDROID/gen/chrome/android/chrome_java.sources" 2>/dev/null; then
             echo "Refreshing GN ninja files for updated Android Java/srcjar/mojom rules..."
             node ./build/commands/scripts/gn.js gen ${{ inputs.build_type }} --target_os=android
           else
