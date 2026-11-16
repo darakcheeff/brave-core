@@ -453,40 +453,39 @@ jobs:
           fi
           echo "Using ninja binary: $NINJA_BIN"
 
-          # Rebuild qrreader_java if missing or if duplicate com.google.android.gms.* classes are present
-          if [ ! -f "$OUT_DIR/obj/brave/android/qrreader_java.javac.jar" ] || [ ! -f "$OUT_DIR/obj/brave/android/qrreader_java.dex.jar" ] || python3 -c "import sys, zipfile; z=zipfile.ZipFile(sys.argv[1]); sys.exit(0 if any(n.startswith('com/google/android/gms/') for n in z.namelist()) else 1)" "$OUT_DIR/obj/brave/android/qrreader_java.javac.jar"; then
-            echo "Rebuilding qrreader_java and stripping duplicate com/google/android/gms/* classes..."
-            if [ -f "$OUT_DIR/obj/brave/android/qrreader_java.turbine.jar" ] && python3 -c "import sys, zipfile; z=zipfile.ZipFile(sys.argv[1]); sys.exit(0 if 'com/google/android/gms/common/images/Size.class' in z.namelist() else 1)" "$OUT_DIR/obj/brave/android/qrreader_java.turbine.jar"; then
-              rm -f "$OUT_DIR/obj/brave/android/qrreader_java.turbine.jar"
-            fi
-            rm -f "$OUT_DIR/obj/brave/android/qrreader_java.javac.jar" \
-                  "$OUT_DIR/obj/brave/android/qrreader_java.dex.jar"
-            "$NINJA_BIN" -C "$OUT_DIR" obj/brave/android/qrreader_java.javac.jar
-            python3 - "$OUT_DIR" << 'PYEOF'
+          # Ensure qrreader_java is built and has no duplicate com.google.android.gms.* classes
+          "$NINJA_BIN" -C "$OUT_DIR" brave/android:qrreader_java
+          python3 - "$OUT_DIR" << 'PYEOF'
           import glob, os, sys, zipfile
           out_dir = sys.argv[1]
-          javac_jar = os.path.join(out_dir, "obj/brave/android/qrreader_java.javac.jar")
-          turbine_jar = os.path.join(out_dir, "obj/brave/android/qrreader_java.turbine.jar")
-          for jar_path in [javac_jar, turbine_jar]:
+          jars = glob.glob(os.path.join(out_dir, "obj/brave/android/qrreader_java*.javac.jar")) + \
+                 glob.glob(os.path.join(out_dir, "obj/brave/android/qrreader_java*.turbine.jar"))
+          stripped = False
+          for jar_path in jars:
               if not os.path.exists(jar_path):
                   continue
-              tmp_path = jar_path + ".tmp"
-              with zipfile.ZipFile(jar_path, 'r') as zin, zipfile.ZipFile(tmp_path, 'w') as zout:
-                  for item in zin.infolist():
-                      if not item.filename.startswith('com/google/android/gms/'):
-                          zout.writestr(item, zin.read(item.filename))
+              with zipfile.ZipFile(jar_path, 'r') as zin:
+                  names = zin.namelist()
+                  if not any(n.startswith('com/google/android/gms/') for n in names):
+                      continue
+                  tmp_path = jar_path + ".tmp"
+                  with zipfile.ZipFile(tmp_path, 'w') as zout:
+                      for item in zin.infolist():
+                          if not item.filename.startswith('com/google/android/gms/'):
+                              zout.writestr(item, zin.read(item.filename))
               os.replace(tmp_path, jar_path)
-          chrome_turbine = os.path.join(out_dir, "obj/chrome/android/chrome_java.turbine.jar")
-          target_mtime = int(os.path.getmtime(chrome_turbine)) - 10 if os.path.exists(chrome_turbine) else 1700000100
-          for g in glob.glob(os.path.join(out_dir, "gen/brave/android/qrreader_java*")):
-              if os.path.isfile(g) and os.path.getmtime(g) >= target_mtime:
-                  os.utime(g, (target_mtime - 10, target_mtime - 10))
-          if os.path.exists(turbine_jar):
-              os.utime(turbine_jar, (target_mtime, target_mtime))
-          print(f"Stripped com/google/android/gms/* from qrreader_java jars and set turbine mtime={target_mtime}")
+              stripped = True
+          if stripped:
+              chrome_turbine = os.path.join(out_dir, "obj/chrome/android/chrome_java.turbine.jar")
+              target_mtime = int(os.path.getmtime(chrome_turbine)) - 10 if os.path.exists(chrome_turbine) else 1700000100
+              for g in glob.glob(os.path.join(out_dir, "gen/brave/android/qrreader_java*")):
+                  if os.path.isfile(g) and os.path.getmtime(g) >= target_mtime:
+                      os.utime(g, (target_mtime - 10, target_mtime - 10))
+              for jar_path in jars:
+                  if jar_path.endswith(".turbine.jar") and os.path.exists(jar_path):
+                      os.utime(jar_path, (target_mtime, target_mtime))
+              print(f"Stripped com/google/android/gms/* from qrreader_java jars and set turbine mtime={target_mtime}")
           PYEOF
-            "$NINJA_BIN" -C "$OUT_DIR" obj/brave/android/qrreader_java.dex.jar
-          fi
 
           REMAINING_BEFORE=$("$NINJA_BIN" -C "$OUT_DIR" -n chrome_public_apk 2>/dev/null | grep -c '^\[[0-9]' || true)
           echo "Remaining Ninja targets BEFORE compilation: $REMAINING_BEFORE"
