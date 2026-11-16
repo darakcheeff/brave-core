@@ -253,7 +253,7 @@ jobs:
               });
               Object.assign(config.extraGnArgs, {
                 target_android_output_format: 'apk',
-                brave_services_key: 'dummy',
+                is_official_build: false,
                 enable_brave_wallet: false,
                 enable_brave_rewards: false,
                 enable_brave_vpn_v1: false,
