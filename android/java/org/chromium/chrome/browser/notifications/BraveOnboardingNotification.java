@@ -76,7 +76,7 @@ public class BraveOnboardingNotification extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
         try {
-            BraveActivity braveActivity = BraveActivity.getBraveActivity();
+            BraveActivity.getBraveActivity();
             if (action != null && action.equals(DEEP_LINK)) {
                 Intent launchIntent =
                         new Intent(Intent.ACTION_VIEW, Uri.parse(getNotificationUrl()));
@@ -85,7 +85,6 @@ public class BraveOnboardingNotification extends BroadcastReceiver {
                 context.startActivity(launchIntent);
             } else {
                 showOnboardingNotification();
-                braveActivity.hideRewardsOnboardingIcon();
             }
         } catch (BraveActivity.BraveActivityNotFoundException e) {
             Log.e(TAG, "onReceive " + e);

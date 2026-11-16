@@ -16,7 +16,6 @@ import org.chromium.base.ResettersForTesting;
 import org.chromium.base.shared_preferences.SharedPreferencesManager;
 import org.chromium.chrome.browser.preferences.ChromeSharedPreferences;
 import org.chromium.chrome.browser.set_default_browser.BraveSetDefaultBrowserUtils;
-import org.chromium.chrome.browser.vpn.utils.BraveVpnPrefUtils;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -138,7 +137,6 @@ public class RateUtils {
      *       <ul>
      *         <li>User has added at least 5 bookmarks
      *         <li>User has set Brave as default
-     *         <li>User has paid for the VPN subscription
      *       </ul>
      * </ul>
      */
@@ -168,8 +166,7 @@ public class RateUtils {
     }
 
     private boolean anyOneSubCriteria(Context context) {
-        return BraveVpnPrefUtils.isSubscriptionPurchase()
-                || BraveSetDefaultBrowserUtils.isBraveSetAsDefaultBrowser(context)
+        return BraveSetDefaultBrowserUtils.isBraveSetAsDefaultBrowser(context)
                 || getPrefAddedBookmarkCount() >= BOOKMARKS_COUNT;
     }
 

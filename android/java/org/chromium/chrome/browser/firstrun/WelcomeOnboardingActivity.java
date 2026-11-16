@@ -135,13 +135,6 @@ public class WelcomeOnboardingActivity extends FirstRunActivityBase
                                                                 .BRAVE_DEFERRED_DEEPLINK_PLAYLIST,
                                                         true);
                                     } else if (referrerUrl.equals(
-                                            BraveConstants.DEEPLINK_ANDROID_VPN)) {
-                                        ChromeSharedPreferences.getInstance()
-                                                .writeBoolean(
-                                                        BravePreferenceKeys
-                                                                .BRAVE_DEFERRED_DEEPLINK_VPN,
-                                                        true);
-                                    } else if (referrerUrl.equals(
                                             BraveOriginDeepLinkHandler.PATH_TOKEN)) {
                                         ChromeSharedPreferences.getInstance()
                                                 .writeBoolean(

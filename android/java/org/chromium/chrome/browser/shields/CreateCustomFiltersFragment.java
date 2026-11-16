@@ -7,10 +7,16 @@ package org.chromium.chrome.browser.shields;
 
 import static org.chromium.build.NullUtil.assumeNonNull;
 
+import android.content.Context;
+import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,7 +34,6 @@ import org.chromium.brave_shields.mojom.FilterListAndroidHandler;
 import org.chromium.build.annotations.NullMarked;
 import org.chromium.build.annotations.Nullable;
 import org.chromium.chrome.R;
-import org.chromium.chrome.browser.BraveRewardsHelper;
 import org.chromium.chrome.browser.customtabs.CustomTabActivity;
 import org.chromium.chrome.browser.settings.BottomInsetViewProvider;
 import org.chromium.chrome.browser.settings.BravePreferenceFragment;
@@ -73,6 +78,34 @@ public class CreateCustomFiltersFragment extends BravePreferenceFragment
         return mPageTitle;
     }
 
+    @SuppressWarnings("deprecation")
+    private static Spanned spannedFromHtmlString(String string) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return Html.fromHtml(string, Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            return Html.fromHtml(string);
+        }
+    }
+
+    private static void setSpan(
+            Context context,
+            String text,
+            SpannableString tosTextSS,
+            int stringId,
+            ClickableSpan clickableSpan) {
+        String spanString = context.getResources().getString(stringId);
+        int spanLength = spanString.length();
+        int index = text.indexOf(spanString);
+        tosTextSS.setSpan(
+                clickableSpan, index, index + spanLength, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        Typeface typeface = Typeface.create("sans-serif", Typeface.NORMAL);
+        tosTextSS.setSpan(
+                new StyleSpan(typeface.getStyle()),
+                index,
+                index + spanLength,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+    }
+
     private void setData() {
         initFilterListAndroidHandler();
         mEtCustomFilters = assumeNonNull(getView()).findViewById(R.id.enter_custom_filters);
@@ -81,7 +114,7 @@ public class CreateCustomFiltersFragment extends BravePreferenceFragment
                 String.format(
                         getResources().getString(R.string.create_custom_filter_summary),
                         getResources().getString(R.string.adblock_filter_syntax));
-        Spanned summaryTextSpanned = BraveRewardsHelper.spannedFromHtmlString(summaryText);
+        Spanned summaryTextSpanned = spannedFromHtmlString(summaryText);
         SpannableString summaryTextSpannableString =
                 new SpannableString(summaryTextSpanned.toString());
 
@@ -96,7 +129,7 @@ public class CreateCustomFiltersFragment extends BravePreferenceFragment
                                         getActivity(), BRAVE_ADBLOCK_FILTER_SYNTAX_PAGE);
                             });
 
-            BraveRewardsHelper.setSpan(
+            setSpan(
                     getActivity(),
                     summaryText,
                     summaryTextSpannableString,

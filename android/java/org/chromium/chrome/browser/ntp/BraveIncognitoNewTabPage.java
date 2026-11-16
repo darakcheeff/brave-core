@@ -14,9 +14,8 @@ import org.chromium.chrome.browser.tab.Tab;
 import org.chromium.chrome.browser.tabmodel.TabModelSelector;
 import org.chromium.chrome.browser.ui.edge_to_edge.EdgeToEdgeController;
 import org.chromium.chrome.browser.ui.native_page.NativePageHost;
-import org.chromium.chrome.browser.vpn.BraveVpnPolicy;
 
-/** Brave's extension for IncognitoNewTabPage to add policy checks. */
+/** Brave's extension for IncognitoNewTabPage. */
 @NullMarked
 public class BraveIncognitoNewTabPage extends IncognitoNewTabPage {
 
@@ -28,8 +27,5 @@ public class BraveIncognitoNewTabPage extends IncognitoNewTabPage {
             Tab tab,
             MonotonicObservableSupplier<EdgeToEdgeController> edgeToEdgeControllerSupplier) {
         super(activity, host, profile, tabModelSelector, tab, edgeToEdgeControllerSupplier);
-
-        // Pass VPN policy state to the view for VPN CTA visibility
-        mIncognitoNewTabPageView.setVpnDisabledByPolicy(BraveVpnPolicy.isDisabledByPolicy(profile));
     }
 }

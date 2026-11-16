@@ -8,8 +8,5 @@
 package org.chromium.chrome.browser.ntp;
 
 public interface OnBraveNtpListener {
-    public void updateNewsOptin(boolean isOptin);
-    public void getFeed(boolean isNewContent);
-    public void loadNewContent();
     public void checkForBraveStats();
 }

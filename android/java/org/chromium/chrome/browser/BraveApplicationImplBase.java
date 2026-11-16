@@ -9,8 +9,6 @@ import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.wireguard.android.backend.GoBackend;
-
 import org.chromium.base.JavaUtils;
 import org.chromium.base.Log;
 import org.chromium.build.annotations.NullMarked;
@@ -18,7 +16,6 @@ import org.chromium.build.annotations.Nullable;
 import org.chromium.chrome.browser.base.SplitCompatApplication;
 import org.chromium.chrome.browser.profiles.OriginalProfileSupplier;
 import org.chromium.chrome.browser.settings.BraveSearchEngineUtils;
-import org.chromium.chrome.browser.vpn.utils.BraveVpnProfileUtils;
 import org.chromium.components.safe_browsing.BraveSafeBrowsingApiHandler;
 import org.chromium.components.safe_browsing.SafeBrowsingApiBridge;
 import org.chromium.mojo.bindings.BadMessageException;
@@ -53,13 +50,6 @@ public class BraveApplicationImplBase extends SplitCompatApplication.Impl {
                                 }
                                 throw JavaUtils.throwUnchecked(e);
                             });
-            GoBackend.setAlwaysOnCallback(
-                    new GoBackend.AlwaysOnCallback() {
-                        @Override
-                        public void alwaysOnTriggered() {
-                            BraveVpnProfileUtils.getInstance().startVpn(getApplication());
-                        }
-                    });
             // Set a handler for SafeBrowsing. It has to be done only once for a process lifetime.
             SafeBrowsingApiBridge.setSafeBrowsingApiHandler(
                     BraveSafeBrowsingApiHandler.getInstance());

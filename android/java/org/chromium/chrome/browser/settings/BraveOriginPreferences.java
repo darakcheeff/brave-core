@@ -34,7 +34,6 @@ import org.chromium.brave_origin.mojom.BraveOriginSettingsHandler;
 import org.chromium.build.annotations.NullMarked;
 import org.chromium.build.annotations.Nullable;
 import org.chromium.chrome.R;
-import org.chromium.chrome.browser.BraveConfig;
 import org.chromium.chrome.browser.BraveRelaunchUtils;
 import org.chromium.chrome.browser.billing.InAppPurchaseWrapper;
 import org.chromium.chrome.browser.billing.LinkSubscriptionUtils;
@@ -73,15 +72,10 @@ public class BraveOriginPreferences extends BravePreferenceFragment
     public static final String EXTRA_SHOW_RESTART_PROMPT = "show_restart_prompt";
 
     // Preference keys
-    private static final String PREF_REWARDS_SWITCH = "rewards_switch";
     private static final String PREF_PRIVACY_PRESERVING_ANALYTICS_SWITCH =
             "privacy_preserving_analytics_switch";
-    private static final String PREF_EMAIL_ALIASES_SWITCH = "email_aliases_switch";
     private static final String PREF_LEO_AI_SWITCH = "leo_ai_switch";
-    private static final String PREF_NEWS_SWITCH = "news_switch";
     private static final String PREF_STATISTICS_REPORTING_SWITCH = "statistics_reporting_switch";
-    private static final String PREF_VPN_SWITCH = "vpn_switch";
-    private static final String PREF_WALLET_SWITCH = "wallet_switch";
     private static final String PREF_WEB_DISCOVERY_PROJECT_SWITCH = "web_discovery_project_switch";
     private static final String PREF_RESET_TO_DEFAULTS = "reset_to_defaults";
     private static final String PREF_LINK_PURCHASE = "link_purchase";
@@ -121,23 +115,9 @@ public class BraveOriginPreferences extends BravePreferenceFragment
         }
 
         // Set up toggle preferences
-        setupTogglePreference(PREF_REWARDS_SWITCH);
         setupTogglePreference(PREF_PRIVACY_PRESERVING_ANALYTICS_SWITCH);
-        if (BraveConfig.ENABLE_EMAIL_ALIASES
-                && ChromeFeatureList.isEnabled(BraveFeatureList.EMAIL_ALIASES)) {
-            setupTogglePreference(PREF_EMAIL_ALIASES_SWITCH);
-        } else {
-            ChromeSwitchPreference emailAliasesPref =
-                    (ChromeSwitchPreference) findPreference(PREF_EMAIL_ALIASES_SWITCH);
-            if (emailAliasesPref != null) {
-                emailAliasesPref.setVisible(false);
-            }
-        }
         setupTogglePreference(PREF_LEO_AI_SWITCH);
-        setupTogglePreference(PREF_NEWS_SWITCH);
         setupTogglePreference(PREF_STATISTICS_REPORTING_SWITCH);
-        setupTogglePreference(PREF_VPN_SWITCH);
-        setupTogglePreference(PREF_WALLET_SWITCH);
         setupTogglePreference(PREF_WEB_DISCOVERY_PROJECT_SWITCH);
 
         // Set up click preferences
@@ -490,14 +470,9 @@ public class BraveOriginPreferences extends BravePreferenceFragment
      */
     private void setAllPreferencesEnabled(boolean enabled) {
         String[] allKeys = {
-            PREF_REWARDS_SWITCH,
             PREF_PRIVACY_PRESERVING_ANALYTICS_SWITCH,
-            PREF_EMAIL_ALIASES_SWITCH,
             PREF_LEO_AI_SWITCH,
-            PREF_NEWS_SWITCH,
             PREF_STATISTICS_REPORTING_SWITCH,
-            PREF_VPN_SWITCH,
-            PREF_WALLET_SWITCH,
             PREF_WEB_DISCOVERY_PROJECT_SWITCH,
             PREF_RESET_TO_DEFAULTS,
             PREF_LINK_PURCHASE,
@@ -629,25 +604,16 @@ public class BraveOriginPreferences extends BravePreferenceFragment
     @Nullable
     private String getPolicyKeyForPreference(String preferenceKey) {
         // Map preference keys to policy keys
-        if (PREF_REWARDS_SWITCH.equals(preferenceKey)) {
-            return BravePolicyConstants.BRAVE_REWARDS_DISABLED;
-        } else if (PREF_PRIVACY_PRESERVING_ANALYTICS_SWITCH.equals(preferenceKey)) {
+        if (PREF_PRIVACY_PRESERVING_ANALYTICS_SWITCH.equals(preferenceKey)) {
             return BravePolicyConstants.BRAVE_P3A_ENABLED;
         } else if (PREF_LEO_AI_SWITCH.equals(preferenceKey)) {
             return BravePolicyConstants.BRAVE_AI_CHAT_ENABLED;
-        } else if (PREF_NEWS_SWITCH.equals(preferenceKey)) {
-            return BravePolicyConstants.BRAVE_NEWS_DISABLED;
         } else if (PREF_STATISTICS_REPORTING_SWITCH.equals(preferenceKey)) {
             return BravePolicyConstants.BRAVE_STATS_PING_ENABLED;
-        } else if (PREF_VPN_SWITCH.equals(preferenceKey)) {
-            return BravePolicyConstants.BRAVE_VPN_DISABLED;
-        } else if (PREF_WALLET_SWITCH.equals(preferenceKey)) {
-            return BravePolicyConstants.BRAVE_WALLET_DISABLED;
         } else if (PREF_WEB_DISCOVERY_PROJECT_SWITCH.equals(preferenceKey)) {
             return BravePolicyConstants.BRAVE_WEB_DISCOVERY_ENABLED;
         }
         // TODO: Add mappings for other preferences as they are implemented
-        // PREF_EMAIL_ALIASES_SWITCH - no policy mapping found
         return null;
     }
 
@@ -675,14 +641,9 @@ public class BraveOriginPreferences extends BravePreferenceFragment
 
     private void resetAllToggles() {
         String[] toggleKeys = {
-            PREF_REWARDS_SWITCH,
             PREF_PRIVACY_PRESERVING_ANALYTICS_SWITCH,
-            PREF_EMAIL_ALIASES_SWITCH,
             PREF_LEO_AI_SWITCH,
-            PREF_NEWS_SWITCH,
             PREF_STATISTICS_REPORTING_SWITCH,
-            PREF_VPN_SWITCH,
-            PREF_WALLET_SWITCH,
             PREF_WEB_DISCOVERY_PROJECT_SWITCH,
         };
 
@@ -740,10 +701,6 @@ public class BraveOriginPreferences extends BravePreferenceFragment
                     }
                     // origin_description is an informational widget with no title; exclude it.
                     indexData.removeEntryForKey(frag, "origin_description");
-                    if (!BraveConfig.ENABLE_EMAIL_ALIASES
-                            || !ChromeFeatureList.isEnabled(BraveFeatureList.EMAIL_ALIASES)) {
-                        indexData.removeEntryForKey(frag, PREF_EMAIL_ALIASES_SWITCH);
-                    }
                 }
             };
 

@@ -55,7 +55,6 @@ public class BravePreferenceFragmentNamesTest {
         new Screen(R.xml.brave_privacy_preferences),
         new Screen(R.xml.brave_search_engines_preferences),
         new Screen(R.xml.brave_tabs_and_tab_groups_preferences),
-        new Screen(R.xml.brave_wallet_preferences),
         new Screen(
                 org.chromium.components.browser_ui.site_settings.R.xml
                         .brave_site_settings_preferences),

@@ -71,10 +71,6 @@ public class BravePermissionUtils {
         }
     }
 
-    public static boolean isBraveAdsNotificationPermissionBlocked(Context context) {
-        return channeGroupIsBlocked(context, BraveChannelDefinitions.ChannelGroupId.BRAVE_ADS);
-    }
-
     public static boolean isGeneralNotificationPermissionBlocked(Context context) {
         return channeGroupIsBlocked(context, BraveChannelDefinitions.ChannelGroupId.GENERAL);
     }

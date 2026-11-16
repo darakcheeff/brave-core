@@ -44,8 +44,7 @@ public class BraveTabbedAdaptiveToolbarBehavior extends TabbedAdaptiveToolbarBeh
                     AdaptiveToolbarButtonVariant.BOOKMARKS,
                     AdaptiveToolbarButtonVariant.HISTORY,
                     AdaptiveToolbarButtonVariant.DOWNLOADS,
-                    AdaptiveToolbarButtonVariant.LEO,
-                    AdaptiveToolbarButtonVariant.WALLET);
+                    AdaptiveToolbarButtonVariant.LEO);
 
     private final Activity mActivity;
 

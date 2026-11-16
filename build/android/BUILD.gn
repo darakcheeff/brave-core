@@ -4,7 +4,6 @@
 # You can obtain one at https://mozilla.org/MPL/2.0/.
 
 import("//brave/build/config.gni")
-import("//brave/components/brave_wallet/common/buildflags/buildflags.gni")
 import("//build/config/android/rules.gni")
 import("//third_party/jni_zero/jni_zero.gni")
 import("//tools/grit/grit_rule.gni")
@@ -228,10 +227,6 @@ generate_jni("jni_headers") {
     "//brave/android/java/org/chromium/chrome/browser/preferences/BravePrefServiceBridge.java",
     "//brave/android/java/org/chromium/chrome/browser/util/TabUtils.java",
   ]
-
-  if (enable_brave_wallet) {
-    sources += [ "//brave/android/java/org/chromium/chrome/browser/crypto_wallet/util/WalletDataFilesInstallerUtil.java" ]
-  }
 
   public_deps = [
     "//brave/android/java/org/chromium/chrome/browser/search_engines:jni_headers",

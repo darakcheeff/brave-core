@@ -368,15 +368,12 @@ public class BraveTabbedAppMenuPropertiesDelegateUnitTest {
             // (shouldShowPageInfoItem returns false for NTP pages).
             R.id.downloads_menu_id,
             R.id.all_bookmarks_menu_id,
-            R.id.brave_wallet_id,
             R.id.brave_leo_id,
             R.id.recent_tabs_menu_id,
             R.id.divider_line_id,
             R.id.preferences_id,
             R.id.divider_line_id,
             R.id.default_browser_promo_menu_id,
-            R.id.brave_news_id,
-            R.id.request_brave_vpn_id,
             R.id.brave_customize_menu_id,
             R.id.exit_id,
         };
@@ -410,15 +407,12 @@ public class BraveTabbedAppMenuPropertiesDelegateUnitTest {
             R.id.open_history_menu_id,
             R.id.downloads_menu_id,
             R.id.all_bookmarks_menu_id,
-            R.id.brave_wallet_id,
             R.id.brave_leo_id,
             R.id.recent_tabs_menu_id,
             R.id.divider_line_id,
             R.id.preferences_id,
             R.id.divider_line_id,
             R.id.default_browser_promo_menu_id,
-            R.id.brave_news_id,
-            R.id.request_brave_vpn_id,
             R.id.brave_customize_menu_id,
             R.id.exit_id,
         };
@@ -482,7 +476,6 @@ public class BraveTabbedAppMenuPropertiesDelegateUnitTest {
         expectedItems.add(R.id.open_history_menu_id);
         expectedItems.add(R.id.downloads_menu_id);
         expectedItems.add(R.id.all_bookmarks_menu_id);
-        expectedItems.add(R.id.brave_wallet_id);
         expectedItems.add(R.id.brave_leo_id);
         expectedItems.add(R.id.recent_tabs_menu_id);
         expectedItems.add(R.id.divider_line_id);
@@ -496,8 +489,6 @@ public class BraveTabbedAppMenuPropertiesDelegateUnitTest {
         expectedItems.add(R.id.preferences_id);
         expectedItems.add(R.id.divider_line_id);
         expectedItems.add(R.id.default_browser_promo_menu_id);
-        expectedItems.add(R.id.brave_news_id);
-        expectedItems.add(R.id.request_brave_vpn_id);
         expectedItems.add(R.id.brave_customize_menu_id);
         expectedItems.add(R.id.exit_id);
 
@@ -568,24 +559,9 @@ public class BraveTabbedAppMenuPropertiesDelegateUnitTest {
                 .shouldShowTranslateMenuItem(any(Tab.class));
 
         // Set features as disabled by policy via UserPrefs
-        // News: BRAVE_NEWS_DISABLED_BY_POLICY = true means disabled
-        when(mPrefService.isManagedPreference(BravePref.BRAVE_NEWS_DISABLED_BY_POLICY))
-                .thenReturn(true);
-        when(mPrefService.getBoolean(BravePref.BRAVE_NEWS_DISABLED_BY_POLICY)).thenReturn(true);
         // Leo: ENABLED_BY_POLICY = false means disabled (inverted)
         when(mPrefService.isManagedPreference(BravePref.ENABLED_BY_POLICY)).thenReturn(true);
         when(mPrefService.getBoolean(BravePref.ENABLED_BY_POLICY)).thenReturn(false);
-        // Rewards: DISABLED_BY_POLICY = true means disabled
-        when(mPrefService.isManagedPreference(BravePref.DISABLED_BY_POLICY)).thenReturn(true);
-        when(mPrefService.getBoolean(BravePref.DISABLED_BY_POLICY)).thenReturn(true);
-        // VPN: MANAGED_BRAVE_VPN_DISABLED = true means disabled
-        when(mPrefService.isManagedPreference(BravePref.MANAGED_BRAVE_VPN_DISABLED))
-                .thenReturn(true);
-        when(mPrefService.getBoolean(BravePref.MANAGED_BRAVE_VPN_DISABLED)).thenReturn(true);
-        // Wallet: BRAVE_WALLET_DISABLED_BY_POLICY = true means disabled
-        when(mPrefService.isManagedPreference(BravePref.BRAVE_WALLET_DISABLED_BY_POLICY))
-                .thenReturn(true);
-        when(mPrefService.getBoolean(BravePref.BRAVE_WALLET_DISABLED_BY_POLICY)).thenReturn(true);
 
         assertEquals(MenuGroup.PAGE_MENU, mTabbedAppMenuPropertiesDelegate.getMenuGroup());
         MVCListAdapter.ModelList modelList = mTabbedAppMenuPropertiesDelegate.getMenuItems();
@@ -601,16 +577,12 @@ public class BraveTabbedAppMenuPropertiesDelegateUnitTest {
             // (shouldShowPageInfoItem returns false for NTP pages).
             R.id.downloads_menu_id,
             R.id.all_bookmarks_menu_id,
-            // R.id.brave_wallet_id is NOT included - disabled by policy
             // R.id.brave_leo_id is NOT included - disabled by policy
-            // R.id.brave_rewards_id is NOT included - disabled by policy
             R.id.recent_tabs_menu_id,
             R.id.divider_line_id,
             R.id.preferences_id,
             R.id.divider_line_id,
             R.id.default_browser_promo_menu_id,
-            // R.id.brave_news_id is NOT included - disabled by policy
-            // R.id.request_brave_vpn_id is NOT included - disabled by policy
             R.id.brave_customize_menu_id,
             R.id.exit_id,
         };

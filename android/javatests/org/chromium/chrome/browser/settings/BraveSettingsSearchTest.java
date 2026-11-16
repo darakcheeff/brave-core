@@ -44,7 +44,6 @@ import org.chromium.base.test.util.Features.DisableFeatures;
 import org.chromium.base.test.util.Features.EnableFeatures;
 import org.chromium.brave.browser.customize_menu.CustomizeBraveMenu;
 import org.chromium.brave.browser.customize_menu.MenuItemData;
-import org.chromium.chrome.browser.BraveRewardsPolicy;
 import org.chromium.chrome.browser.flags.ChromeSwitches;
 import org.chromium.chrome.browser.tracing.settings.DeveloperSettings;
 import org.chromium.chrome.browser.widget.quickactionsearchandbookmark.utils.BraveSearchWidgetUtils;
@@ -98,15 +97,6 @@ public class BraveSettingsSearchTest {
 
         typeIntoSearch("Brave Shields");
         assertSearchResult("Brave Shields & privacy");
-
-        clearAndTypeIntoSearch("Brave News");
-        assertSearchResult("Brave News");
-
-        clearAndTypeIntoSearch("Brave Wallet");
-        assertSearchResult("Brave Wallet");
-
-        clearAndTypeIntoSearch("Firewall");
-        assertSearchResult("Brave Firewall + VPN");
 
         clearAndTypeIntoSearch("Leo AI");
         assertSearchResult("Leo AI");
@@ -247,9 +237,6 @@ public class BraveSettingsSearchTest {
         clearAndTypeIntoSearch("Solana Name Service");
         assertSearchResult("Solana Name Service");
 
-        clearAndTypeIntoSearch("Enable Sponsored Ads");
-        assertSearchResult("Enable Sponsored Ads");
-
         // Disabled — see https://github.com/brave/brave-browser/issues/57186
         // typeIntoSearch("Safe Browsing");
         // assertSearchResult("Safe Browsing");
@@ -258,114 +245,6 @@ public class BraveSettingsSearchTest {
         // Brave Shields & privacy => Lock Private tabs when you leave Brave
         // clearAndTypeIntoSearch("Lock Private tabs");
         // assertSearchResult("Lock Private tabs");
-    }
-
-    /**
-     * Verifies that the Sponsored Ads entry is not searchable when Brave Rewards is disabled by
-     * policy.
-     */
-    @Test
-    @SmallTest
-    @Feature({"Preferences"})
-    public void testSponsoredAdsNotSearchable_RewardsDisabledByPolicy() {
-        BraveRewardsPolicy.setDisabledByPolicyForTesting(true);
-        mSettingsActivityTestRule.startSettingsActivity();
-
-        typeIntoSearch("Enable Sponsored Ads");
-        assertSearchResultEmpty();
-    }
-
-    /**
-     * Verifies that key Brave-specific settings entries appear in the `Brave News` Settings search
-     * results.
-     */
-    @Test
-    @SmallTest
-    @Feature({"Preferences"})
-    public void testBraveNewsSettingsAreSearchable() {
-        mSettingsActivityTestRule.startSettingsActivity();
-
-        // Disabled — see https://github.com/brave/brave-browser/issues/57187
-        // typeIntoSearch("Show Brave News");
-        // assertSearchResult("Show Brave News");
-    }
-
-    /**
-     * Verifies that key Brave-specific settings entries appear in the `Brave Wallet` Settings
-     * search results.
-     */
-    @Test
-    @SmallTest
-    @Feature({"Preferences"})
-    public void testBraveWalletSettingsAreSearchable() {
-        mSettingsActivityTestRule.startSettingsActivity();
-
-        typeIntoSearch("Default Ethereum wallet");
-        assertSearchResult("Default Ethereum wallet");
-
-        clearAndTypeIntoSearch("Default Ethereum wallet");
-        assertSearchResult("Default Ethereum wallet");
-
-        clearAndTypeIntoSearch("Automatically lock Brave Wallet");
-        assertSearchResult("Automatically lock Brave Wallet");
-
-        clearAndTypeIntoSearch("Networks");
-        assertSearchResult("Networks");
-
-        clearAndTypeIntoSearch("Display Web3 notifications");
-        assertSearchResult("Display Web3 notifications");
-
-        clearAndTypeIntoSearch("Clear transaction & nonce info");
-        assertSearchResult("Clear transaction & nonce info");
-
-        clearAndTypeIntoSearch("Enable NFT discovery");
-        assertSearchResult("Enable NFT discovery");
-
-        // Disabled — see https://github.com/brave/brave-browser/issues/57188
-        // clearAndTypeIntoSearch("Automatically add NTFs");
-        // assertSearchResult("Automatically add NTFs you own to the Wallet using third party
-        // APIs");
-
-        clearAndTypeIntoSearch("Reset and clear wallet data");
-        assertSearchResult("Reset and clear wallet data");
-    }
-
-    /**
-     * Verifies that key Brave-specific settings entries appear in the `Brave Firewall + VPN`
-     * Settings search results.
-     */
-    @Test
-    @SmallTest
-    @Feature({"Preferences"})
-    public void testBraveFirewallVpnSettingsAreSearchable() {
-        mSettingsActivityTestRule.startSettingsActivity();
-
-        typeIntoSearch("Enabled");
-        assertSearchResult("Enabled", "Brave Firewall + VPN");
-
-        clearAndTypeIntoSearch("Status");
-        assertSearchResult("Status");
-
-        clearAndTypeIntoSearch("Expires");
-        assertSearchResult("Expires");
-
-        clearAndTypeIntoSearch("Manage subscription");
-        assertSearchResult("Manage subscription");
-
-        clearAndTypeIntoSearch("Auto re-connect VPN");
-        assertSearchResult("Auto re-connect VPN");
-
-        clearAndTypeIntoSearch("Split tunneling");
-        assertSearchResult("Split tunneling");
-
-        clearAndTypeIntoSearch("Reset Configuration");
-        assertSearchResult("Reset Configuration");
-
-        clearAndTypeIntoSearch("Contact Technical Support");
-        assertSearchResult("Contact Technical Support");
-
-        clearAndTypeIntoSearch("VPN support");
-        assertSearchResult("VPN support");
     }
 
     /**
@@ -790,9 +669,6 @@ public class BraveSettingsSearchTest {
         clearAndTypeIntoSearch("bottom navigation");
         assertSearchResult("Bottom navigation toolbar");
 
-        clearAndTypeIntoSearch("Brave Rewards icon");
-        assertSearchResult("Brave Rewards icon");
-
         clearAndTypeIntoSearch("Night");
         assertSearchResult("Night Mode");
 
@@ -814,40 +690,12 @@ public class BraveSettingsSearchTest {
         typeIntoSearch("Show Background Images");
         assertSearchResult("Show Background Images");
 
-        clearAndTypeIntoSearch("Show New Tab Page Ads");
-        assertSearchResult("Show New Tab Page Ads");
-
-        clearAndTypeIntoSearch("Learn more about new tab page ads");
-        assertSearchResult("Learn more about new tab page ads");
-
         // Widgets
         clearAndTypeIntoSearch("Show Top Sites");
         assertSearchResult("Show Top Sites");
 
         clearAndTypeIntoSearch("Show Brave Stats");
         assertSearchResult("Show Brave Stats");
-    }
-
-    /**
-     * Verifies that the sponsored-images New Tab Page entries are not searchable when Brave Rewards
-     * is disabled by policy, while the remaining New Tab Page entries stay searchable.
-     */
-    @Test
-    @SmallTest
-    @Feature({"Preferences"})
-    public void testNewTabPageSponsoredContentNotSearchable_RewardsDisabledByPolicy() {
-        BraveRewardsPolicy.setDisabledByPolicyForTesting(true);
-        mSettingsActivityTestRule.startSettingsActivity();
-
-        typeIntoSearch("Show New Tab Page Ads");
-        assertSearchResultEmpty();
-
-        clearAndTypeIntoSearch("Learn more about new tab page ads");
-        assertSearchResultEmpty();
-
-        // The non-sponsored entries remain searchable.
-        clearAndTypeIntoSearch("Show Background Images");
-        assertSearchResult("Show Background Images");
     }
 
     /**
@@ -1038,9 +886,6 @@ public class BraveSettingsSearchTest {
 
         clearAndTypeIntoSearch("QA Preferences");
         assertSearchResult("QA Preferences");
-
-        clearAndTypeIntoSearch("Rewards Debug");
-        assertSearchResult("Rewards Debug");
 
         clearAndTypeIntoSearch("Show Safe Browsing errors");
         assertSearchResult("Show Safe Browsing errors");

@@ -5,14 +5,16 @@
 
 package org.chromium.chrome.browser.settings;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spanned;
 
 import org.chromium.base.Log;
 import org.chromium.base.supplier.MonotonicObservableSupplier;
 import org.chromium.base.supplier.ObservableSuppliers;
 import org.chromium.base.supplier.SettableMonotonicObservableSupplier;
 import org.chromium.chrome.R;
-import org.chromium.chrome.browser.BraveRewardsHelper;
 import org.chromium.components.browser_ui.settings.SettingsUtils;
 import org.chromium.components.browser_ui.settings.search.BaseSearchIndexProvider;
 
@@ -51,9 +53,18 @@ public class BraveLicensePreferences extends BravePreferenceFragment {
             Scanner scanner = new Scanner(in).useDelimiter("\\A");
             String summary = scanner.hasNext() ? scanner.next() : "";
             in.close();
-            licenseText.setSummary(BraveRewardsHelper.spannedFromHtmlString(summary));
+            licenseText.setSummary(spannedFromHtmlString(summary));
         } catch (IOException e) {
             Log.e(TAG, "Could not load license text: " + e);
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    private static Spanned spannedFromHtmlString(String string) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return Html.fromHtml(string, Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            return Html.fromHtml(string);
         }
     }
 

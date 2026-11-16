@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 
 import org.chromium.base.ContextUtils;
 import org.chromium.base.Log;
-import org.chromium.chrome.browser.BraveAdsNativeHelper;
 import org.chromium.chrome.browser.app.BraveActivity;
 import org.chromium.chrome.browser.app.BraveActivity.BraveActivityNotFoundException;
 import org.chromium.chrome.browser.notifications.BraveOnboardingNotification;
@@ -134,11 +133,6 @@ public class OnboardingPrefManager {
         SharedPreferences.Editor sharedPreferencesEditor = mSharedPreferences.edit();
         sharedPreferencesEditor.putBoolean(PREF_BRAVE_STATS_NOTIFICATION, enabled);
         sharedPreferencesEditor.apply();
-    }
-
-    public boolean isAdsAvailable() {
-        return BraveAdsNativeHelper.nativeIsSupportedRegion(
-                ProfileManager.getLastUsedRegularProfile());
     }
 
     public boolean isOnboardingNotificationShown() {

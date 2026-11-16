@@ -41,9 +41,8 @@ import org.xmlpull.v1.XmlSerializer;
 import org.chromium.base.ContextUtils;
 import org.chromium.chrome.browser.app.BraveActivity;
 import org.chromium.chrome.browser.content.WebContentsFactory;
-import org.chromium.chrome.browser.crypto_wallet.util.Utils;
-import org.chromium.chrome.browser.crypto_wallet.util.WalletConstants;
 import org.chromium.chrome.browser.profiles.Profile;
+import org.chromium.chrome.browser.profiles.ProfileManager;
 import org.chromium.chrome.browser.ui.favicon.FaviconHelper;
 import org.chromium.chrome.browser.util.ConfigurationUtils;
 import org.chromium.components.image_fetcher.ImageDataFetchResult;
@@ -87,7 +86,7 @@ public class ImageLoader {
         }
 
         Resources resources = ContextUtils.getApplicationContext().getResources();
-        Profile profile = Utils.getProfile(false);
+        Profile profile = ProfileManager.getLastUsedRegularProfile();
         if (isSvg(url)) {
             final String validUrl;
             if (URLUtil.isDataUrl(url)) {
@@ -119,7 +118,7 @@ public class ImageLoader {
             webContents.downloadImage(
                     new GURL(validUrl), // Url
                     false, // isFavIcon
-                    WalletConstants.MAX_BITMAP_SIZE_FOR_DOWNLOAD, // maxBitmapSize
+                    1024, // maxBitmapSize
                     false, // bypassCache
                     (id, httpStatusCode, imageUrl, bitmaps, originalImageSizes) -> { // callback
                         ImageFetcherFacade imageFetcherFacade;

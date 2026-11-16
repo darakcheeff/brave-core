@@ -26,7 +26,6 @@ import androidx.core.content.res.ResourcesCompat;
 
 import org.chromium.chrome.R;
 import org.chromium.chrome.browser.BraveDialogFragment;
-import org.chromium.chrome.browser.BraveRewardsHelper;
 import org.chromium.chrome.browser.onboarding.OnboardingPrefManager;
 
 /**
@@ -87,8 +86,7 @@ public class BraveNotificationWarningDialog extends BraveDialogFragment {
     }
 
     public static boolean shouldShowRewardWarningDialog(Context context) {
-        return BraveRewardsHelper.isRewardsEnabled()
-                && BravePermissionUtils.isBraveAdsNotificationPermissionBlocked(context);
+        return false;
     }
 
     public static boolean shouldShowPrivacyWarningDialog(Context context) {

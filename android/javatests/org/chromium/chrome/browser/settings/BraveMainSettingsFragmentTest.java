@@ -90,9 +90,6 @@ public class BraveMainSettingsFragmentTest {
     private static final String[] sSortedPrefKeys = {
         "features_section",
         "brave_shields_and_privacy",
-        "brave_news_v2",
-        "brave_wallet",
-        "brave_vpn",
         "brave_leo",
         "general_section",
         "brave_search_engines",
@@ -246,25 +243,13 @@ public class BraveMainSettingsFragmentTest {
 
         final int preferenceCount = mMainSettings.getPreferenceScreen().getPreferenceCount();
 
-        // VPN prefs (brave_vpn, pref_vpn_callout) are only present when VPN is supported,
-        // which depends on BraveRewards being enabled (disabled on x86 official/Release builds).
-        // Exclude them so the assertion is stable across build types.
-        long nonVpnCount =
-                IntStream.range(0, preferenceCount)
-                        .mapToObj(i -> mMainSettings.getPreferenceScreen().getPreference(i))
-                        .filter(
-                                p ->
-                                        !p.getKey().equals("brave_vpn")
-                                                && !p.getKey().equals("pref_vpn_callout"))
-                        .count();
-
         // "closing_all_tabs_closes_brave" moves into the Brave "Tabs and tab groups" settings
         // screen when kBraveAndroidTabGroupsSettings is enabled, so it is removed from the main
         // settings screen in that case.
         int expectedCount =
                 ChromeFeatureList.isEnabled(BraveFeatureList.BRAVE_ANDROID_TAB_GROUPS_SETTINGS)
-                        ? 33
-                        : 34;
+                        ? 31
+                        : 32;
 
         assertEquals(
                 "Number of preferences has changed, please check and update preferenceCount"
@@ -275,7 +260,7 @@ public class BraveMainSettingsFragmentTest {
                         + "INDEX_DATA_PROVIDER.updateDynamicPreferences"
                         + " to exclude new from indexing.",
                 expectedCount,
-                nonVpnCount);
+                preferenceCount);
     }
 
     // Brave shows the address bar preference in its own Appearance settings. Upstream re-adds it to

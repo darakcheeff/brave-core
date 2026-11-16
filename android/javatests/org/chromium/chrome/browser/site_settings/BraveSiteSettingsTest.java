@@ -37,9 +37,7 @@ public class BraveSiteSettingsTest {
         Assert.assertNotNull(prefPermissionAutorevocation);
         Preference prefSolanaConnectedSites =
                 siteSettings.findPreference(SOLANA_CONNECTED_SITES_KEY);
-        Assert.assertNotNull(prefSolanaConnectedSites);
-        Assert.assertEquals(
-                prefSolanaConnectedSites.getOrder(), prefPermissionAutorevocation.getOrder() - 1);
+        Assert.assertNull(prefSolanaConnectedSites);
         settingsActivity.finish();
     }
 }

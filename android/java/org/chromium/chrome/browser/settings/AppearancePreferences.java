@@ -22,9 +22,6 @@ import org.chromium.build.annotations.Nullable;
 import org.chromium.chrome.R;
 import org.chromium.chrome.browser.BraveFeatureUtil;
 import org.chromium.chrome.browser.BraveRelaunchUtils;
-import org.chromium.chrome.browser.BraveRewardsNativeWorker;
-import org.chromium.chrome.browser.BraveRewardsObserver;
-import org.chromium.chrome.browser.BraveRewardsPolicy;
 import org.chromium.chrome.browser.appearance.settings.AppearanceSettingsFragment;
 import org.chromium.chrome.browser.bookmarks.bar.BookmarkBarUtils;
 import org.chromium.chrome.browser.brave_leo.BraveLeoPrefUtils;
@@ -57,7 +54,7 @@ import org.chromium.ui.base.DeviceFormFactor;
 import java.util.Map;
 
 public class AppearancePreferences extends AppearanceSettingsFragment
-        implements Preference.OnPreferenceChangeListener, BraveRewardsObserver {
+        implements Preference.OnPreferenceChangeListener {
     /* package */ static final String PREF_NAVIGATION_SECTION = "navigation_section";
     /* package */ static final String PREF_GENERAL_SECTION = "general_section";
     public static final String PREF_SHOW_BRAVE_REWARDS_ICON = "show_brave_rewards_icon";
@@ -71,7 +68,6 @@ public class AppearancePreferences extends AppearanceSettingsFragment
             "show_undo_when_tabs_closed";
     /* package */ static final String PREF_BRAVE_CUSTOMIZE_MENU = "brave_customize_menu";
 
-    private BraveRewardsNativeWorker mBraveRewardsNativeWorker;
 
     @Override
     protected @NonNull PreferenceGroupAdapter onCreateAdapter(
@@ -103,10 +99,6 @@ public class AppearancePreferences extends AppearanceSettingsFragment
             removePreferenceIfPresent(BravePreferenceKeys.BRAVE_ENABLE_BOTTOM_BAR);
         }
 
-        mBraveRewardsNativeWorker = BraveRewardsNativeWorker.getInstance();
-        if (mBraveRewardsNativeWorker == null || !mBraveRewardsNativeWorker.isSupported()) {
-            removePreferenceIfPresent(PREF_SHOW_BRAVE_REWARDS_ICON);
-        }
 
         if (!new BraveMultiWindowUtils().shouldShowEnableWindow(getActivity())) {
             removePreferenceIfPresent(PREF_ENABLE_MULTI_WINDOWS);
@@ -158,12 +150,6 @@ public class AppearancePreferences extends AppearanceSettingsFragment
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        ChromeSwitchPreference showBraveRewardsIconPref =
-                (ChromeSwitchPreference) findPreference(PREF_SHOW_BRAVE_REWARDS_ICON);
-        if (showBraveRewardsIconPref != null) {
-            showBraveRewardsIconPref.setChecked(NtpUtil.shouldShowRewardsIcon());
-            showBraveRewardsIconPref.setOnPreferenceChangeListener(this);
-        }
 
         Preference nightModeEnabled = findPreference(PREF_BRAVE_NIGHT_MODE_ENABLED);
         nightModeEnabled.setOnPreferenceChangeListener(this);
@@ -232,13 +218,8 @@ public class AppearancePreferences extends AppearanceSettingsFragment
 
     @Override
     public void onStart() {
-        if (mBraveRewardsNativeWorker != null) {
-            mBraveRewardsNativeWorker.addObserver(this);
-        }
         super.onStart();
 
-        // Check if Brave Rewards is disabled by policy and hide the icon preference if so
-        checkRewardsPolicyAndUpdatePreference();
 
         // Check if Leo is disabled by policy for toolbar shortcut settings
         checkLeoPolicyForToolbarShortcut();
@@ -297,9 +278,6 @@ public class AppearancePreferences extends AppearanceSettingsFragment
 
     @Override
     public void onStop() {
-        if (mBraveRewardsNativeWorker != null) {
-            mBraveRewardsNativeWorker.removeObserver(this);
-        }
         super.onStop();
     }
 
@@ -320,9 +298,6 @@ public class AppearancePreferences extends AppearanceSettingsFragment
             ChromeSharedPreferences.getInstance()
                     .writeBoolean(BravePreferenceKeys.BRAVE_ENABLE_BOTTOM_BAR, (boolean) newValue);
             shouldRelaunch = true;
-        } else if (PREF_SHOW_BRAVE_REWARDS_ICON.equals(key)) {
-            ChromeSharedPreferences.getInstance()
-                    .writeBoolean(PREF_SHOW_BRAVE_REWARDS_ICON, !(boolean) newValue);
             shouldRelaunch = true;
         } else if (PREF_BRAVE_NIGHT_MODE_ENABLED.equals(key)) {
             BraveFeatureUtil.enableFeature(
@@ -430,7 +405,6 @@ public class AppearancePreferences extends AppearanceSettingsFragment
         setPreferenceOrder(PREF_GENERAL_SECTION, 8);
         setPreferenceOrder(PREF_BRAVE_NIGHT_MODE_ENABLED, 9);
         setPreferenceOrder(PREF_BRAVE_DISABLE_SHARING_HUB, 10);
-        setPreferenceOrder(PREF_SHOW_BRAVE_REWARDS_ICON, 11);
         setPreferenceOrder(AppearanceSettingsFragment.PREF_BOOKMARK_BAR, 12);
         setPreferenceOrder(PREF_BRAVE_ENABLE_TAB_GROUPS, 13);
         setPreferenceOrder(PREF_SHOW_UNDO_WHEN_TABS_CLOSED, 14);
@@ -443,17 +417,6 @@ public class AppearancePreferences extends AppearanceSettingsFragment
         }
     }
 
-    /**
-     * Checks if Brave Rewards is disabled by policy and removes related preferences if so. This
-     * ensures that when Brave Rewards is disabled, users cannot toggle rewards-related settings in
-     * the appearance settings.
-     */
-    private void checkRewardsPolicyAndUpdatePreference() {
-        if (BraveRewardsPolicy.isDisabledByPolicy(getProfile())) {
-            // Policy disables Brave Rewards - remove rewards-related preferences
-            removePreferenceIfPresent(PREF_SHOW_BRAVE_REWARDS_ICON);
-        }
-    }
 
     /**
      * Checks if Leo AI is disabled by policy and updates the static flag in
@@ -516,9 +479,6 @@ public class AppearancePreferences extends AppearanceSettingsFragment
                                 frag, AppearanceSettingsFragment.PREF_BOOKMARK_BAR);
                     }
 
-                    if (BraveRewardsPolicy.isDisabledByPolicy(profile)) {
-                        indexData.removeEntryForKey(frag, PREF_SHOW_BRAVE_REWARDS_ICON);
-                    }
 
                     if (!shouldShowSharingHubPreference()) {
                         indexData.removeEntryForKey(frag, PREF_BRAVE_DISABLE_SHARING_HUB);
