@@ -241,7 +241,7 @@ jobs:
 
           if [ ! -f "$OUT_DIR_ANDROID/build.ninja" ] || [ ! -f "$OUT_DIR_ANDROID/args.gn" ] || ! grep -q 'target_os = "android"' "$OUT_DIR_ANDROID/args.gn"; then
             echo "Generating initial Android GN build configuration..."
-            node --input-type=module -e "
+            OUT_DIR_ANDROID="$OUT_DIR_ANDROID" node --input-type=module -e "
               import config from './build/commands/lib/config.ts';
               import util from './build/commands/lib/util.ts';
               config.buildConfig = '${{ inputs.build_type }}';
@@ -249,6 +249,7 @@ jobs:
                 target_os: 'android',
                 target_arch: '${{ inputs.target_cpu }}',
                 target_android_output_format: 'apk',
+                C: process.env.OUT_DIR_ANDROID,
               });
               await util.generateNinjaFiles();
             "
