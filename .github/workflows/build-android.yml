@@ -239,9 +239,19 @@ jobs:
                   print(f'Deduplicated entries in {p}')
           " || true
 
-          if [ ! -f "$OUT_DIR_ANDROID/build.ninja" ]; then
-            echo "Generating initial GN build configuration..."
-            node ./build/commands/scripts/gn.js gen ${{ inputs.build_type }} --target_os=android
+          if [ ! -f "$OUT_DIR_ANDROID/build.ninja" ] || [ ! -f "$OUT_DIR_ANDROID/args.gn" ] || ! grep -q 'target_os = "android"' "$OUT_DIR_ANDROID/args.gn"; then
+            echo "Generating initial Android GN build configuration..."
+            node --input-type=module -e "
+              import config from './build/commands/lib/config.ts';
+              import util from './build/commands/lib/util.ts';
+              config.buildConfig = '${{ inputs.build_type }}';
+              config.update({
+                target_os: 'android',
+                target_arch: '${{ inputs.target_cpu }}',
+                target_android_output_format: 'apk',
+              });
+              await util.generateNinjaFiles();
+            "
 
             # Append optimization and debloat parameters to args.gn without clobbering imports
             {
@@ -260,6 +270,7 @@ jobs:
             } >> "$OUT_DIR_ANDROID/args.gn"
 
             node ./build/commands/scripts/gn.js gen ${{ inputs.build_type }} --target_os=android
+            touch "$OUT_DIR_ANDROID/.gn_refreshed_v4"
             echo "Generated build.ninja and args.gn successfully."
           elif [ ! -f "$OUT_DIR_ANDROID/.gn_refreshed_v4" ] || [ ! -f "$OUT_DIR_ANDROID/gen/brave/android/java_resources.res.sources" ]; then
             echo "Refreshing GN ninja files and invalidating cached Java/resource artifacts..."
