@@ -251,26 +251,21 @@ jobs:
                 target_android_output_format: 'apk',
                 C: process.env.OUT_DIR_ANDROID,
               });
+              Object.assign(config.extraGnArgs, {
+                target_android_output_format: 'apk',
+                brave_services_key: 'dummy',
+                enable_brave_wallet: false,
+                enable_brave_rewards: false,
+                enable_brave_vpn_v1: false,
+                enable_brave_vpn_v2: false,
+                enable_brave_ads: false,
+                enable_brave_stats_updater: false,
+                treat_warnings_as_errors: false,
+                symbol_level: 0,
+                blink_symbol_level: 0,
+              });
               await util.generateNinjaFiles();
             "
-
-            # Append optimization and debloat parameters to args.gn without clobbering imports
-            {
-              echo ""
-              echo "# Custom Android debloat and optimization flags:"
-              echo "target_android_output_format = \"apk\""
-              echo "enable_brave_wallet = false"
-              echo "enable_brave_rewards = false"
-              echo "enable_brave_vpn_v1 = false"
-              echo "enable_brave_vpn_v2 = false"
-              echo "enable_brave_ads = false"
-              echo "enable_brave_stats_updater = false"
-              echo "treat_warnings_as_errors = false"
-              echo "symbol_level = 0"
-              echo "blink_symbol_level = 0"
-            } >> "$OUT_DIR_ANDROID/args.gn"
-
-            node ./build/commands/scripts/gn.js gen ${{ inputs.build_type }} --target_os=android
             touch "$OUT_DIR_ANDROID/.gn_refreshed_v4"
             echo "Generated build.ninja and args.gn successfully."
           elif [ ! -f "$OUT_DIR_ANDROID/.gn_refreshed_v4" ] || [ ! -f "$OUT_DIR_ANDROID/gen/brave/android/java_resources.res.sources" ]; then
