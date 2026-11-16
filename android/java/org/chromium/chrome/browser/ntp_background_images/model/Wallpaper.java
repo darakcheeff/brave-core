@@ -76,7 +76,7 @@ public class Wallpaper extends NTPImage {
         return mIsRichMedia;
     }
 
-    public @NewTabPageAdMetricType.EnumType int metricType() {
+    public int metricType() {
         return mMetricType;
     }
 }
