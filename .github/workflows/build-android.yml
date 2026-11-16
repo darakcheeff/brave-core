@@ -453,8 +453,7 @@ jobs:
           fi
           echo "Using ninja binary: $NINJA_BIN"
 
-          # Ensure qrreader_java is built and has no duplicate com.google.android.gms.* classes
-          "$NINJA_BIN" -C "$OUT_DIR" brave/android:qrreader_java
+          # Strip duplicate com.google.android.gms.* classes from qrreader_java jars if present
           python3 - "$OUT_DIR" << 'PYEOF'
           import glob, os, sys, zipfile
           out_dir = sys.argv[1]
