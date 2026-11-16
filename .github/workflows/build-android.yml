@@ -255,6 +255,7 @@ jobs:
                 target_android_output_format: 'apk',
                 is_official_build: false,
                 enable_android_secondary_abi: false,
+                skip_secondary_abi_for_cq: true,
                 android_static_analysis: 'off',
                 enable_brave_wallet: false,
                 enable_brave_rewards: false,
