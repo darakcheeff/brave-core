@@ -18,7 +18,7 @@ index 6b9413f634e59624356f64429523af6502f78fd3..ad3e7de3cfc31539834eae8462cb285e
      }
  
      # Java and native targets form two independent compile graphs. Deps from
-@@ -699,6 +701,14 @@ template("chrome_common_apk_or_module_tmpl") {
+@@ -699,6 +701,15 @@ template("chrome_common_apk_or_module_tmpl") {
                                   "version_code",
                                   "version_name",
                                 ])
@@ -30,6 +30,7 @@ index 6b9413f634e59624356f64429523af6502f78fd3..ad3e7de3cfc31539834eae8462cb285e
 +            "//brave/third_party/android_deps:com_wireguard_android($default_toolchain)",
 +            "target_out_dir") + "/com_wireguard_android_java/jni"
 +    loadable_modules += [ "$_libwireguard_dir/$android_app_abi/libwg-go.so" ]
++    loadable_modules += [ "//brave/third_party/tor_android/jni/$android_app_abi/libtor.so" ]
    }
  }
  

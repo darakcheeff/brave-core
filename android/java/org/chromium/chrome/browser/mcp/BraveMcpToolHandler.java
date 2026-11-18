@@ -110,12 +110,6 @@ public final class BraveMcpToolHandler {
     }
 
     private static String handleGetDom(BraveActivity activity, JSONObject args) throws Exception {
-        Tab tab = getActiveTab(activity);
-        WebContents webContents = tab.getWebContents();
-        if (webContents == null) {
-            throw new IllegalStateException("Tab web contents is null");
-        }
-
         String mode = args.optString("mode", "markdown").toLowerCase();
         String selector = args.optString("selector", "").trim();
         String selectorJs = selector.isEmpty() ? "null" : "\"" + BraveMcpUtils.escapeJsString(selector) + "\"";
@@ -180,16 +174,10 @@ public final class BraveMcpToolHandler {
                     + "})()";
         }
 
-        return evaluateJs(webContents, script, 10);
+        return evaluateJs(activity, script, 10);
     }
 
     private static String handleClick(BraveActivity activity, JSONObject args) throws Exception {
-        Tab tab = getActiveTab(activity);
-        WebContents webContents = tab.getWebContents();
-        if (webContents == null) {
-            throw new IllegalStateException("Tab web contents is null");
-        }
-
         String selector = args.optString("selector", "").trim();
         String script;
         if (!selector.isEmpty()) {
@@ -227,16 +215,10 @@ public final class BraveMcpToolHandler {
             throw new IllegalArgumentException("Either selector or (x, y) coordinates must be provided");
         }
 
-        return evaluateJs(webContents, script, 8);
+        return evaluateJs(activity, script, 8);
     }
 
     private static String handleType(BraveActivity activity, JSONObject args) throws Exception {
-        Tab tab = getActiveTab(activity);
-        WebContents webContents = tab.getWebContents();
-        if (webContents == null) {
-            throw new IllegalStateException("Tab web contents is null");
-        }
-
         String text = args.optString("text", "");
         String selector = args.optString("selector", "").trim();
         String escapedText = BraveMcpUtils.escapeJsString(text);
@@ -264,17 +246,17 @@ public final class BraveMcpToolHandler {
                     + "})()";
         }
 
-        return evaluateJs(webContents, script, 8);
+        return evaluateJs(activity, script, 8);
     }
 
     private static String handleScreenshot(BraveActivity activity, JSONObject args) throws Exception {
-        Tab tab = getActiveTab(activity);
         int quality = args.optInt("quality", 80);
         final int finalQuality = Math.max(10, Math.min(100, quality));
 
         CompletableFuture<String> future = new CompletableFuture<>();
         ThreadUtils.runOnUiThread(() -> {
             try {
+                Tab tab = getActiveTab(activity);
                 View view = tab.getView();
                 if (view == null || view.getWidth() <= 0 || view.getHeight() <= 0) {
                     future.complete("Error: Tab view is not initialized or has zero dimensions");
@@ -384,18 +366,12 @@ public final class BraveMcpToolHandler {
     }
 
     private static String handleEvaluateScript(BraveActivity activity, JSONObject args) throws Exception {
-        Tab tab = getActiveTab(activity);
-        WebContents webContents = tab.getWebContents();
-        if (webContents == null) {
-            throw new IllegalStateException("Tab web contents is null");
-        }
-
         String script = args.optString("script", "").trim();
         if (script.isEmpty()) {
             throw new IllegalArgumentException("Missing required parameter: script");
         }
 
-        return evaluateJs(webContents, script, 10);
+        return evaluateJs(activity, script, 10);
     }
 
     private static Tab getActiveTab(BraveActivity activity) {
@@ -406,10 +382,17 @@ public final class BraveMcpToolHandler {
         return tab;
     }
 
-    private static String evaluateJs(WebContents webContents, String script, int timeoutSeconds) {
+    private static String evaluateJs(BraveActivity activity, String script, int timeoutSeconds) {
         CompletableFuture<String> future = new CompletableFuture<>();
         ThreadUtils.runOnUiThread(() -> {
             try {
+                Tab tab = getActiveTab(activity);
+                WebContents webContents = tab.getWebContents();
+                if (webContents == null) {
+                    future.completeExceptionally(
+                            new IllegalStateException("Tab web contents is null"));
+                    return;
+                }
                 webContents.evaluateJavaScript(script, (result) -> {
                     future.complete(result != null ? result : "");
                 });

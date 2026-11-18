@@ -209,6 +209,7 @@ public class BraveTorManager {
             mTorProcess = null;
         }
 
+        org.chromium.chrome.browser.app.BraveActivity.setTorProxyConfig("");
         notifyStopped();
         Log.i(TAG, "Tor daemon stopped");
     }
@@ -335,6 +336,7 @@ public class BraveTorManager {
         }
 
         if (mIsRunning.get()) {
+            mIsRunning.set(false);
             notifyError("Failed to connect to Tor control port 127.0.0.1:" + controlPort);
         }
     }
@@ -366,6 +368,8 @@ public class BraveTorManager {
 
                             if (percent >= 100) {
                                 mIsBootstrapped.set(true);
+                                org.chromium.chrome.browser.app.BraveActivity.setTorProxyConfig(
+                                        BraveTorProxyController.getTorProxyUri());
                                 notifyReady();
                             }
                         } catch (NumberFormatException ignored) {}

@@ -316,8 +316,6 @@ public abstract class BraveActivity extends ChromeActivity
         mSafeBrowsingFlagEnabled =
                 ChromeFeatureList.isEnabled(BraveFeatureList.BRAVE_ANDROID_SAFE_BROWSING);
 
-        executeInitSafeBrowsing(0);
-
         // Executes Leo voice prompt if it was triggered from quick search app widget
         maybeExecuteLeoVoicePrompt();
 
@@ -1666,10 +1664,16 @@ public abstract class BraveActivity extends ChromeActivity
         return mBrowserControlsManagerSupplier;
     }
 
+    public static void setTorProxyConfig(String proxyUri) {
+        org.chromium.base.ThreadUtils.runOnUiThread(
+                () -> BraveActivityJni.get().setTorProxy(proxyUri != null ? proxyUri : ""));
+    }
+
     @NativeMethods
     interface Natives {
         void restartStatsUpdater();
         String getSafeBrowsingApiKey();
+        void setTorProxy(String proxyUri);
     }
 
     @Override
@@ -1739,31 +1743,6 @@ public abstract class BraveActivity extends ChromeActivity
         if (mBookmarkManagerOpenerSupplier.get() != null) {
             mBookmarkManagerOpenerSupplier.get().showBookmarkManager(this, currentTab, profile);
         }
-    }
-
-    // We call that method with an interval
-    // BraveSafeBrowsingApiHandler.SAFE_BROWSING_INIT_INTERVAL_MS,
-    // as upstream does, to keep the GmsCore process alive.
-    private void executeInitSafeBrowsing(long delay) {
-        // SafeBrowsingBridge.getSafeBrowsingState() has to be executed on a main thread
-        PostTask.postDelayedTask(
-                TaskTraits.UI_DEFAULT,
-                () -> {
-                    SafeBrowsingBridge safeBrowsingBridge =
-                            new SafeBrowsingBridge(getCurrentProfile());
-                    if (safeBrowsingBridge.getSafeBrowsingState()
-                            != SafeBrowsingState.NO_SAFE_BROWSING) {
-                        // initSafeBrowsing could be executed on a background thread
-                        PostTask.postTask(
-                                TaskTraits.USER_VISIBLE_MAY_BLOCK,
-                                () -> {
-                                    BraveSafeBrowsingApiHandler.getInstance().initSafeBrowsing();
-                                });
-                    }
-                    executeInitSafeBrowsing(
-                            BraveSafeBrowsingApiHandler.SAFE_BROWSING_INIT_INTERVAL_MS);
-                },
-                delay);
     }
 
     public void updateBottomSheetPosition(int orientation) {

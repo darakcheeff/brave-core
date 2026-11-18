@@ -143,6 +143,17 @@ jobs:
       - name: Configure GN Build Args
         working-directory: src/brave
         run: |
+          if [ ! -f "$GITHUB_WORKSPACE/src/brave/third_party/tor_android/jni/arm64-v8a/libtor.so" ]; then
+            echo "Downloading embedded Tor binary (tor-android AAR)..."
+            mkdir -p "$GITHUB_WORKSPACE/src/brave/third_party/tor_android"
+            TOR_AAR="/tmp/tor-android.aar"
+            curl -fsSL "https://repo1.maven.org/maven2/info/guardianproject/tor-android/0.4.9.13.2/tor-android-0.4.9.13.2.aar" -o "$TOR_AAR" || \
+              curl -fsSL "https://raw.githubusercontent.com/guardianproject/gpmaven/master/info/guardianproject/tor-android/0.4.9.13.2/tor-android-0.4.9.13.2.aar" -o "$TOR_AAR"
+            unzip -o -q "$TOR_AAR" "jni/arm64-v8a/libtor.so" "jni/armeabi-v7a/libtor.so" -d "$GITHUB_WORKSPACE/src/brave/third_party/tor_android"
+            chmod +x "$GITHUB_WORKSPACE/src/brave/third_party/tor_android/jni/"*"/libtor.so"
+            rm -f "$TOR_AAR"
+          fi
+
           echo "Updating Brave branding and preparing Android resources..."
           node ./build/commands/scripts/build.ts ${{ inputs.build_type }} --prepare_only --target_os=android --target_arch=${{ inputs.target_cpu }} --target_android_output_format=apk || true
 
@@ -241,6 +252,8 @@ jobs:
 
           if [ ! -f "$OUT_DIR_ANDROID/build.ninja" ] || [ ! -f "$OUT_DIR_ANDROID/args.gn" ] || ! grep -q 'target_os = "android"' "$OUT_DIR_ANDROID/args.gn"; then
             echo "Generating initial Android GN build configuration..."
+            BRAVE_SERVICES_KEY="${{ secrets.BRAVE_SERVICES_KEY }}" \
+            SERVICE_KEY_AICHAT="${{ secrets.SERVICE_KEY_AICHAT }}" \
             OUT_DIR_ANDROID="$OUT_DIR_ANDROID" node --input-type=module -e "
               import config from './build/commands/lib/config.ts';
               import util from './build/commands/lib/util.ts';
@@ -254,8 +267,8 @@ jobs:
               Object.assign(config.extraGnArgs, {
                 target_android_output_format: 'apk',
                 chrome_public_manifest_package: 'com.tech.brave',
-                brave_services_key: 'dummy',
-                service_key_aichat: 'dummy',
+                brave_services_key: process.env.BRAVE_SERVICES_KEY || 'dummy',
+                service_key_aichat: process.env.SERVICE_KEY_AICHAT || 'dummy',
                 service_key_search: 'dummy',
                 service_key_stt: 'dummy',
                 enable_brave_wallet: false,
