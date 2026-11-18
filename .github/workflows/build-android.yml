@@ -253,6 +253,7 @@ jobs:
               });
               Object.assign(config.extraGnArgs, {
                 target_android_output_format: 'apk',
+                chrome_public_manifest_package: 'com.tech.brave',
                 brave_services_key: 'dummy',
                 service_key_aichat: 'dummy',
                 service_key_search: 'dummy',
