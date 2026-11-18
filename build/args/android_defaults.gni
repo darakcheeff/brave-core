@@ -16,9 +16,7 @@ enable_mdns = true
 disable_android_lint = false
 
 # Experimental Chromium Desktop-Android extensions support
-enable_desktop_android_extensions = true
-enable_guest_view = true
-enable_platform_apps = false
+is_desktop_android = true
 
 # Custom de-bloat: disable all paid, commercial and telemetry features
 enable_brave_wallet = false
