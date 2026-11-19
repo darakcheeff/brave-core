@@ -1,0 +1,7 @@
+Name: tor-android
+URL: https://github.com/guardianproject/tor-android
+Version: 0.4.9.13.2
+License: BSD-3-Clause
+License File: /brave/third_party/tor_android/LICENSE
+Security Critical: yes
+Shipped: yes
