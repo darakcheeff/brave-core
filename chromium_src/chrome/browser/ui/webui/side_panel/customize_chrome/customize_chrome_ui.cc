@@ -3,6 +3,7 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this file,
 // You can obtain one at https://mozilla.org/MPL/2.0/.
 
+#include "build/build_config.h"
 #include "chrome/browser/ui/webui/side_panel/customize_chrome/customize_chrome_ui.h"
 
 #include "chrome/grit/generated_resources.h"
@@ -16,11 +17,13 @@
 #endif  // defined(TOOLKIT_VIEWS)
 
 // Add Brave-specific strings to the WebUI data source.
+#if !BUILDFLAG(IS_ANDROID)
 #define AddLocalizedStrings(...)                                      \
   AddLocalizedStrings(__VA_ARGS__);                                   \
   source->AddLocalizedString("braveCustomizeMenuToolbarLabel",        \
                              IDS_BRAVE_CUSTOMIZE_MENU_TOOLBAR_LABEL); \
   source->AddLocalizedStrings(webui::kCustomizeChromeStrings)
+#endif  // !BUILDFLAG(IS_ANDROID)
 #define SetupWebUIDataSource(...)    \
   SetupWebUIDataSource(__VA_ARGS__); \
   source->AddBoolean("showDeviceThemeToggle", false)
@@ -47,7 +50,9 @@
 #undef IDS_NTP_CUSTOMIZE_APPEARANCE_LABEL
 #undef CreatePageHandler
 #undef SetupWebUIDataSource
+#if !BUILDFLAG(IS_ANDROID)
 #undef AddLocalizedStrings
+#endif  // !BUILDFLAG(IS_ANDROID)
 
 void CustomizeChromeUI::CreatePageHandler(
     mojo::PendingRemote<side_panel::mojom::CustomizeChromePage> pending_page,
