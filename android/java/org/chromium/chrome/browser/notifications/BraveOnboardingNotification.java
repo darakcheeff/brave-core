@@ -42,27 +42,7 @@ public class BraveOnboardingNotification extends BroadcastReceiver {
     private static final String COUNTRY_CODE_FR = "fr_FR";
 
     public static void showOnboardingNotification() {
-        Context context = ContextUtils.getApplicationContext();
-        if (context == null) return;
-        NotificationManagerProxyImpl notificationManager = new NotificationManagerProxyImpl();
-
-        NotificationBuilderBase notificationBuilder =
-                new BraveNotificationBuilder(context)
-                        .setTitle(context.getString(R.string.brave_ui_brave_rewards))
-                        .setBody(context.getString(R.string.this_is_your_first_ad))
-                        .setSmallIconId(R.drawable.ic_chrome)
-                        .setDefaults(Notification.DEFAULT_ALL)
-                        .setContentIntent(getDeepLinkIntent(context))
-                        .setOrigin(getNotificationUrl());
-
-        NotificationWrapper notification =
-                notificationBuilder.build(
-                        new NotificationMetadata(
-                                NotificationUmaTracker.SystemNotificationType
-                                        .UNKNOWN /* Underlying code doesn't track UNKNOWN */,
-                                BRAVE_ONBOARDING_NOTIFICATION_TAG /* notificationTag */,
-                                BRAVE_ONBOARDING_NOTIFICATION_ID /* notificationId */));
-        notificationManager.notify(notification);
+        return;
     }
 
     public static PendingIntentProvider getDeepLinkIntent(Context context) {

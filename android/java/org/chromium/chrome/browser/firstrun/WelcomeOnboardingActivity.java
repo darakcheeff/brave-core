@@ -255,6 +255,17 @@ public class WelcomeOnboardingActivity extends FirstRunActivityBase
     @Override
     public void triggerLayoutInflation() {
         super.triggerLayoutInflation();
+        ChromeSharedPreferences.getInstance()
+                .writeBoolean(OnboardingPrefManager.SHOULD_SHOW_SEARCH_WIDGET_PROMO, false);
+        CustomizeBraveMenu.initDefaultInvisibleItems(getResources());
+        OnboardingPrefManager.getInstance().setP3aOnboardingShown(true);
+        OnboardingPrefManager.getInstance().setOnboardingNotificationShown(true);
+        FirstRunStatus.setFirstRunFlowComplete(true);
+        FirstRunUtils.setEulaAccepted();
+        launchPendingIntentAndFinish();
+        if (Boolean.TRUE.booleanValue()) {
+            return;
+        }
         setContentView(R.layout.activity_welcome_onboarding);
 
         mSplashGuideline = findViewById(R.id.splash_anchor);

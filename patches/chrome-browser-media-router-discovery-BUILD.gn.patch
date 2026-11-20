@@ -1,0 +1,13 @@
+diff --git a/chrome/browser/media/router/discovery/BUILD.gn b/chrome/browser/media/router/discovery/BUILD.gn
+index 1111111111111111111111111111111111111111..2222222222222222222222222222222222222222 100644
+--- a/chrome/browser/media/router/discovery/BUILD.gn
++++ b/chrome/browser/media/router/discovery/BUILD.gn
+@@ -4,7 +4,7 @@
+ 
+ import("//build/config/features.gni")
+ 
+-assert(!is_android || is_desktop_android, "Not supported on mobile")
++assert(!is_android || is_desktop_android || enable_desktop_android_extensions, "Not supported on mobile")
+ 
+ static_library("discovery") {
+   visibility = [

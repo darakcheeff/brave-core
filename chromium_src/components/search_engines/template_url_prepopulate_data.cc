@@ -48,9 +48,13 @@ std::unique_ptr<TemplateURLData> GetPrepopulatedFallbackSearch(
     return nullptr;
   }
 
+  // Always default to Google for regular and standard incognito profiles
+  // regardless of region (Tor private mode overrides to Brave Search).
+  const int target_engine_id =
+      static_cast<int>(TemplateURLPrepopulateData::PREPOPULATED_ENGINE_ID_GOOGLE);
   std::unique_ptr<TemplateURLData> brave_engine;
   for (auto& engine : prepopulated_engines) {
-    if (engine->prepopulate_id == static_cast<int>(default_engine_id)) {
+    if (engine->prepopulate_id == target_engine_id) {
       return std::move(engine);
     } else if (engine->prepopulate_id ==
                TemplateURLPrepopulateData::PREPOPULATED_ENGINE_ID_BRAVE) {

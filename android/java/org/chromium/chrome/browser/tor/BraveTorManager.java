@@ -210,6 +210,7 @@ public class BraveTorManager {
         }
 
         org.chromium.chrome.browser.app.BraveActivity.setTorProxyConfig("");
+        updatePrivateSearchEngine("Google");
         notifyStopped();
         Log.i(TAG, "Tor daemon stopped");
     }
@@ -370,6 +371,7 @@ public class BraveTorManager {
                                 mIsBootstrapped.set(true);
                                 org.chromium.chrome.browser.app.BraveActivity.setTorProxyConfig(
                                         BraveTorProxyController.getTorProxyUri());
+                                updatePrivateSearchEngine("Brave");
                                 notifyReady();
                             }
                         } catch (NumberFormatException ignored) {}
@@ -381,6 +383,28 @@ public class BraveTorManager {
                 Log.e(TAG, "Error in Tor control monitor thread", e);
             }
         }
+    }
+
+    private static void updatePrivateSearchEngine(String shortName) {
+        org.chromium.base.ThreadUtils.runOnUiThread(() -> {
+            try {
+                org.chromium.chrome.browser.search_engines.settings.BraveSearchEngineAdapter
+                        .setPrivateDSEPrefs(shortName);
+                org.chromium.chrome.browser.profiles.Profile regularProfile =
+                        org.chromium.chrome.browser.profiles.ProfileManager
+                                .getLastUsedRegularProfile();
+                if (regularProfile != null) {
+                    org.chromium.chrome.browser.profiles.Profile otrProfile =
+                            regularProfile.getPrimaryOtrProfile(/*createIfNeeded=*/false);
+                    if (otrProfile != null) {
+                        org.chromium.chrome.browser.search_engines.settings.BraveSearchEngineAdapter
+                                .updateActiveDSE(otrProfile, null);
+                    }
+                }
+            } catch (Exception e) {
+                Log.w(TAG, "Failed to update private search engine to " + shortName, e);
+            }
+        });
     }
 
     private static String bytesToHex(byte[] bytes) {
