@@ -156,7 +156,7 @@ jobs:
 
           echo "Updating Brave branding and preparing Android resources..."
           if [ -f "$GITHUB_WORKSPACE/src/chrome/browser/media/router/discovery/BUILD.gn" ]; then
-            sed -i 's/assert(!is_android || is_desktop_android,/assert(!is_android || is_desktop_android || enable_desktop_android_extensions,/' "$GITHUB_WORKSPACE/src/chrome/browser/media/router/discovery/BUILD.gn"
+            sed -i 's/assert(!is_android || is_desktop_android.*/assert(!is_android || true, "Not supported on mobile")/' "$GITHUB_WORKSPACE/src/chrome/browser/media/router/discovery/BUILD.gn"
           fi
           node ./build/commands/scripts/build.ts ${{ inputs.build_type }} --prepare_only --target_os=android --target_arch=${{ inputs.target_cpu }} --target_android_output_format=apk || true
 
