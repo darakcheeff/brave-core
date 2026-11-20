@@ -39,7 +39,7 @@ JNI_BraveActivity_GetSafeBrowsingApiKey(JNIEnv* env) {
 
 static void JNI_BraveActivity_SetTorProxy(
     JNIEnv* env,
-    const base::android::JavaParamRef<jstring>& j_proxy_uri) {
+    const base::android::JavaRef<jstring>& j_proxy_uri) {
   Profile* profile = ProfileManager::GetLastUsedProfile();
   if (!profile) {
     return;
@@ -53,7 +53,7 @@ static void JNI_BraveActivity_SetTorProxy(
   if (proxy_uri.empty()) {
     prefs->ClearPref(proxy_config::prefs::kProxy);
   } else {
-    base::Value::Dict dict;
+    base::DictValue dict;
     dict.Set("mode", "fixed_servers");
     dict.Set("server", proxy_uri);
     prefs->SetDict(proxy_config::prefs::kProxy, std::move(dict));
