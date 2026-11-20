@@ -7,6 +7,12 @@
 
 #if !BUILDFLAG(IS_ANDROID)
 #include "brave/browser/extensions/brave_extension_management.h"
+#else
+#define BraveExtensionManagement ExtensionManagement
 #endif
 
 #include <chrome/browser/extensions/extension_management.cc>
+
+#if BUILDFLAG(IS_ANDROID)
+#undef BraveExtensionManagement
+#endif
