@@ -39,6 +39,7 @@
 #include "brave/components/ntp_background_images/common/view_counter_pref_registry.h"
 #include "brave/components/p3a/metric_log_store.h"
 #include "brave/components/p3a/p3a_service.h"
+#include "brave/components/p3a/pref_names.h"
 #include "brave/components/p3a/rotation_scheduler.h"
 #include "brave/components/playlist/core/common/buildflags/buildflags.h"
 #include "brave/components/skus/browser/skus_utils.h"
@@ -197,7 +198,7 @@ void RegisterLocalStatePrefs(PrefRegistrySimple* registry) {
 #endif
   registry->SetDefaultPrefValue(
       metrics::prefs::kMetricsReportingEnabled,
-      base::Value(GetDefaultPrefValueForMetricsReporting()));
+      base::Value(false));
 
   p3a::P3AService::RegisterPrefs(registry,
 #if !BUILDFLAG(IS_ANDROID)
@@ -207,6 +208,7 @@ void RegisterLocalStatePrefs(PrefRegistrySimple* registry) {
                                  // doesn't use this arg on Android
                                  false);
 #endif  // !BUILDFLAG(IS_ANDROID)
+  registry->SetDefaultPrefValue(p3a::kP3AEnabled, base::Value(false));
 
   brave_shields::RegisterShieldsP3ALocalPrefs(registry);
 #if !BUILDFLAG(IS_ANDROID)

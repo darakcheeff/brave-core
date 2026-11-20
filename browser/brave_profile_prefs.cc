@@ -73,7 +73,9 @@
 #include "components/history/core/common/pref_names.h"
 #include "components/ntp_tiles/tile_type.h"
 #include "components/omnibox/browser/omnibox_prefs.h"
+#include "components/autofill/core/common/autofill_prefs.h"
 #include "components/password_manager/core/common/password_manager_pref_names.h"
+#include "components/payments/core/payment_prefs.h"
 #include "components/policy/core/common/policy_pref_names.h"
 #include "components/pref_registry/pref_registry_syncable.h"
 #include "components/prefs/pref_registry_simple.h"
@@ -270,10 +272,21 @@ void OverrideDefaultPrefValues(user_prefs::PrefRegistrySyncable* registry) {
       password_manager::prefs::kPasswordsPrefWithNewLabelUsed,
       base::Value(true));
 
-  // Password leak detection should be disabled
+  // Password leak detection and auto-save should be disabled by default
   registry->SetDefaultPrefValue(
       password_manager::prefs::kPasswordLeakDetectionEnabled,
       base::Value(false));
+  registry->SetDefaultPrefValue(
+      password_manager::prefs::kCredentialsEnableService, base::Value(false));
+  registry->SetDefaultPrefValue(
+      password_manager::prefs::kCredentialsEnableAutosignin,
+      base::Value(false));
+  registry->SetDefaultPrefValue(autofill::prefs::kAutofillProfileEnabled,
+                                base::Value(false));
+  registry->SetDefaultPrefValue(autofill::prefs::kAutofillCreditCardEnabled,
+                                base::Value(false));
+  registry->SetDefaultPrefValue(payments::kCanMakePaymentEnabled,
+                                base::Value(false));
   registry->SetDefaultPrefValue(syncer::prefs::internal::kSyncPayments,
                                 base::Value(false));
 

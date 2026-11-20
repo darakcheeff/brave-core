@@ -44,12 +44,19 @@ static void JNI_BraveActivity_SetTorProxy(
   if (!profile) {
     return;
   }
-  PrefService* prefs = profile->GetPrefs();
+  // Route Tor traffic only through the isolated off-the-record profile,
+  // mirroring desktop Tor windows while keeping regular tabs direct.
+  std::string proxy_uri =
+      base::android::ConvertJavaStringToUTF8(env, j_proxy_uri);
+  Profile* otr_profile = profile->GetPrimaryOTRProfile(
+      /*create_if_needed=*/!proxy_uri.empty());
+  if (!otr_profile) {
+    return;
+  }
+  PrefService* prefs = otr_profile->GetPrefs();
   if (!prefs) {
     return;
   }
-  std::string proxy_uri =
-      base::android::ConvertJavaStringToUTF8(env, j_proxy_uri);
   if (proxy_uri.empty()) {
     prefs->ClearPref(proxy_config::prefs::kProxy);
   } else {

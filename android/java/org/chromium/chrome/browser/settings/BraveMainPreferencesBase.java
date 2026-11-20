@@ -347,11 +347,7 @@ public abstract class BraveMainPreferencesBase extends BravePreferenceFragment
             setPreferenceOrder(PREF_CLOSING_ALL_TABS_CLOSES_BRAVE, ++generalOrder);
         }
 
-        if (ChromeFeatureList.isEnabled(BraveFeatureList.BRAVE_ORIGIN)) {
-            setPreferenceOrder(PREF_BRAVE_ORIGIN, ++generalOrder);
-        } else {
-            removePreferenceIfPresent(PREF_BRAVE_ORIGIN);
-        }
+        removePreferenceIfPresent(PREF_BRAVE_ORIGIN);
 
         // Only present when the upstream default browser entry point is enabled.
         Preference defaultBrowser = findPreference(MainSettings.PREF_DEFAULT_BROWSER);

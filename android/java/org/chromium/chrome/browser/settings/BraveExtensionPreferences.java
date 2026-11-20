@@ -84,7 +84,7 @@ public class BraveExtensionPreferences extends BravePreferenceFragment
     }
 
     public static boolean isAutoUpdateEnabled() {
-        return ChromeSharedPreferences.getInstance().readBoolean(KEY_AUTO_UPDATE_ENABLED, true);
+        return ChromeSharedPreferences.getInstance().readBoolean(KEY_AUTO_UPDATE_ENABLED, false);
     }
 
     public static void setAutoUpdateEnabled(boolean enabled) {

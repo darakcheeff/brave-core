@@ -66,7 +66,7 @@ void SetExtensionPinned(PrefService* prefs,
 }
 
 void RegisterProfilePrefs(user_prefs::PrefRegistrySyncable* registry) {
-  registry->RegisterBooleanPref(kBraveExtensionAutoUpdateEnabled, true);
+  registry->RegisterBooleanPref(kBraveExtensionAutoUpdateEnabled, false);
   registry->RegisterListPref(kBravePinnedExtensionsList);
 }
 
