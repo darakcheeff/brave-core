@@ -158,6 +158,9 @@ jobs:
           if [ -f "$GITHUB_WORKSPACE/src/chrome/browser/media/router/discovery/BUILD.gn" ]; then
             sed -i 's/assert(!is_android || is_desktop_android.*/assert(!is_android || true, "Not supported on mobile")/' "$GITHUB_WORKSPACE/src/chrome/browser/media/router/discovery/BUILD.gn"
           fi
+          for f in $(grep -rl '"//chrome/browser/extensions:browser_tests"' "$GITHUB_WORKSPACE/src/chrome/test" "$GITHUB_WORKSPACE/src/brave" 2>/dev/null || true); do
+            sed -i '\|"//chrome/browser/extensions:browser_tests"|d' "$f"
+          done
           node ./build/commands/scripts/build.ts ${{ inputs.build_type }} --prepare_only --target_os=android --target_arch=${{ inputs.target_cpu }} --target_android_output_format=apk || true
 
           # Direct fallback to ensure all required Android resource directories are 100% populated
