@@ -6,6 +6,7 @@
 package org.chromium.chrome.browser.tor;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -154,10 +155,14 @@ public class BraveTorManager {
                 int controlPort = getControlPort();
                 File torrc = writeTorrcConfig(torDir, torDataDir, socksPort, controlPort);
 
-                // Attempt to launch libtor.so or binary from nativeLibraryDir
+                // Attempt to launch libtor.so from nativeLibraryDir, or extract from APK if extractNativeLibs=false
                 String nativeLibDir = context.getApplicationInfo().nativeLibraryDir;
                 File torLib = new File(nativeLibDir, "libtor.so");
-                if (torLib.exists()) {
+                if (!torLib.exists()) {
+                    torLib = extractTorBinary(context, torDir);
+                }
+                if (torLib != null && torLib.exists()) {
+                    torLib.setExecutable(true, true);
                     Log.i(TAG, "Launching embedded Tor from " + torLib.getAbsolutePath());
                     ProcessBuilder pb = new ProcessBuilder(
                             torLib.getAbsolutePath(),
@@ -213,6 +218,41 @@ public class BraveTorManager {
         updatePrivateSearchEngine("Google");
         notifyStopped();
         Log.i(TAG, "Tor daemon stopped");
+    }
+
+    @Nullable
+    private File extractTorBinary(Context context, File torDir) {
+        File outFile = new File(torDir, "libtor.so");
+        if (outFile.exists() && outFile.length() > 0) {
+            return outFile;
+        }
+        String apkPath = context.getApplicationInfo().sourceDir;
+        if (apkPath == null) return null;
+        try (java.util.zip.ZipFile zip = new java.util.zip.ZipFile(apkPath)) {
+            java.util.zip.ZipEntry entry = null;
+            for (String abi : Build.SUPPORTED_ABIS) {
+                entry = zip.getEntry("lib/" + abi + "/libtor.so");
+                if (entry != null) break;
+            }
+            if (entry == null) {
+                entry = zip.getEntry("lib/arm64-v8a/libtor.so");
+            }
+            if (entry == null) return null;
+            try (java.io.InputStream in = zip.getInputStream(entry);
+                 FileOutputStream out = new FileOutputStream(outFile)) {
+                byte[] buf = new byte[16384];
+                int n;
+                while ((n = in.read(buf)) > 0) {
+                    out.write(buf, 0, n);
+                }
+            }
+            outFile.setExecutable(true, true);
+            Log.i(TAG, "Extracted libtor.so from APK to " + outFile.getAbsolutePath());
+            return outFile;
+        } catch (Exception e) {
+            Log.e(TAG, "Failed to extract libtor.so from APK", e);
+            return null;
+        }
     }
 
     /**

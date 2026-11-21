@@ -1182,21 +1182,8 @@ public abstract class BraveActivity extends ChromeActivity
     }
 
     private void checkForYandexSE() {
-        if (ChromeSharedPreferences.getInstance()
-                .readBoolean(BravePreferenceKeys.SEARCH_CHOICE_SCREEN_INSTALL, false)) {
-            // If the install originated from the Search Choice Screen, keep Brave as default
-            return;
-        }
-        String countryCode = Locale.getDefault().getCountry();
-        if (sYandexRegions.contains(countryCode)) {
-            Profile lastUsedRegularProfile = ProfileManager.getLastUsedRegularProfile();
-            TemplateUrl yandexTemplateUrl =
-                    BraveSearchEngineUtils.getTemplateUrlByShortName(
-                            lastUsedRegularProfile, OnboardingPrefManager.YANDEX);
-            if (yandexTemplateUrl != null) {
-                BraveSearchEngineUtils.setDSEPrefs(yandexTemplateUrl, lastUsedRegularProfile);
-            }
-        }
+        // Keep Google as default search engine across all regions
+        return;
     }
 
     private void checkForNotificationData() {

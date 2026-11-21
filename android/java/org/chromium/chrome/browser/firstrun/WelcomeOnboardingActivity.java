@@ -261,7 +261,6 @@ public class WelcomeOnboardingActivity extends FirstRunActivityBase
         OnboardingPrefManager.getInstance().setP3aOnboardingShown(true);
         OnboardingPrefManager.getInstance().setOnboardingNotificationShown(true);
         FirstRunStatus.setFirstRunFlowComplete(true);
-        FirstRunUtils.setEulaAccepted();
         launchPendingIntentAndFinish();
         if (Boolean.TRUE.booleanValue()) {
             return;

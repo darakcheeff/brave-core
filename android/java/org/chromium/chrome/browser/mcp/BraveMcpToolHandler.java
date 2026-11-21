@@ -393,7 +393,7 @@ public final class BraveMcpToolHandler {
                             new IllegalStateException("Tab web contents is null"));
                     return;
                 }
-                webContents.evaluateJavaScript(script, (result) -> {
+                webContents.evaluateJavaScriptForTests(script, (result) -> {
                     future.complete(result != null ? result : "");
                 });
             } catch (Exception e) {
