@@ -449,6 +449,11 @@ jobs:
             OUT_DIR="$GITHUB_WORKSPACE/src/out/${{ inputs.build_type }}"
           fi
           echo "Output directory verified: $OUT_DIR"
+          if [ ! -f "$OUT_DIR/obj/chrome/android/libchrome.ninja" ] || [ ! -f "$OUT_DIR/.gn_refreshed_v8" ]; then
+            echo "Running gn gen directly in $OUT_DIR to refresh ninja and jni files..."
+            (cd "$GITHUB_WORKSPACE/src" && "$HOME/depot_tools/gn" gen "$OUT_DIR")
+            touch "$OUT_DIR/.gn_refreshed_v8"
+          fi
           rm -f "$OUT_DIR/obj/chrome/browser/extensions/extensions/extension_management.o"
 
           # Configure Brave python environment and propagate brave.pth
