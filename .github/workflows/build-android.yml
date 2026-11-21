@@ -450,9 +450,6 @@ jobs:
           fi
           echo "Output directory verified: $OUT_DIR"
           rm -f "$OUT_DIR/obj/chrome/browser/extensions/extensions/extension_management.o"
-          rm -rf "$OUT_DIR/gen/chrome/android/libchrome__jni_registration"* \
-            "$OUT_DIR/gen/chrome/android/chrome_public_apk"*build_config* \
-            "$OUT_DIR/gen/chrome/android/chrome_java"*build_config*
 
           # Configure Brave python environment and propagate brave.pth
           export PYTHONPATH="$GITHUB_WORKSPACE/src/brave/script:$GITHUB_WORKSPACE/src/tools/grit/grit/extern:$GITHUB_WORKSPACE/src/brave/vendor/requests:$GITHUB_WORKSPACE/src/build:$GITHUB_WORKSPACE/src/third_party/depot_tools:$PYTHONPATH"
