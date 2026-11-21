@@ -721,6 +721,28 @@ public abstract class BraveActivity extends ChromeActivity
 
         BraveMcpServerManager.getInstance().initIfEnabled(this);
 
+        if (getTabModelSelector() != null) {
+            new org.chromium.chrome.browser.tabmodel.TabModelSelectorTabObserver(
+                    getTabModelSelector()) {
+                @Override
+                public void onPageLoadStarted(
+                        org.chromium.chrome.browser.tab.Tab tab, GURL url) {
+                    if (url == null || tab == null || tab.getWebContents() == null) return;
+                    String host = url.getHost();
+                    if ("chromewebstore.google.com".equals(host)
+                            || ("chrome.google.com".equals(host)
+                                    && url.getPath() != null
+                                    && url.getPath().startsWith("/webstore"))) {
+                        org.chromium.content_public.browser.NavigationController nav =
+                                tab.getWebContents().getNavigationController();
+                        if (nav != null && !nav.getUseDesktopUserAgent()) {
+                            nav.setUseDesktopUserAgent(true, true);
+                        }
+                    }
+                }
+            };
+        }
+
         boolean isFirstInstall = PackageUtils.isFirstInstall(this);
 
         String countryCode = Locale.getDefault().getCountry();
@@ -751,7 +773,6 @@ public abstract class BraveActivity extends ChromeActivity
         if (isFirstInstall && appOpenCount == 0) {
             checkForYandexSE();
             enableSearchSuggestions();
-            setBraveAsDefaultPrivateMode();
         }
 
         if (!isFirstInstall
