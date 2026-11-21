@@ -469,7 +469,7 @@ jobs:
             OUT_DIR="$GITHUB_WORKSPACE/src/out/${{ inputs.build_type }}"
           fi
           echo "Output directory verified: $OUT_DIR"
-          rm -f "$OUT_DIR/obj/chrome/browser/extensions/extensions/extension_management.o"
+          rm -f "$OUT_DIR/obj/chrome/browser/extensions/extensions/extension_management.o" "$OUT_DIR/obj/brave/components/brave_service_keys/brave_service_keys/brave_service_key_utils.o"
 
           # Configure Brave python environment and propagate brave.pth
           export PYTHONPATH="$GITHUB_WORKSPACE/src/brave/script:$GITHUB_WORKSPACE/src/tools/grit/grit/extern:$GITHUB_WORKSPACE/src/brave/vendor/requests:$GITHUB_WORKSPACE/src/build:$GITHUB_WORKSPACE/src/third_party/depot_tools:$PYTHONPATH"

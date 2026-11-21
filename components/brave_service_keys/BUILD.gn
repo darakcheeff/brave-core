@@ -29,7 +29,12 @@ if (is_release_channel) {
   _channel = brave_channel
 }
 
-_brave_services_key_id = "$_platform-$chromium_version_major-$_channel"
+if (target_os == "android") {
+  # Match the official release APK keyId paired with extracted SERVICE_KEY_AICHAT
+  _brave_services_key_id = "android-143-release"
+} else {
+  _brave_services_key_id = "$_platform-$chromium_version_major-$_channel"
+}
 
 buildflag_header("buildflags") {
   header = "buildflags.h"
