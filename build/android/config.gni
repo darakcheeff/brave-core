@@ -8,6 +8,7 @@ import("//brave/android/brave_java_sources.gni")
 import("//brave/android/java/org/chromium/chrome/browser/billing/sources.gni")
 import("//brave/android/java/org/chromium/chrome/browser/playlist/sources.gni")
 import("//brave/build/android/bytecode/bytecode_rewriter.gni")
+import("//extensions/buildflags/buildflags.gni")
 
 declare_args() {
   brave_android_manifest_includes = []
@@ -105,6 +106,13 @@ brave_chrome_all_java_deps = [
   "//brave/browser/password_entry_edit/android/internal:java",
   "//brave/browser/ui/android/brave_account:java",
 ]
+
+if (enable_extensions_core) {
+  brave_chrome_all_java_deps += [
+    "//chrome/browser/ui/android/extensions/side_panel/internal:java",
+    "//chrome/browser/ui/android/extensions/windowing/internal:java",
+  ]
+}
 
 brave_chrome_java_srcjar_deps = [
   "//brave/android:brave_android_java_enums_srcjar",
