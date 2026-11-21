@@ -289,9 +289,9 @@ jobs:
               });
               await util.generateNinjaFiles();
             "
-            touch "$OUT_DIR_ANDROID/.gn_refreshed_v5"
+            touch "$OUT_DIR_ANDROID/.gn_refreshed_v6"
             echo "Generated build.ninja and args.gn successfully."
-          elif [ ! -f "$OUT_DIR_ANDROID/.gn_refreshed_v5" ] || [ ! -f "$OUT_DIR_ANDROID/gen/brave/android/java_resources.res.sources" ]; then
+          elif [ ! -f "$OUT_DIR_ANDROID/.gn_refreshed_v6" ] || [ ! -f "$OUT_DIR_ANDROID/gen/brave/android/java_resources.res.sources" ]; then
             echo "Refreshing GN ninja files and invalidating cached Java/resource artifacts..."
             if [ -f "$OUT_DIR_ANDROID/args.gn" ]; then
               sed -i 's/target_android_output_format = "aab"/target_android_output_format = "apk"/g' "$OUT_DIR_ANDROID/args.gn"
@@ -331,7 +331,7 @@ jobs:
                   print(f'Removed {len(lines) - len(kept)} stale provider entries from {reg}')
           PYEOF
             node ./build/commands/scripts/gn.js gen ${{ inputs.build_type }} --target_os=android
-            touch "$OUT_DIR_ANDROID/.gn_refreshed_v5"
+            touch "$OUT_DIR_ANDROID/.gn_refreshed_v6"
           else
             echo "Reusing existing build.ninja and args.gn from restored checkpoint."
           fi

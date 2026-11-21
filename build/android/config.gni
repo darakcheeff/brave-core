@@ -98,6 +98,13 @@ brave_chrome_java_deps = [
 brave_chrome_java_deps += brave_app_billing_deps
 brave_chrome_java_deps += brave_app_playlist_deps
 
+if (enable_extensions_core) {
+  brave_chrome_java_deps += [
+    "//chrome/browser/ui/android/extensions/side_panel/internal:java",
+    "//chrome/browser/ui/android/extensions/windowing/internal:java",
+  ]
+}
+
 brave_chrome_all_java_deps = [
   "//brave/android/features/tab_ui:java",
   "//brave/browser/download/internal/android:java",
@@ -106,13 +113,6 @@ brave_chrome_all_java_deps = [
   "//brave/browser/password_entry_edit/android/internal:java",
   "//brave/browser/ui/android/brave_account:java",
 ]
-
-if (enable_extensions_core) {
-  brave_chrome_all_java_deps += [
-    "//chrome/browser/ui/android/extensions/side_panel/internal:java",
-    "//chrome/browser/ui/android/extensions/windowing/internal:java",
-  ]
-}
 
 brave_chrome_java_srcjar_deps = [
   "//brave/android:brave_android_java_enums_srcjar",
