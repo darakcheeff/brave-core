@@ -162,7 +162,7 @@ jobs:
             sed -i '\|"//chrome/browser/extensions:browser_tests"|d' "$f"
           done
           for f in $(grep -rlE '"//chrome/browser/ui/android/extensions/(side_panel|windowing)/stub:java"' "$GITHUB_WORKSPACE/src/chrome/android" "$GITHUB_WORKSPACE/src/chrome/browser/ui/android/extensions" 2>/dev/null || true); do
-            sed -i -E '\|"//chrome/browser/ui/android/extensions/(side_panel|windowing)/stub:java"|d' "$f"
+            python3 -c 'import sys; p=sys.argv[1]; c=open(p).read(); c="\n".join(l for l in c.splitlines() if "extensions/side_panel/stub:java" not in l and "extensions/windowing/stub:java" not in l)+"\n"; open(p,"w").write(c)' "$f"
           done
           node ./build/commands/scripts/build.ts ${{ inputs.build_type }} --prepare_only --target_os=android --target_arch=${{ inputs.target_cpu }} --target_android_output_format=apk || true
 
