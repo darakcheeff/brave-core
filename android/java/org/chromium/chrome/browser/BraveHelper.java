@@ -15,6 +15,7 @@ import org.chromium.chrome.browser.profiles.ProfileManager;
 import org.chromium.components.browser_ui.site_settings.WebsitePreferenceBridge;
 import org.chromium.components.content_settings.ContentSetting;
 import org.chromium.components.content_settings.ContentSettingsType;
+import org.chromium.url.GURL;
 
 @NullMarked
 public class BraveHelper {
@@ -41,6 +42,24 @@ public class BraveHelper {
             // Reset old flag to default value, so we don't migrate it anymore.
             BravePrefServiceBridge.getInstance().setDesktopModeEnabled(false);
         }
+
+        // Always request Desktop UA for Chrome Web Store so extensions can be installed
+        // directly on Android without manually toggling "Desktop site".
+        Profile regularProfile = ProfileManager.getLastUsedRegularProfile();
+        GURL cwsUrl = new GURL("https://chromewebstore.google.com");
+        WebsitePreferenceBridge.setContentSettingDefaultScope(
+                regularProfile,
+                ContentSettingsType.REQUEST_DESKTOP_SITE,
+                cwsUrl,
+                cwsUrl,
+                ContentSetting.ALLOW);
+        GURL legacyCwsUrl = new GURL("https://chrome.google.com");
+        WebsitePreferenceBridge.setContentSettingDefaultScope(
+                regularProfile,
+                ContentSettingsType.REQUEST_DESKTOP_SITE,
+                legacyCwsUrl,
+                legacyCwsUrl,
+                ContentSetting.ALLOW);
 
         // The "Show notification ads when Brave is not in use" setting was removed. Clear any
         // stored value so all users fall back to the default (disabled).

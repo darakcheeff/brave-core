@@ -518,6 +518,29 @@ jobs:
           fi
           echo "Using ninja binary: $NINJA_BIN"
 
+          # Ensure extractNativeLibs="true" so Android extracts libtor.so into nativeLibraryDir
+          # (Android 10+ SELinux denies execute_no_trans on app_data_file in files/tor/)
+          python3 - "$GITHUB_WORKSPACE/src/chrome/android/java/AndroidManifest.xml" "$OUT_DIR" << 'PYEOF'
+          import os, re, sys
+          manifest, out_dir = sys.argv[1], sys.argv[2]
+          if os.path.exists(manifest):
+              with open(manifest, 'r') as f:
+                  c = f.read()
+              new_c = c
+              if 'android:extractNativeLibs="false"' in new_c:
+                  new_c = new_c.replace('android:extractNativeLibs="false"', 'android:extractNativeLibs="true"')
+              elif 'android:extractNativeLibs=' not in new_c:
+                  new_c = re.sub(r'(<application\b)', r'\1 android:extractNativeLibs="true"', new_c, count=1)
+              if new_c != c:
+                  with open(manifest, 'w') as f:
+                      f.write(new_c)
+                  for rel in ['gen/chrome/android/chrome_public_apk/AndroidManifest.xml', 'apks/ChromePublic.apk']:
+                      p = os.path.join(out_dir, rel)
+                      if os.path.exists(p):
+                          os.remove(p)
+                  print("Patched AndroidManifest.xml with extractNativeLibs=true")
+          PYEOF
+
           # Strip duplicate com.google.android.gms.* classes from qrreader_java jars if present
           python3 - "$OUT_DIR" << 'PYEOF'
           import glob, os, sys, zipfile

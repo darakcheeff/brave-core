@@ -997,6 +997,23 @@ public class BraveTabbedAppMenuPropertiesDelegate extends TabbedAppMenuPropertie
             }
         }
 
+        // New Tor Tab (always visible in main page menu)
+        addMenuItemAfter(
+                modelList,
+                new MVCListAdapter.ListItem(
+                        AppMenuHandler.AppMenuItemType.STANDARD,
+                        AppMenuItemUtils.buildBaseModelForTextItem(
+                                        mAppMenuItemTheme,
+                                        R.id.brave_tor_tab_menu_id,
+                                        isMenuIconAtStart())
+                                .with(AppMenuItemProperties.TITLE, "New Tor Tab")
+                                .with(
+                                        AppMenuItemProperties.ICON,
+                                        AppCompatResources.getDrawable(
+                                                mContext, R.drawable.ic_tor_onion))
+                                .build()),
+                Arrays.asList(R.id.new_incognito_tab_menu_id));
+
         // Add Brave specific items.
         if (ChromeFeatureList.isEnabled(BraveFeatureList.BRAVE_PLAYLIST)
                 && ChromeSharedPreferences.getInstance()

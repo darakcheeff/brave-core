@@ -43,6 +43,7 @@
 #include "brave/browser/profiles/brave_renderer_updater_factory.h"
 #include "brave/browser/skus/skus_service_factory.h"
 #include "brave/browser/ui/brave_ui_features.h"
+#include "content/public/browser/render_frame_host.h"
 #include "brave/browser/ui/webui/skus_internals_ui.h"
 #include "brave/browser/updater/buildflags.h"
 #include "brave/browser/url_sanitizer/url_sanitizer_service_factory.h"
@@ -576,6 +577,7 @@ BraveContentBrowserClient::~BraveContentBrowserClient() = default;
 
 std::unique_ptr<content::BrowserMainParts>
 BraveContentBrowserClient::CreateBrowserMainParts(bool is_integration_test) {
+  content::RenderFrameHost::AllowInjectingJavaScript();
   std::unique_ptr<content::BrowserMainParts> main_parts =
       ChromeContentBrowserClient::CreateBrowserMainParts(is_integration_test);
   ChromeBrowserMainParts* chrome_main_parts =
