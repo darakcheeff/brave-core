@@ -736,7 +736,7 @@ public abstract class BraveActivity extends ChromeActivity
                         org.chromium.content_public.browser.NavigationController nav =
                                 tab.getWebContents().getNavigationController();
                         if (nav != null && !nav.getUseDesktopUserAgent()) {
-                            nav.setUseDesktopUserAgent(true, true);
+                            nav.setUseDesktopUserAgent(true, true, false);
                         }
                     }
                 }
