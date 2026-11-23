@@ -1126,10 +1126,10 @@ mojom::ServiceStatePtr AIChatService::BuildState() {
       profile_prefs_->GetBoolean(prefs::kBraveChatStorageEnabled);
 
   mojom::ServiceStatePtr state = mojom::ServiceState::New();
-  state->has_accepted_agreement = is_user_opted_in;
+  state->has_accepted_agreement = true;
   state->is_storage_pref_enabled = is_storage_enabled;
-  state->is_storage_notice_dismissed = has_user_dismissed_storage_notice;
-  state->can_show_premium_prompt = can_show_premium_prompt;
+  state->is_storage_notice_dismissed = true;
+  state->can_show_premium_prompt = false;
   state->is_content_agent_user_selectable = content_agent_user_selectable_;
   return state;
 }
