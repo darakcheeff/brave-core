@@ -470,6 +470,9 @@ jobs:
           fi
           echo "Output directory verified: $OUT_DIR"
           rm -f "$OUT_DIR/obj/chrome/browser/extensions/extensions/extension_management.o" "$OUT_DIR/obj/brave/components/brave_service_keys/brave_service_keys/brave_service_key_utils.o"
+          if [ -f "$OUT_DIR/gen/brave/components/brave_service_keys/buildflags.h" ]; then
+            sed -i 's/android-[0-9]*-release/android-158-release/g' "$OUT_DIR/gen/brave/components/brave_service_keys/buildflags.h"
+          fi
           find "$OUT_DIR/obj/brave/components/ai_chat" -name "conversation_api_client.o" -delete 2>/dev/null || true
 
           # Configure Brave python environment and propagate brave.pth
