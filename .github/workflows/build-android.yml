@@ -276,6 +276,9 @@ jobs:
                   print(f'Deduplicated entries in {p}')
           " || true
 
+          echo "=== src/chrome/android/BUILD.gn:1050-1090 ==="
+          sed -n '1050,1090p' "$GITHUB_WORKSPACE/src/chrome/android/BUILD.gn" || true
+          echo "=== end BUILD.gn snippet ==="
           if [ ! -f "$OUT_DIR_ANDROID/build.ninja" ] || [ ! -f "$OUT_DIR_ANDROID/args.gn" ] || ! grep -q 'target_os = "android"' "$OUT_DIR_ANDROID/args.gn"; then
             echo "Generating initial Android GN build configuration..."
             BRAVE_SERVICES_KEY="${{ secrets.BRAVE_SERVICES_KEY }}" \
