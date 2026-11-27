@@ -742,6 +742,15 @@
 /* Button label to temporarily continue to the site from the certificate error page */
 "ErrorPagesProceedAnywayButton" = "%@ （安全ではありません）に進む";
 
+/* Button to exclude a topsite url from the most visited list */
+"ExcludeMostVisitedSite" = "削除する";
+
+/* Message for the alert shown before excluding a site from the most visited list */
+"ExcludeMostVisitedSiteAlertMessage" = "このサイトはよくアクセスするサイトのリストに表示されなくなりますが、履歴からは削除されません。";
+
+/* Title for the alert shown before excluding a site from the most visited list */
+"ExcludeMostVisitedSiteAlertTitle" = "よくアクセスするサイトから削除しますか？";
+
 /* %@ will launch an external application */
 "ExternalAppURLAlertMessage" = "%@ は他のアプリケーションを起動します";
 
@@ -864,6 +873,9 @@
 
 /* Error message if details don't have the right type or values */
 "invalidDetailsMessage" = "不正な支払いリクエスト";
+
+/* Title of a JavaScript alert, confirm, or prompt dialog shown by an embedded frame that has no displayable origin, such as a sandboxed iframe */
+"JavaScriptDialogEmbeddedPageTitle" = "このページに埋め込まれたページ";
 
 /* History tableview section header */
 "LastMonth" = "先月";
@@ -1059,6 +1071,18 @@
 
 /* No comment provided by engineer. */
 "ntp.sponsoredImageDescription" = "スポンサード画像を表示することで、間接的にコンテンツ制作者やパブリッシャーを支援することできます。";
+
+/* The title of a picker for user to pick which type of topsites to show in NTP */
+"ntp.topsites" = "トップサイト";
+
+/* Favorites type of topsites. Selection means NTP will display favorites tiles if there is any. */
+"ntp.topsitesTypeFavorites" = "お気に入り";
+
+/* MostVisited type of topsites. Selection means NTP will display most visited tiles if there is any. */
+"ntp.topsitesTypeMostVisited" = "よく閲覧するサイト";
+
+/* None type of topsites. Selection means there won't be any topsites tiles in NTP */
+"ntp.topsitesTypeNone" = "なし";
 
 /* The placeholder says 'Terms of Service'. So full sentence goes like: 'By turning Rewards, you agree to the Terms of Service'. */
 "ntp.turnRewardsTos" = "Rewardsを有効にすると、以下に同意したものとみなされます: %@";
@@ -1450,12 +1474,6 @@
 /* The title for the alert that shows up when an item is expired */
 "playList.expiredAlertTitle" = "期限切れの動画";
 
-/* Number of items in the playlsit folder. Example: '10 items' */
-"playlist.folderItemCountPlural" = "%d件のアイテム";
-
-/* Title for when there's a single item inside of a folder */
-"playlist.foldersCountSingular" = "%d件のアイテム";
-
 /* Description for load resources error alert */
 "playList.loadResourcesErrorAlertDescription" = "リソースの読み込み中に問題が発生しました！";
 
@@ -1587,12 +1605,6 @@
 
 /* The title of the screen to create a new folder */
 "playlistFolders.newFolderScreenTitle" = "新しいプレイリスト";
-
-/* The sub-title of the folder. Example: This folder contains 10 Items. This folder contains 3 Items. */
-"playlistFolders.subtitleItemCount" = "%lld件のアイテム";
-
-/* The sub-title of the folder. Example: This folder contains ONE item. This folder contains 1 Item. */
-"playlistFolders.subtitleItemSingleCount" = "1件のアイテム";
 
 /* The title of a folder when the user enters no name (untitled) */
 "playlistFolders.untitledFolderTitle" = "無題のプレイリスト";
@@ -2410,12 +2422,6 @@
 /* Title of the settings toggle that enables Sponsored Ads */
 "settings.sponsoredAdsEnabledTitle" = "スポンサー広告を有効にする";
 
-/* Description to explain the survey panelist toggle */
-"settings.surveyPanelistDescription" = "Braveに対し、新しいタブページに匿名アンケートへのリンクを表示することを許可します。こうした調査は、より良い機能の構築や、ブラウザベースの広告キャンペーンの効果測定などに役立ちます。[詳細](%@)";
-
-/* Title to explain the survey panelist toggle */
-"settings.surveyPanelistTitle" = "Braveアンケートを許可";
-
 /* Header for the YouTube settings section */
 "settings.youtube" = "YouTube";
 
@@ -2487,6 +2493,18 @@
 
 /* Title for Shield Education Tracker Video Ad Block */
 "shieldEducation.videoAdBlockTitle" = "このサイトで動画を見ているとき広告はブロックされています。";
+
+/* Title for the Brave Wallet shortcut. Brave Wallet is the name of a product and should not be translated */
+"shortcut.braveWallet" = "Braveウォレット";
+
+/* Title for the private tab shortcut. */
+"shortcut.privateTab" = "プライベートタブ";
+
+/* Title for the QR Code shortcut. */
+"shortcut.qrCode" = "QRコード";
+
+/* Title for the Search shortcut. */
+"shortcut.search" = "検索";
 
 /* Quick Action for 3D-Touch on the Application Icon */
 "ShortcutItemTitleNewPrivateTab" = "新しいプライベートタブ";
@@ -3061,12 +3079,6 @@
 /* Accessibility label for a button that allows users to shred their tabs (erase them & associated data) */
 "tabGrid.shredTabsAccessibilityLabel" = "タブをシュレッド";
 
-/* A label in the tab tray mode switcher shown when there are 0 or more than 1 regular tabs open e.g. '129 Tabs' */
-"tabGrid.tabsCountFormatPlural" = "%lld タブ";
-
-/* A label in the tab tray mode switcher shown when there is 1 regular tab open e.g. '1 Tab' */
-"tabGrid.tabsCountFormatSingular" = "%lld個のタブ";
-
 /* Accessibility label for a button that when tapped presents the users history & recently closed tabs */
 "tabGrid.viewHistoryAccessibilityLabel" = "履歴を表示";
 
@@ -3077,7 +3089,7 @@
 "tabGrid.viewSyncedTabsAccessibilityLabel" = "同期されたタブを表示";
 
 /* Label for synced tabs menu item that when tapped presents the users synced tabs */
-"tabGrid.viewSyncedTabsMenuItemLabel" = "Brave Sync";
+"tabGrid.viewSyncedTabsMenuItemLabel" = "同期";
 
 /* Accessiblity hint for toggling on/off private mode */
 "TabPrivateModeToggleAccessibilityHint" = "プライベートモードのオンとオフを切り替えます";

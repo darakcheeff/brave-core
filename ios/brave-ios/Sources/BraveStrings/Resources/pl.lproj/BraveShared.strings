@@ -742,6 +742,15 @@
 /* Button label to temporarily continue to the site from the certificate error page */
 "ErrorPagesProceedAnywayButton" = "Przejdź do %@ (niebezpieczne)";
 
+/* Button to exclude a topsite url from the most visited list */
+"ExcludeMostVisitedSite" = "Usuń";
+
+/* Message for the alert shown before excluding a site from the most visited list */
+"ExcludeMostVisitedSiteAlertMessage" = "Ta witryna nie będzie widoczna na liście najczęściej odwiedzanych, ale nie zostanie usunięta z historii.";
+
+/* Title for the alert shown before excluding a site from the most visited list */
+"ExcludeMostVisitedSiteAlertTitle" = "Usunąć z najczęściej odwiedzanych?";
+
 /* %@ will launch an external application */
 "ExternalAppURLAlertMessage" = "%@ uruchomi zewnętrzną aplikację";
 
@@ -864,6 +873,9 @@
 
 /* Error message if details don't have the right type or values */
 "invalidDetailsMessage" = "Nieprawidłowe dane w żądaniu płatności";
+
+/* Title of a JavaScript alert, confirm, or prompt dialog shown by an embedded frame that has no displayable origin, such as a sandboxed iframe */
+"JavaScriptDialogEmbeddedPageTitle" = "Strona osadzona na tej stronie";
 
 /* History tableview section header */
 "LastMonth" = "W zeszłym miesiącu";
@@ -1059,6 +1071,18 @@
 
 /* No comment provided by engineer. */
 "ntp.sponsoredImageDescription" = "Wspierasz twórców i wydawców treści, wyświetlając ten sponsorowany obraz.";
+
+/* The title of a picker for user to pick which type of topsites to show in NTP */
+"ntp.topsites" = "Popularne strony";
+
+/* Favorites type of topsites. Selection means NTP will display favorites tiles if there is any. */
+"ntp.topsitesTypeFavorites" = "Ulubione";
+
+/* MostVisited type of topsites. Selection means NTP will display most visited tiles if there is any. */
+"ntp.topsitesTypeMostVisited" = "Często odwiedzane";
+
+/* None type of topsites. Selection means there won't be any topsites tiles in NTP */
+"ntp.topsitesTypeNone" = "Brak";
 
 /* The placeholder says 'Terms of Service'. So full sentence goes like: 'By turning Rewards, you agree to the Terms of Service'. */
 "ntp.turnRewardsTos" = "Włączając nagrody, akceptujesz %@.";
@@ -1450,12 +1474,6 @@
 /* The title for the alert that shows up when an item is expired */
 "playList.expiredAlertTitle" = "Film wygasł";
 
-/* Number of items in the playlsit folder. Example: '10 items' */
-"playlist.folderItemCountPlural" = "%d rzeczy";
-
-/* Title for when there's a single item inside of a folder */
-"playlist.foldersCountSingular" = "Liczba elementów: %d";
-
 /* Description for load resources error alert */
 "playList.loadResourcesErrorAlertDescription" = "Wystąpił problem z załadowaniem zasobu!";
 
@@ -1587,12 +1605,6 @@
 
 /* The title of the screen to create a new folder */
 "playlistFolders.newFolderScreenTitle" = "Nowa lista odtwarzania";
-
-/* The sub-title of the folder. Example: This folder contains 10 Items. This folder contains 3 Items. */
-"playlistFolders.subtitleItemCount" = "%lld rzeczy";
-
-/* The sub-title of the folder. Example: This folder contains ONE item. This folder contains 1 Item. */
-"playlistFolders.subtitleItemSingleCount" = "1 rzecz";
 
 /* The title of a folder when the user enters no name (untitled) */
 "playlistFolders.untitledFolderTitle" = "Lista odtwarzania bez tytułu";
@@ -2354,7 +2366,7 @@
 "settings.blockYouTubeDistractingElementsDesc" = "Blokuje rozpraszające elementy YouTube";
 
 /* Title beside the toggle for blocking YouTube distracting elements */
-"settings.blockYouTubeDistractingElementsTitle" = "Blokuje rozpraszające elementy YouTube";
+"settings.blockYouTubeDistractingElementsTitle" = "Blokuj rozpraszające elementy YouTube";
 
 /* Description beside the toggle for blocking YouTube recommendations */
 "settings.blockYoutubeRecommendationsDesc" = "Blokuje ekrany końcowe i polecane jako następne w serwisie youtube.com";
@@ -2409,12 +2421,6 @@
 
 /* Title of the settings toggle that enables Sponsored Ads */
 "settings.sponsoredAdsEnabledTitle" = "Włącz reklamy sponsorowane";
-
-/* Description to explain the survey panelist toggle */
-"settings.surveyPanelistDescription" = "Umożliwia Brave wyświetlanie linków do prywatnych ankiet na stronie nowej karty. Ankiety pomagają nam tworzyć lepsze funkcje i mierzyć skuteczność kampanii reklamowych w przeglądarce. [Dowiedz się więcej](%@)";
-
-/* Title to explain the survey panelist toggle */
-"settings.surveyPanelistTitle" = "Zezwalaj na ankiety Brave";
 
 /* Header for the YouTube settings section */
 "settings.youtube" = "YouTube";
@@ -2487,6 +2493,18 @@
 
 /* Title for Shield Education Tracker Video Ad Block */
 "shieldEducation.videoAdBlockTitle" = "Reklamy są blokowane podczas oglądania filmów w tej witrynie.";
+
+/* Title for the Brave Wallet shortcut. Brave Wallet is the name of a product and should not be translated */
+"shortcut.braveWallet" = "Brave Wallet";
+
+/* Title for the private tab shortcut. */
+"shortcut.privateTab" = "Karta w trybie prywatnym";
+
+/* Title for the QR Code shortcut. */
+"shortcut.qrCode" = "Kod QR";
+
+/* Title for the Search shortcut. */
+"shortcut.search" = "Szukaj";
 
 /* Quick Action for 3D-Touch on the Application Icon */
 "ShortcutItemTitleNewPrivateTab" = "Nowa karta w trybie prywatnym";
@@ -2834,7 +2852,7 @@
 "sync.expiredError" = "Ten kod synchronizacji wygasł. Wygeneruj nowy kod synchronizacji i spróbuj ponownie.";
 
 /* Generic Sync Error Description */
-"sync.genericError" = "Przepraszamy, coś poszło nie tak";
+"sync.genericError" = "Niestety, coś poszło nie tak";
 
 /* Grand camera access */
 "sync.grantCameraAccess" = "Włącz aparat";
@@ -3060,12 +3078,6 @@
 
 /* Accessibility label for a button that allows users to shred their tabs (erase them & associated data) */
 "tabGrid.shredTabsAccessibilityLabel" = "Usuń karty";
-
-/* A label in the tab tray mode switcher shown when there are 0 or more than 1 regular tabs open e.g. '129 Tabs' */
-"tabGrid.tabsCountFormatPlural" = "%lld Zakładki";
-
-/* A label in the tab tray mode switcher shown when there is 1 regular tab open e.g. '1 Tab' */
-"tabGrid.tabsCountFormatSingular" = "%lld karta";
 
 /* Accessibility label for a button that when tapped presents the users history & recently closed tabs */
 "tabGrid.viewHistoryAccessibilityLabel" = "Pokaż historię";

@@ -522,9 +522,11 @@ def CheckNalaIconOverridesExistUpstream(input_api, output_api):
         # rather than fail the build.
         return []
 
+    # Limit to Android resource dirs, which may be named e.g. res or java_res.
+    res_dir = re.compile(r'(^|/)([^/]*_)?res[^/]*/')
     found_stems = set()
     for line in tracked.splitlines():
-        if '/res' not in line:  # Limit to Android resource dirs.
+        if not res_dir.search(line):
             continue
         found_stems.add(
             input_api.os_path.splitext(input_api.os_path.basename(line))[0]
@@ -845,6 +847,25 @@ _BANNED_JAVA_FUNCTIONS += (
         False,
         excluded_paths=(r'.*Test[A-Z]?.*\.java',),
     ),
+    BanRule(
+        r'/BraveProfileUtils(\.|::)onRegularProfileAvailable\b',
+        (
+            'This resolves the single regular profile and will break when '
+            'Chromium turns on multi-profile for Android '
+            '(chrome::android::kAndroidMultiprofile). Pass the Profile in '
+            'explicitly, or key the state per Profile with ProfileKeyedMap. '
+            'Only process-wide startup entry points may use this, and each '
+            'one has to be listed in excluded_paths below.',
+        ),
+        True,
+        excluded_paths=(
+            r'.*Test[A-Z]?.*\.java',
+            r'android/java/org/chromium/chrome/browser/'
+            r'BraveApplicationImplBase\.java',
+            r'android/java/org/chromium/chrome/browser/referrer/'
+            r'BraveReferrer\.java',
+        ),
+    ),
 )
 
 _BANNED_CPP_FUNCTIONS += (
@@ -1023,7 +1044,7 @@ def _GetMessageForMatchingType(orig, input_api, f, line_num, line, ban_rule):
 
 
 @override_utils.override_function(globals())
-def _ChangeHasSecurityReviewer(*_):
+def _ChangeHasReviewerFromOwnersFile(*_):
     # We don't have Gerrit API available to check for reviewers.
     return False
 

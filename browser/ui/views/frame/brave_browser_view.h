@@ -8,6 +8,7 @@
 
 #include <map>
 #include <memory>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -107,13 +108,16 @@ class BraveBrowserView : public BrowserView,
   static bool ShouldUseBraveWebViewRoundedCornersForContents(
       const BrowserWindowInterface* browser);
 
-  void ShowUpdateChromeDialog() override;
-
   // Returns the bounding rectangle, in screen coordinates, used to detect
   // mouse-over events that control sidebar visibility. The bounds of a
   // specific view are used here so that sidebar show/hide behavior is
   // consistently tied to that view's on-screen region.
   gfx::Rect GetBoundingBoxInScreenForMouseOverHandling() const;
+
+  // Width the vertical tab strip renders at the window edge beside the
+  // contents. Nullopt when the strip owns the edge instead: vertical tabs are
+  // off, the strip overlays the contents, or it's floated open over them.
+  std::optional<int> GetVerticalTabStripWidthAtWindowEdge() const;
 
   void ShowBraveVPNBubble(bool show_select = false);
 
@@ -140,7 +144,6 @@ class BraveBrowserView : public BrowserView,
   bool AcceleratorPressed(const ui::Accelerator& accelerator) override;
   bool IsInTabDragging() const override;
   void ReadyToListenFullscreenChanges() override;
-  bool IsWebPanelContents(content::WebContents* contents) override;
   ClientFrameElementInfo GetFrameElementInfo() const override;
 
   void OnImmersiveFullscreenExited() override;

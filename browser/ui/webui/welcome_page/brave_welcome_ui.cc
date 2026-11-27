@@ -100,7 +100,7 @@ void OpenJapanWelcomePage(Profile* profile) {
   if (browser) {
     content::OpenURLParams open_params(
         GURL("https://brave.com/ja/desktop-ntp-tutorial"), content::Referrer(),
-        WindowOpenDisposition::NEW_BACKGROUND_TAB,
+        WindowOpenDisposition::kNewBackgroundTab,
         ui::PAGE_TRANSITION_AUTO_TOPLEVEL, false);
     browser->OpenURL(open_params, /*navigation_handle_callback=*/{});
   }
@@ -183,6 +183,12 @@ BraveWelcomeUI::BraveWelcomeUI(content::WebUI* web_ui, std::string_view name)
                          metrics::prefs::kMetricsReportingEnabled));
   source->AddBoolean("isP3AEnabledManaged",
                      local_state->IsManagedPreference(p3a::kP3AEnabled));
+  // settings::DefaultBrowserHandler CHECK-fails if the WebUI asks it to set the
+  // default browser while the policy forbids it, so don't offer the action.
+  source->AddBoolean(
+      "isDefaultBrowserDisabledByPolicy",
+      local_state->IsManagedPreference(prefs::kDefaultBrowserSettingEnabled) &&
+          !local_state->GetBoolean(prefs::kDefaultBrowserSettingEnabled));
 
   profile->GetPrefs()->SetBoolean(
       brave_welcome_page::prefs::kHasSeenBraveWelcomePage, true);

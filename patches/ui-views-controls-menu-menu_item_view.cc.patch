@@ -1,13 +1,13 @@
 diff --git a/ui/views/controls/menu/menu_item_view.cc b/ui/views/controls/menu/menu_item_view.cc
-index 6b4595a80ef88fd97129335deb2828fc8b709bc0..51bff52d5dd20b2a4e57a9a184e4c7acac6a2955 100644
+index 27daaff05f109caf54a1c371b4c8f5c4ca8f838d..75a3bc8e10594ae7691c23eb2af5bd0e17027612 100644
 --- a/ui/views/controls/menu/menu_item_view.cc
 +++ b/ui/views/controls/menu/menu_item_view.cc
-@@ -1770,7 +1770,7 @@ void MenuItemView::UpdateSelectionBasedState(bool paint_as_selected) {
+@@ -1895,7 +1895,7 @@ void MenuItemView::UpdateSelectionBasedState(bool paint_as_selected) {
          features::IsRoundedIconsEnabled()
              ? vector_icons::kKeyboardArrowRightFlippableIcon
              : vector_icons::kSubmenuArrowChromeRefreshOldIcon,
--        colors.icon_color));
-+        colors.icon_color, 16));
+-        arrow_color));
++        arrow_color, 16));
    }
    MenuDelegate* delegate = GetDelegate();
    if (type_ == Type::kCheckbox && delegate &&

@@ -9,6 +9,8 @@
 
 #include "base/check.h"
 #include "base/feature_list.h"
+#include "base/functional/bind.h"
+#include "brave/browser/brave_tab_helpers.h"
 #include "brave/browser/image_metadata_stripper/file_upload_controller.h"
 #include "brave/browser/misc_metrics/captcha_metrics.h"
 #include "brave/browser/misc_metrics/page_metrics_tab_helper.h"
@@ -35,6 +37,10 @@
 #if BUILDFLAG(ENABLE_BRAVE_ADS)
 #include "brave/browser/brave_ads/creatives/search_result_ad/creative_search_result_ad_tab_helper.h"
 #include "brave/browser/brave_ads/tabs/ads_tab_helper.h"
+#endif
+
+#if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX)
+#include "brave/browser/ui/geolocation/brave_geolocation_permission_tab_helper.h"
 #endif
 
 #if BUILDFLAG(ENABLE_WEB_DISCOVERY)
@@ -96,8 +102,22 @@ BraveTabFeatures* BraveTabFeatures::FromTabFeatures(TabFeatures* tab_features) {
 BraveTabFeatures::BraveTabFeatures() = default;
 BraveTabFeatures::~BraveTabFeatures() = default;
 
+void BraveTabFeatures::OnWillDiscardContents(
+    TabInterface* tab,
+    content::WebContents* old_contents,
+    content::WebContents* new_contents) {
+  brave::AttachTabHelpers(new_contents);
+}
+
 void BraveTabFeatures::Init(TabInterface& tab, Profile* profile) {
   TabFeatures::Init(tab, profile);
+
+  brave::AttachTabHelpers(tab.GetContents());
+  // Upstream's discard path does not run `AttachTabHelpers` on the replacement
+  // contents, so Brave's helpers are re-attached to it on discard.
+  will_discard_contents_subscription_ =
+      tab.RegisterWillDiscardContents(base::BindRepeating(
+          &BraveTabFeatures::OnWillDiscardContents, base::Unretained(this)));
 
   // Expect upstream's Init to create the registry.
   auto* side_panel_registry = SidePanelRegistry::From(&tab);
@@ -242,6 +262,11 @@ void BraveTabFeatures::Init(TabInterface& tab, Profile* profile) {
 #if BUILDFLAG(ENABLE_WEB_DISCOVERY)
   web_discovery_tab_helper_ =
       web_discovery::WebDiscoveryTabHelper::MaybeCreate(tab, *profile);
+#endif
+
+#if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX)
+  geolocation_permission_tab_helper_ =
+      std::make_unique<BraveGeolocationPermissionTabHelper>(tab);
 #endif
 
 #if BUILDFLAG(ENABLE_REQUEST_OTR)

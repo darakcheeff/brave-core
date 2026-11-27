@@ -49,6 +49,7 @@
 <translation id="2200626478572277092">לניגון מדיה בדף אינטרנט לפעמים יש צורך ב-Widevine. זהו תוסף של Google שנטען משרתי Google, ש-Brave לא יכול לבדוק. עליך להסכים לתנאי השימוש של גוגל.</translation>
 <translation id="4931114810905682683"><ph name="LEARN_MORE_ABOUT_WIDEVINE"/>או שנו מאוחר יותר ב-<ph name="SETTINGS_EXTENIONS_LINK"/>.</translation>
 <translation id="6229752134959014186">מידע נוסף אודות Widevine</translation>
+<translation id="3318169548229684688">להוריד מודל לזיהוי דיבור (<ph name="DOWNLOAD_SIZE"/>) כדי לעבד דיבור במכשיר הזה</translation>
 <translation id="6061083111980694767"><ph name="SITE_NAME"/>מבקש מכם</translation>
 <translation id="3218385319396786393">ההפעלה האוטומטית נחסמה בדף זה</translation>
 <translation id="4988333904713528597">הרשו תמיד הפעלה אוטומטית ל-<ph name="HOST"/></translation>
@@ -117,6 +118,8 @@
 <translation id="2162109630536601963">אם תוסף זה שולח בקשות רשת, הן לא ישתמשו ב- Tor או במצב פרטי.</translation>
 <translation id="2725327089319971976">כדי להשבית תוסף זה במצב פרטי ובמצב Tor, יש לבטל הבחירה באפשרות זו.</translation>
 <translation id="438106944087726695">מנוהל על ידי Brave</translation>
+<translation id="2265651566599167057">סומן כתוכנה זדונית על ידי Socket.</translation>
+<translation id="2607395470596637070">מידע נוסף על האופן שבו Socket ב-Brave מגן עליך</translation>
 <translation id="3371343170427636147">יישומי לילה של דפדפן Brave</translation>
 <translation id="4097979995947147464">יישומי ביטא של דפדפן Brave</translation>
 <translation id="8303432794159193481">יישומי פיתוח של דפדפן Brave</translation>
@@ -607,6 +610,8 @@
 <translation id="3540231253392253941">השתמש בשירותי Google לצורך שליחת הודעות פוש</translation>
 <translation id="2224032129673914306">חיפוש היסטוריה סמנטי</translation>
 <translation id="6045998903985162478">אינדוקס של דפים שאתה מבקר בהם כדי שתוכל למצוא אותם בקלות בהיסטוריה, בכרטיסיות פתוחות וב-Leo.</translation>
+<translation id="3962946446120925966">זיהוי דיבור במכשיר</translation>
+<translation id="6408242130028978631">הורד מודל לזיהוי דיבור (<ph name="DOWNLOAD_SIZE"/>) כדי שאתרים יוכלו לעבד דיבור במכשיר זה. כבה אפשרות זו כדי להסיר את המודל.</translation>
 <translation id="5813105074916486721">שמירת היסטוריה מקומית</translation>
 <translation id="5671611745062206644">למשך כמה זמן Brave שומר את היסטוריית הגלישה שלך באופן מקומי</translation>
 <translation id="7184510058087008090">יום 1</translation>
@@ -722,7 +727,7 @@
 <translation id="4432071071853308688">הקוד הזה ריק</translation>
 <translation id="955848693465029904">שגיאה בהגדרת סנכרון פנימי</translation>
 <translation id="7456398316301207582">שגיאת מחיקת חשבון פנימי</translation>
-<translation id="859506441384380749">הקוד יוצר בידי גרסה של Brave שהוצאה משימוש, יש לשדרג את המכשיר האחר תחילה.</translation>
+<translation id="4002014583969312635">נראה שהקוד הזה נוצר במכשיר שמריץ גרסה ישנה יותר של Brave. יש לעדכן לגרסה האחרונה ביותר של Brave במכשיר האחר שלך, ואז ליצור קוד סנכרון חדש.</translation>
 <translation id="3132642509209154999">פג תוקפו של הקוד. יש לייצור קוד חדש במכשיר השני ולנסות שוב.</translation>
 <translation id="2859229680945501779">קוד זה אינו חוקי. אנא בדקו שהזמן ואזור הזמן מוגדרים כהלכה במכשיר שלכם.</translation>
 <translation id="2339730291919608488">השאר שרשרת סנכרון</translation>

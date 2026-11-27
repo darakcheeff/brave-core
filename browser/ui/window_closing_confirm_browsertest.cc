@@ -14,6 +14,7 @@
 #include "chrome/browser/download/download_manager_utils.h"
 #include "chrome/browser/download/download_prefs.h"
 #include "chrome/browser/lifetime/application_lifetime_desktop.h"
+#include "chrome/browser/lifetime/browser_close_manager.h"
 #include "chrome/browser/profiles/profile.h"
 #include "chrome/browser/ui/browser_commands.h"
 #include "chrome/browser/ui/browser_window/public/browser_window_interface.h"
@@ -189,7 +190,7 @@ IN_PROC_BROWSER_TEST_F(WindowClosingConfirmBrowserTest, TestWithTwoNTPTabs) {
   // Two tabs. Need to ask browser closing.
   ui_test_utils::NavigateToURLWithDisposition(
       browser_window, GURL(url::kAboutBlankURL),
-      WindowOpenDisposition::NEW_FOREGROUND_TAB,
+      WindowOpenDisposition::kNewForegroundTab,
       ui_test_utils::BROWSER_TEST_WAIT_FOR_LOAD_STOP);
   EXPECT_TRUE(ShouldAskBeforeClosing(browser_window));
 
@@ -209,7 +210,7 @@ IN_PROC_BROWSER_TEST_F(WindowClosingConfirmBrowserTest, TestWithQuit) {
   BrowserWindowInterface* browser_window = browser();
   ui_test_utils::NavigateToURLWithDisposition(
       browser_window, GURL(url::kAboutBlankURL),
-      WindowOpenDisposition::NEW_FOREGROUND_TAB,
+      WindowOpenDisposition::kNewForegroundTab,
       ui_test_utils::BROWSER_TEST_WAIT_FOR_LOAD_STOP);
   // Should ask closing.
   EXPECT_TRUE(ShouldAskBeforeClosing(browser_window));
@@ -226,7 +227,7 @@ IN_PROC_BROWSER_TEST_F(WindowClosingConfirmBrowserTest,
   // Make two tabs.
   ui_test_utils::NavigateToURLWithDisposition(
       browser(), GURL(url::kAboutBlankURL),
-      WindowOpenDisposition::NEW_FOREGROUND_TAB,
+      WindowOpenDisposition::kNewForegroundTab,
       ui_test_utils::BROWSER_TEST_WAIT_FOR_LOAD_STOP);
   // Should ask closing for this browser window as this has more than one tab.
   EXPECT_TRUE(ShouldAskBeforeClosing(browser()));
@@ -248,7 +249,7 @@ IN_PROC_BROWSER_TEST_F(WindowClosingConfirmBrowserTest,
       browser_window, embedded_test_server()->GetURL("/beforeunload.html"))));
   ui_test_utils::NavigateToURLWithDisposition(
       browser_window, GURL(url::kAboutBlankURL),
-      WindowOpenDisposition::NEW_FOREGROUND_TAB,
+      WindowOpenDisposition::kNewForegroundTab,
       ui_test_utils::BROWSER_TEST_WAIT_FOR_LOAD_STOP);
 
   PrepareForBeforeUnloadDialog(browser_window);
@@ -271,6 +272,39 @@ IN_PROC_BROWSER_TEST_F(WindowClosingConfirmBrowserTest,
   // Close browser
   ASSERT_NO_FATAL_FAILURE(AcceptClose());
   ui_test_utils::WaitForBrowserToClose(browser_window);
+}
+
+// A quit cancelled from a beforeunload dialog must not keep suppressing the
+// window closing confirmation for the rest of the session.
+IN_PROC_BROWSER_TEST_F(WindowClosingConfirmBrowserTest,
+                       TestWithQuitCancelledByOnBeforeUnload) {
+  ASSERT_TRUE(embedded_test_server()->Start());
+
+  ASSERT_TRUE(ui_test_utils::NavigateToURL(
+      browser(), embedded_test_server()->GetURL("/beforeunload.html")));
+  ui_test_utils::NavigateToURLWithDisposition(
+      browser(), GURL(url::kAboutBlankURL),
+      WindowOpenDisposition::kNewForegroundTab,
+      ui_test_utils::BROWSER_TEST_WAIT_FOR_LOAD_STOP);
+  PrepareForBeforeUnloadDialog(browser());
+  EXPECT_FALSE(BrowserCloseManager::BrowserClosingStarted());
+
+  // Quitting doesn't ask, but the beforeunload dialog cancels the quit.
+  chrome::CloseAllBrowsersAndQuit();
+  EXPECT_TRUE(BrowserCloseManager::BrowserClosingStarted());
+  ASSERT_NO_FATAL_FAILURE(CancelClose());
+  SetClosingBrowserCallbackAndWait();
+  EXPECT_FALSE(closing_confirm_dialog_created_);
+  EXPECT_FALSE(BrowserCloseManager::BrowserClosingStarted());
+  EXPECT_TRUE(ShouldAskBeforeClosing(browser()));
+
+  // Closing the window asks again.
+  allow_to_close_ = true;
+  PrepareForBeforeUnloadDialog(browser());
+  chrome::CloseWindow(browser());
+  EXPECT_TRUE(closing_confirm_dialog_created_);
+  ASSERT_NO_FATAL_FAILURE(AcceptClose());
+  ui_test_utils::WaitForBrowserToClose(browser());
 }
 
 // Disabling on Mac due to excessive flakiness
@@ -315,7 +349,7 @@ IN_PROC_BROWSER_TEST_F(WindowClosingConfirmBrowserTest,
   // Make browser has two tabs.
   ui_test_utils::NavigateToURLWithDisposition(
       browser_window, GURL(url::kAboutBlankURL),
-      WindowOpenDisposition::NEW_FOREGROUND_TAB,
+      WindowOpenDisposition::kNewForegroundTab,
       ui_test_utils::BROWSER_TEST_WAIT_FOR_LOAD_STOP);
 
   std::unique_ptr<content::DownloadTestObserver> progress_waiter(
@@ -323,7 +357,7 @@ IN_PROC_BROWSER_TEST_F(WindowClosingConfirmBrowserTest,
 
   // Start downloading a file, wait for it to be created.
   ui_test_utils::NavigateToURLWithDisposition(
-      browser_window, url, WindowOpenDisposition::CURRENT_TAB,
+      browser_window, url, WindowOpenDisposition::kCurrentTab,
       ui_test_utils::BROWSER_TEST_NO_WAIT);
   progress_waiter->WaitForFinished();
 

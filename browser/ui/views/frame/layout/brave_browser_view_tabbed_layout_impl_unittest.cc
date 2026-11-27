@@ -8,6 +8,7 @@
 #include <memory>
 #include <optional>
 
+#include "brave/browser/ui/views/brave_layout_provider.h"
 #include "build/build_config.h"
 #include "chrome/browser/ui/layout_constants.h"
 #include "chrome/browser/ui/views/frame/layout/browser_view_layout_delegate.h"
@@ -71,6 +72,7 @@ class FakeBrowserViewLayoutDelegate : public BrowserViewLayoutDelegate {
   void UpdateWindowControlsOverlay(const gfx::Rect&) override {}
   bool ShouldLayoutTabStrip() const override { return false; }
   int GetExtraInfobarOffset() const override { return 0; }
+  int GetRestoredWindowCornerRadius() const override { return 0; }
   base::CallbackListSubscription AddOnGlassModeChangedCallback(
       base::RepeatingCallback<void(bool)> callback,
       bool* current_state_out) override {
@@ -117,8 +119,7 @@ class MockBrowserViewLayoutDelegate : public FakeBrowserViewLayoutDelegate {
 
 int GetWindowCornerRadius() {
   return views::LayoutProvider::Get()->GetCornerRadiusMetric(
-      views::ShapeContextTokensOverride::
-          kRoundedCornersBorderRadiusAtWindowCorner);
+      ExtendedShapeContextTokens::kRoundedCornersBorderRadiusAtWindowCorner);
 }
 
 }  // namespace
@@ -353,7 +354,7 @@ TEST(BraveBrowserViewTabbedLayoutImplTest,
 
 TEST(BraveBrowserViewTabbedLayoutImplTest,
      CalculateContentsCornerRadiiEmptyWithoutRoundedCorners) {
-  views::LayoutProvider layout_provider;
+  BraveLayoutProvider layout_provider;
   auto mock =
       std::make_unique<testing::NiceMock<MockBrowserViewLayoutDelegate>>();
   EXPECT_CALL(*mock, ShouldUseBraveWebViewRoundedCornersForContents())
@@ -369,7 +370,7 @@ TEST(BraveBrowserViewTabbedLayoutImplTest,
 
 TEST(BraveBrowserViewTabbedLayoutImplTest,
      CalculateContentsCornerRadiiEmptyInTabFullscreen) {
-  views::LayoutProvider layout_provider;
+  BraveLayoutProvider layout_provider;
   auto mock =
       std::make_unique<testing::NiceMock<MockBrowserViewLayoutDelegate>>();
   EXPECT_CALL(*mock, ShouldUseBraveWebViewRoundedCornersForContents())
@@ -388,7 +389,7 @@ TEST(BraveBrowserViewTabbedLayoutImplTest,
 
 TEST(BraveBrowserViewTabbedLayoutImplTest,
      CalculateContentsCornerRadiiWindowCornersAtTopEdge) {
-  views::LayoutProvider layout_provider;
+  BraveLayoutProvider layout_provider;
   auto mock =
       std::make_unique<testing::NiceMock<MockBrowserViewLayoutDelegate>>();
   EXPECT_CALL(*mock, ShouldUseBraveWebViewRoundedCornersForContents())

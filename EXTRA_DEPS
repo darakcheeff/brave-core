@@ -24,31 +24,24 @@ extra_deps = {
         'condition': 'not rust_force_head_revision',
         'objects': [
             {
-                'object_name': 'linux-x64-rust-toolchain-1edd55dcfcd573872c727fa3e086369a71661ee0-2-llvmorg-24-init-7747-g62397f8b-1.tar.xz',
-                'sha256sum': '9c1f00fe2f465b916c5a759fb4d98c998ac4cbf1a8ce00d0f44411cea307215f',
-                'size_bytes': 44486460,
-                'overlayed_on': 'Linux_x64/rust-toolchain-1edd55dcfcd573872c727fa3e086369a71661ee0-2-llvmorg-24-init-7747-g62397f8b.tar.xz',
+                'object_name': 'linux-x64-rust-toolchain-8a9dd7abdf013ec10cfeaaa3685feba18ef1c90c-1-llvmorg-24-init-14453-ge063be79-1.tar.xz',
+                'sha256sum': '9c09fa3f6a4eddb3cff2061e2c0cc7ccfc8469152656ac2da9a2c4f91a2f6307',
+                'size_bytes': 44568996,
+                'overlayed_on': 'Linux_x64/rust-toolchain-8a9dd7abdf013ec10cfeaaa3685feba18ef1c90c-1-llvmorg-24-init-14453-ge063be79.tar.xz',
                 'condition': 'host_os == "linux"',
             },
             {
-                'object_name': 'mac-arm64-rust-toolchain-1edd55dcfcd573872c727fa3e086369a71661ee0-2-llvmorg-24-init-7747-g62397f8b-1.tar.xz',
-                'sha256sum': '0aaaa5400fa692d0be7d49efbdd8b7e725be963ed22fd84afcb2dd83580b1406',
-                'size_bytes': 41480668,
-                'overlayed_on': 'Mac_arm64/rust-toolchain-1edd55dcfcd573872c727fa3e086369a71661ee0-2-llvmorg-24-init-7747-g62397f8b.tar.xz',
+                'object_name': 'mac-arm64-rust-toolchain-8a9dd7abdf013ec10cfeaaa3685feba18ef1c90c-1-llvmorg-24-init-14453-ge063be79-1.tar.xz',
+                'sha256sum': '0a6c83437d269b833542df4dc1ad52c15e8722009b0a83cab1fcfb59e74f0ba8',
+                'size_bytes': 40863376,
+                'overlayed_on': 'Mac_arm64/rust-toolchain-8a9dd7abdf013ec10cfeaaa3685feba18ef1c90c-1-llvmorg-24-init-14453-ge063be79.tar.xz',
                 'condition': 'host_os == "mac" and host_cpu == "arm64"',
             },
             {
-                'object_name': 'mac-rust-toolchain-1edd55dcfcd573872c727fa3e086369a71661ee0-2-llvmorg-24-init-7747-g62397f8b-1.tar.xz',
-                'sha256sum': '5f055df0b56a0c862b923216777114809fe4e49e7d3d4188fe3b9783c47a66f3',
-                'size_bytes': 44270916,
-                'overlayed_on': 'Mac/rust-toolchain-1edd55dcfcd573872c727fa3e086369a71661ee0-2-llvmorg-24-init-7747-g62397f8b.tar.xz',
-                'condition': 'host_os == "mac" and host_cpu == "x64"',
-            },
-            {
-                'object_name': 'win-rust-toolchain-1edd55dcfcd573872c727fa3e086369a71661ee0-2-llvmorg-24-init-7747-g62397f8b-1.tar.xz',
-                'sha256sum': 'ed0542b781a8625d68c17dbfc3f018fcbdb819954445d34624fa8d9f549907b3',
-                'size_bytes': 44981332,
-                'overlayed_on': 'Win/rust-toolchain-1edd55dcfcd573872c727fa3e086369a71661ee0-2-llvmorg-24-init-7747-g62397f8b.tar.xz',
+                'object_name': 'win-rust-toolchain-8a9dd7abdf013ec10cfeaaa3685feba18ef1c90c-1-llvmorg-24-init-14453-ge063be79-1.tar.xz',
+                'sha256sum': 'f3dbd136784734b8770c414969ab8e5317429ac50a839732ef00b9033c98a17b',
+                'size_bytes': 45074372,
+                'overlayed_on': 'Win/rust-toolchain-8a9dd7abdf013ec10cfeaaa3685feba18ef1c90c-1-llvmorg-24-init-14453-ge063be79.tar.xz',
                 'condition': 'host_os == "win"',
             },
         ],
@@ -58,9 +51,9 @@ extra_deps = {
         'condition': 'host_os == "linux"',
         'objects': [
             {
-                'object_name': 'node-v24.20.0-linux-x64.tar.gz',
-                'sha256sum': 'cd35e7faca55bf403f29e1b7fa96e634ba1b908e828ed21154132c6cd3b8d0ec',
-                'size_bytes': 58135797,
+                'object_name': 'node-v26.13.1-linux-x64.tar.gz',
+                'sha256sum': '42f574f701489d1d8b647fdbcd4a589dcab1f374dd9c225348b0429f60f76e17',
+                'size_bytes': 63035101,
             },
         ],
     },
@@ -69,9 +62,9 @@ extra_deps = {
         'condition': 'host_os == "mac" and host_cpu == "x64"',
         'objects': [
             {
-                'object_name': 'node-v24.20.0-mac-x64.tar.gz',
-                'sha256sum': '2b4ec53f641374e90deb699ac400e063cf8f7319d2e0294df1cdb3c8cfef632c',
-                'size_bytes': 54171472,
+                'object_name': 'node-v26.13.1-mac-x64.tar.gz',
+                'sha256sum': '78e314643e566bdc4dca780e3efa8d04e009755bc2710d2aac5627642eea7518',
+                'size_bytes': 59955837,
             },
         ],
     },
@@ -80,9 +73,9 @@ extra_deps = {
         'condition': 'host_os == "mac" and host_cpu == "arm64"',
         'objects': [
             {
-                'object_name': 'node-v24.20.0-mac-arm64.tar.gz',
-                'sha256sum': '5b859181ef071cda2140ae91a56909d0a3358813e07048231f5baf8dd946f25b',
-                'size_bytes': 52970441,
+                'object_name': 'node-v26.13.1-mac-arm64.tar.gz',
+                'sha256sum': 'f1c46d40e53b1e5f7bc7178b9723041197d66c8a9e887e57eeac6cef23349fbd',
+                'size_bytes': 58484843,
             },
         ],
     },
@@ -91,9 +84,9 @@ extra_deps = {
         'condition': 'host_os == "win"',
         'objects': [
             {
-                'object_name': 'node-v24.20.0-win-x64.tar.gz',
-                'sha256sum': 'f37203567e92d0d7ba6da5c060ec22802a8d7eaa84b96e312af23ad48c5268e2',
-                'size_bytes': 38037729,
+                'object_name': 'node-v26.13.1-win-x64.tar.gz',
+                'sha256sum': '660cbe239af559eb9546f9afca46d84801176acee85972f0e2f650d68d3b2c64',
+                'size_bytes': 41776820,
             },
         ],
     },
@@ -101,9 +94,9 @@ extra_deps = {
         'bucket': 'https://brave-build-deps-public.s3.brave.com/nodejs/',
         'objects': [
             {
-                'object_name': 'node_modules-42138ce.tar.gz',
-                'sha256sum': 'dbd8fd89b95bcf7d63418e575112a9a42c853a4fa0f1a2085c08d29269849169',
-                'size_bytes': 5041166,
+                'object_name': 'node_modules-3118333.tar.gz',
+                'sha256sum': '967a72e63945e75f0249dff1a9836da213020a43305b0030f87946fadcbe292e',
+                'size_bytes': 5565339,
             },
         ],
     },

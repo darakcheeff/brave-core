@@ -71,7 +71,6 @@
 #include "components/embedder_support/pref_names.h"
 #include "components/gcm_driver/gcm_buildflags.h"
 #include "components/history/core/common/pref_names.h"
-#include "components/ntp_tiles/tile_type.h"
 #include "components/omnibox/browser/omnibox_prefs.h"
 #include "components/autofill/core/common/autofill_prefs.h"
 #include "components/password_manager/core/common/password_manager_pref_names.h"
@@ -139,7 +138,6 @@
 #if BUILDFLAG(IS_ANDROID)
 #include "components/feed/core/common/pref_names.h"
 #include "components/feed/core/shared_prefs/pref_names.h"
-#include "components/ntp_tiles/pref_names.h"
 #include "components/translate/core/browser/translate_pref_names.h"
 #endif
 
@@ -193,9 +191,6 @@ namespace {
 
 void OverrideDefaultPrefValues(user_prefs::PrefRegistrySyncable* registry) {
 #if BUILDFLAG(IS_ANDROID)
-  // Clear default popular sites
-  registry->SetDefaultPrefValue(ntp_tiles::prefs::kPopularSitesJsonPref,
-                                base::Value(base::Value::Type::LIST));
   // Disable NTP suggestions.
   // On Android we want to have the enable_feed_v2 parameter enabled so the
   // upstream feed prefs are registered (Brave News uses its own

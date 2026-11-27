@@ -1,5 +1,5 @@
 diff --git a/components/autofill/core/browser/suggestions/suggestion.h b/components/autofill/core/browser/suggestions/suggestion.h
-index 4a2668e446243d5e6d95623b36ff47d1f0df7836..bb585a438d728c75ec4c2fee144c374bd19e97a8 100644
+index 7bbbc672d52c14a757277a46e392df191cd042bb..bda729fea0df30ab30dd6eaff9c4479e519530e2 100644
 --- a/components/autofill/core/browser/suggestions/suggestion.h
 +++ b/components/autofill/core/browser/suggestions/suggestion.h
 @@ -740,6 +740,8 @@ struct Suggestion {

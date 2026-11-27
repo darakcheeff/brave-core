@@ -36,25 +36,6 @@ import("//components/gcm_driver/config.gni")
 import("//mojo/public/tools/bindings/mojom.gni")
 import("//third_party/widevine/cdm/widevine.gni")
 
-# See //chrome/browser/ui:ui_public_dependencies.
-group("ui_public_dependencies") {
-  visibility = [
-    "//brave/browser/ui",
-    "//chrome/browser/ui:ui_public_dependencies",
-  ]
-  public_deps = [
-    ":brave_tab_prefs",
-    ":ui_features",
-    "//brave/components/brave_wallet/common/buildflags",
-    "//brave/components/brave_wayback_machine/buildflags",
-    "//brave/components/containers/buildflags",
-    "//brave/components/local_ai/buildflags",
-    "//brave/components/playlist/core/common/buildflags",
-    "//brave/components/speedreader/common/buildflags",
-    "//brave/components/traffic_control/buildflags",
-  ]
-}
-
 if (!is_android) {
   source_set("brave_browser_header") {
     public = [ "brave_browser.h" ]
@@ -77,18 +58,64 @@ if (!is_android) {
 }
 
 source_set("ui") {
-  # Depend on //chrome/browser/ui instead of //brave/browser/ui.
   visibility = [
+    ":browser_tests",
+    ":unit_tests",
     "//brave/browser:core",
+    "//brave/browser/ai_chat:browser_tests",
+    "//brave/browser/brave_adaptive_captcha:impl",
+    "//brave/browser/brave_rewards/test:browser_tests",
+    "//brave/browser/brave_wallet:brave_wallet_delegate",
+    "//brave/browser/brave_wallet:browser_tests",
+    "//brave/browser/brave_wallet/notifications",
+    "//brave/browser/containers:browser_tests",
+    "//brave/browser/email_aliases:browser_tests",
+    "//brave/browser/infobars:impl",
+    "//brave/browser/playlist/test:browser_tests",
+    "//brave/browser/prefs:unit_tests",
+    "//brave/browser/psst:browser_tests",
+    "//brave/browser/speedreader:browser_tests",
+    "//brave/browser/tor/test:browser_tests",
+    "//brave/browser/ui/brave_rewards:unit_tests",
+    "//brave/browser/ui/commander:browser_tests",
+    "//brave/browser/ui/commander:interactive_ui_tests",
+    "//brave/browser/ui/commander:unit_tests",
+    "//brave/browser/ui/commands:unit_tests",
+    "//brave/browser/ui/darker_theme:browser_tests",
+    "//brave/browser/ui/geolocation:browser_tests",
+    "//brave/browser/ui/sidebar:browser_tests",
+    "//brave/browser/ui/sidebar:interactive_ui_tests",
+    "//brave/browser/ui/sidebar:test_support",
+    "//brave/browser/ui/tabs:browser_tests",
     "//brave/browser/ui/tabs:impl",
+    "//brave/browser/ui/tabs/test:browser_tests",
+    "//brave/browser/ui/toolbar:brave_app_menu_unit_test",
     "//brave/browser/ui/views/frame:browser_tests",
+    "//brave/browser/ui/views/frame/vertical_tabs:browser_tests",
+    "//brave/browser/ui/views/frame/vertical_tabs:interactive_ui_tests",
+    "//brave/browser/ui/views/infobars:unit_tests",
     "//brave/browser/ui/views/page_action:unit_tests",
-    "//chrome/browser:core",
-    "//chrome/browser/ui",
+    "//brave/browser/ui/views/split_view:browser_tests",
+    "//brave/browser/ui/views/tabs:browser_tests",
+    "//brave/browser/ui/views/tabs:unit_tests",
+    "//brave/browser/ui/views/workspaces:browser_tests",
+    "//brave/browser/ui/webui:unit_tests",
+    "//brave/browser/ui/webui/brave_wallet/wallet_panel:browser_tests",
+    "//brave/browser/ui/webui/psst",
+    "//brave/browser/ui/webui/settings:unit_tests",
+    "//brave/browser/ui/whats_new:browser_test",
+    "//brave/browser/ui/whats_new:unit_test",
+    "//brave/browser/web_discovery:browser_tests",
+    "//brave/browser/widevine:browser_tests",
+
+    # Covers the Android test() subtargets, e.g. JNI registration.
+    "//brave/test:*",
     "//chrome/browser/ui/webui:configs",
   ]
 
   deps = [
+    ":brave_tab_prefs",
+    ":ui_features",
     "//brave/brave_domains",
     "//brave/browser/brave_adaptive_captcha",
     "//brave/browser/brave_origin",
@@ -97,6 +124,7 @@ source_set("ui") {
     "//brave/browser/ui/page_info",
     "//brave/browser/ui/webui/brave_account",
     "//brave/components/ai_chat/core/common/buildflags",
+    "//brave/components/local_ai/buildflags",
 
     # Unconditional for gn check as the NTP WebUI always needs the mojom
     # types since typescript cannnot yet conditionally import during typecheck.
@@ -124,6 +152,7 @@ source_set("ui") {
     "//chrome/browser/history",
     "//chrome/browser/history_embeddings",
     "//chrome/browser/image_fetcher",
+    "//chrome/browser/regional_capabilities",
     "//chrome/browser/ui:tab_modal_confirm_dialog_delegate",
     "//chrome/browser/ui/browser_window",
     "//chrome/browser/ui/navigator",
@@ -142,6 +171,7 @@ source_set("ui") {
       "//chrome/browser/ui/views/frame:browser_frame_view",
       "//chrome/browser/ui/views/frame:opaque_browser_frame_view_layout",
       "//chrome/browser/ui/views/frame:top_container_view",
+      "//chrome/browser/ui/views/frame:vertical_tab_strip_region_view",
       "//chrome/browser/ui/views/tabs/hovercard",
     ]
   }
@@ -169,7 +199,7 @@ source_set("ui") {
   allow_circular_includes_from = brave_ui_allow_circular_includes_from
   deps += brave_ui_allow_circular_includes_from
 
-  public_deps = [ ":ui_public_dependencies" ]
+  public_deps = []
 
   if (toolkit_views) {
     public_deps += [
@@ -274,10 +304,7 @@ source_set("ui") {
     ]
 
     public_deps += [ "//chrome/browser/ui/webui:favicon_source" ]
-
-    if (!is_android || enable_webui_ntp) {
-      deps += [ "//chrome/browser/ui/webui:theme_source" ]
-    }
+    deps += [ "//chrome/browser/ui/webui:theme_source" ]
 
     sources += [
       "webui/brave_rewards/rewards_page_data_source.cc",
@@ -549,6 +576,7 @@ source_set("ui") {
       "//chrome/browser/ui:browser_actions",
       "//chrome/browser/ui:browser_commands",
       "//chrome/browser/ui:browser_content_setting_bubble_model_delegate",
+      "//chrome/browser/ui:browser_tabstrip",
       "//chrome/browser/ui:browser_window_header",
       "//chrome/browser/ui:chrome_pages",
       "//chrome/browser/ui:layout_constants",
@@ -795,6 +823,7 @@ source_set("ui") {
     ]
 
     deps += [
+      "//brave/browser/resources/tab_strip:tab_strip_resources",
       "//brave/browser/ui/darker_theme",
       "//brave/browser/ui/focus_mode",
       "//brave/browser/ui/side_panel",
@@ -878,14 +907,6 @@ source_set("ui") {
       deps += [ "//chrome/browser/ui/views/renderer_context_menu" ]
     }
 
-    if (enable_sparkle) {
-      sources += [
-        "views/update_recommended_message_box_mac.h",
-        "views/update_recommended_message_box_mac.mm",
-      ]
-      deps += [ "//chrome/browser/ui/views:update_recommended_message_box" ]
-    }
-
     if (is_win) {
       sources += [
         "views/frame/brave_browser_frame_view_win.cc",
@@ -961,11 +982,7 @@ source_set("ui") {
   }
 
   if (is_win || is_mac || is_linux) {
-    sources += [
-      "geolocation/brave_geolocation_permission_tab_helper.cc",
-      "geolocation/brave_geolocation_permission_tab_helper.h",
-      "geolocation/geolocation_utils.h",
-    ]
+    sources += [ "geolocation/geolocation_utils.h" ]
 
     deps += [ "//brave/components/brave_geolocation_permission/common:brave_geolocation_permission" ]
 
@@ -1009,7 +1026,6 @@ source_set("ui") {
     "//brave/app:command_ids",
     "//brave/app/vector_icons",
     "//brave/browser:browser_process",
-    "//brave/browser:sparkle_buildflags",
     "//brave/browser/misc_metrics",
     "//brave/browser/shell_integrations/buildflags",
     "//brave/browser/ui/brave_tooltips",
@@ -1658,12 +1674,17 @@ source_set("unit_tests") {
     ]
     deps = [
       ":brave_tab_prefs",
+      ":ui",
       "//base/test:test_support",
       "//brave/browser/ui/tabs:tabs_public",
+      "//brave/components/constants",
       "//brave/components/l10n/common:test_support",
-      "//chrome/browser/ui",
+      "//chrome/browser/ui:layout_constants",
       "//chrome/browser/ui/tabs:features",
+      "//chrome/common:constants",
       "//components/javascript_dialogs",
+      "//components/policy/core/common",
+      "//components/policy/core/common:common_constants",
       "//components/prefs:test_support",
       "//testing/gmock",
       "//testing/gtest",
@@ -1681,6 +1702,8 @@ source_set("unit_tests") {
         "//chrome/browser/themes",
         "//chrome/browser/ui/views:layout_provider",
         "//chrome/test:test_support",
+        "//chrome/test/base:test_browser_window",
+        "//chrome/test/base:testing_browser_process",
         "//skia",
         "//third_party/abseil-cpp:absl",
       ]
@@ -1701,19 +1724,22 @@ source_set("browser_tests") {
 
     sources = [
       "brave_browser_browsertest.cc",
+      "relaunch_to_update_browsertest.cc",
       "views/frame/brave_system_menu_model_builder_browsertest.cc",
       "window_closing_confirm_browsertest.cc",
     ]
 
     deps = [
       ":brave_browser_window_header",
+      ":ui",
       "//brave/app:command_ids",
       "//brave/browser/ui/window_closing_confirm",
       "//brave/components/constants",
       "//chrome/browser",
       "//chrome/browser/devtools:test_support",
+      "//chrome/browser/first_run:test_support",
       "//chrome/browser/profiles:profile",
-      "//chrome/browser/ui",
+      "//chrome/browser/ui:browser_tabstrip",
       "//chrome/browser/ui:tab_ui_helper",
       "//chrome/browser/ui/browser_window",
       "//chrome/browser/ui/omnibox",
@@ -1731,6 +1757,11 @@ source_set("browser_tests") {
       "//content/test:test_support",
       "//ui/actions",
     ]
+
+    if (enable_sparkle) {
+      sources += [ "relaunch_to_update_sparkle_browsertest.mm" ]
+      deps += [ "//brave/browser/mac:test_support" ]
+    }
 
     if (enable_playlist_webui) {
       sources += [ "views/side_panel/playlist/playlist_side_panel_coordinator_browsertest.cc" ]

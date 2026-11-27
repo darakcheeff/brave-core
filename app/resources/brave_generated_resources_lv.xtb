@@ -49,6 +49,7 @@
 <translation id="2200626478572277092">Widevine dažkārt ir vajadzīgs, lai atskaņotu mediju failus tīmekļa vietnē. Tas ir Google paplašinājums, ko ielādē no Google serveriem, bet ko Brave nevar pārbaudīt. Instalējot jūs piekrītat Google lietošanas noteikumiem.</translation>
 <translation id="4931114810905682683"><ph name="LEARN_MORE_ABOUT_WIDEVINE"/> vai mainīt vēlāk <ph name="SETTINGS_EXTENIONS_LINK"/></translation>
 <translation id="6229752134959014186">Uzzināt vairāk par Widevine</translation>
+<translation id="3318169548229684688">lejupielādēt runas atpazīšanas modeli (<ph name="DOWNLOAD_SIZE"/>), lai apstrādātu runu šajā ierīcē</translation>
 <translation id="6061083111980694767"><ph name="SITE_NAME"/> vēlas, lai jūs</translation>
 <translation id="3218385319396786393">Automātiskā atskaņošana šajā lapā tika bloķēta</translation>
 <translation id="4988333904713528597">Vienmēr atļaut automātisku ieslēgšanu vietnē <ph name="HOST"/></translation>
@@ -116,6 +117,8 @@
 <translation id="2162109630536601963">Ja šis paplašinājums veic tīkla pieprasījumus, tie neizmanto Tor vai inkognito režīmu.</translation>
 <translation id="2725327089319971976">Lai atspējotu šo paplašinājumu inkognito un Tor režīmā, noņemiet atzīmi no šīs opcijas.</translation>
 <translation id="438106944087726695">Viesots platformā Brave</translation>
+<translation id="2265651566599167057">Socket atzīmēts kā ļaunprogrammatūra.</translation>
+<translation id="2607395470596637070">Uzziniet vairāk par to, kā Socket pakalpojums Brave jūs aizsargā</translation>
 <translation id="3371343170427636147">Brave Nightly pārlūka lietotnes</translation>
 <translation id="4097979995947147464">Brave Beta pārlūka lietotnes</translation>
 <translation id="8303432794159193481">Brave Dev pārlūka lietotnes</translation>
@@ -607,6 +610,8 @@
 <translation id="3540231253392253941">Informatīvajiem paziņojumiem lietot Google pakalpojumus</translation>
 <translation id="2224032129673914306">Semantiskā vēstures meklēšana</translation>
 <translation id="6045998903985162478">Indeksējiet apmeklētās lapas, lai tās viegli atrastu vēsturē, atvērtajās cilnēs un Leo.</translation>
+<translation id="3962946446120925966">Ierīcē veikta runas atpazīšana</translation>
+<translation id="6408242130028978631">Lejupielādējiet runas atpazīšanas modeli (<ph name="DOWNLOAD_SIZE"/>), lai vietnes varētu apstrādāt runu šajā ierīcē. Izslēdziet šo opciju, lai noņemtu modeli.</translation>
 <translation id="5813105074916486721">Lokālās vēstures saglabāšana</translation>
 <translation id="5671611745062206644">Cik ilgi Brave lokāli glabā jūsu pārlūkošanas vēsturi</translation>
 <translation id="7184510058087008090">1 diena</translation>
@@ -722,7 +727,7 @@
 <translation id="4432071071853308688">Kods ir tukšs</translation>
 <translation id="955848693465029904">Iekšēja sinhronizācijas iestatīšanas kļūda</translation>
 <translation id="7456398316301207582">Konta dzēšanas iekšējā kļūda</translation>
-<translation id="859506441384380749">Šo kodu ģenerējusi novecojusi Brave versija. Vispirms jauniniet citu ierīci</translation>
+<translation id="4002014583969312635">Šķiet, ka šis kods tika izveidots ierīcē, kurā darbojas vecāka Brave versija. Lūdzu, atjauniniet Brave uz jaunāko versiju savā otrā ierīcē un pēc tam izveidojiet jaunu sinhronizācijas kodu.</translation>
 <translation id="3132642509209154999">Šis kods vairs nav derīgs. Izveidojiet jaunu citā ierīcē un mēģiniet vēlreiz.</translation>
 <translation id="2859229680945501779">Šis kods ir nederīgs. Lūdzu, pārbaudiet, vai laiks un laika zona jūsu ierīcē ir iestatīti pareizi.</translation>
 <translation id="2339730291919608488">Pamest sinhronizācijas ķēdi</translation>

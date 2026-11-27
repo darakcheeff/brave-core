@@ -50,6 +50,7 @@
 <translation id="4931114810905682683"><ph name="LEARN_MORE_ABOUT_WIDEVINE"/> 
 Később is módosíthatja a következő helyen: <ph name="SETTINGS_EXTENIONS_LINK"/></translation>
 <translation id="6229752134959014186">További tudnivalók a Widevine-ról</translation>
+<translation id="3318169548229684688">beszédfelismerő modell letöltése (<ph name="DOWNLOAD_SIZE"/>) a beszéd ezen az eszközön történő feldolgozásához</translation>
 <translation id="6061083111980694767">A(z) <ph name="SITE_NAME"/> a következő(k)re kéri Önt:</translation>
 <translation id="3218385319396786393">Ezen az oldalon blokkolták az automatikus lejátszást.</translation>
 <translation id="4988333904713528597">Automatikus lejátszás általános engedélyezése itt: <ph name="HOST"/></translation>
@@ -117,6 +118,8 @@ Később is módosíthatja a következő helyen: <ph name="SETTINGS_EXTENIONS_LI
 <translation id="2162109630536601963">Ha ez a bővítmény hálózati kéréseket küld, akkor nem Tor vagy privát módot fog használni.</translation>
 <translation id="2725327089319971976">A bővítmény letiltásához privát és Tor módban hagyd jelöletlenül ezt a lehetőséget.</translation>
 <translation id="438106944087726695">A Brave szerverein tárolt</translation>
+<translation id="2265651566599167057">A Socket malware-ként jelölte meg.</translation>
+<translation id="2607395470596637070">Tudjon meg többet arról, hogyan véd a Socket a Brave-ben</translation>
 <translation id="3371343170427636147">Brave böngésző Nightly alkalmazások</translation>
 <translation id="4097979995947147464">Brave böngésző béta alkalmazások</translation>
 <translation id="8303432794159193481">Brave böngésző fejlesztői alkalmazások</translation>
@@ -608,6 +611,8 @@ Később is módosíthatja a következő helyen: <ph name="SETTINGS_EXTENIONS_LI
 <translation id="3540231253392253941">Leküldéses üzenetekhez használd a Google szolgáltatásait</translation>
 <translation id="2224032129673914306">Szemantikus előzménykeresés</translation>
 <translation id="6045998903985162478">Indexelje a meglátogatott oldalakat, hogy könnyen megtalálja őket az előzményekben, a megnyitott lapokon és a Leóban.</translation>
+<translation id="3962946446120925966">Eszközön történő beszédfelismerés</translation>
+<translation id="6408242130028978631">Töltsön le egy beszédfelismerési modellt (<ph name="DOWNLOAD_SIZE"/>), hogy a webhelyek ezen az eszközön dolgozhassák fel a beszédet. A modell eltávolításához kapcsolja ki ezt a beállítást.</translation>
 <translation id="5813105074916486721">Helyi előzménymegőrzés</translation>
 <translation id="5671611745062206644">Mennyi ideig tárolja a Brave a böngészési előzményeit helyben</translation>
 <translation id="7184510058087008090">1 nap</translation>
@@ -723,7 +728,7 @@ Később is módosíthatja a következő helyen: <ph name="SETTINGS_EXTENIONS_LI
 <translation id="4432071071853308688">Ez a kód üres</translation>
 <translation id="955848693465029904">Belső szinkronizációs beállítási hiba</translation>
 <translation id="7456398316301207582">Belső fióktörlési hiba</translation>
-<translation id="859506441384380749">Ezt a kódot a Brave egy elavult verziója generálta; kérjük, előbb frissítse a másik eszközt</translation>
+<translation id="4002014583969312635">Úgy tűnik, ezt a kódot a Brave régebbi verzióját használó eszközön hozták létre. Frissítsen a legújabb Brave-verzióra a másik eszközén, majd hozzon létre új szinkronizálási kódot.</translation>
 <translation id="3132642509209154999">Ez a kód lejárt. Generáljon egy újat a másik eszközén, majd próbálja újra.</translation>
 <translation id="2859229680945501779">Ez a kód érvénytelen. Ellenőrizze, hogy az eszköze idő- és időzóna-beállításai helyesek-e.</translation>
 <translation id="2339730291919608488">Szinkronizációs lánc elhagyása</translation>

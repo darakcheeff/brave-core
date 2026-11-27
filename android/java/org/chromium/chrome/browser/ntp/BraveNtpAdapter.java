@@ -253,10 +253,6 @@ public class BraveNtpAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
-        if (viewType == TYPE_STATS) {
-            view = LayoutInflater.from(parent.getContext())
-                           .inflate(R.layout.brave_stats_layout, parent, false);
-            return new StatsViewHolder(view);
 
         } else if (viewType == TYPE_TOP_SITES) {
             // mMvTilesContainerLayout may have been placed in the NTP layout tree by

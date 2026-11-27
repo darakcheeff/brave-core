@@ -50,6 +50,7 @@
 <translation id="4931114810905682683"><ph name="LEARN_MORE_ABOUT_WIDEVINE"/>.
 Дараа нь <ph name="SETTINGS_EXTENIONS_LINK"/>-т өөрчилж болно.</translation>
 <translation id="6229752134959014186">Widevine-ийн талаар дэлгэрэнгүй</translation>
+<translation id="3318169548229684688">Энэ төхөөрөмж дээр яриаг боловсруулахын тулд яриа танилтын загварыг (<ph name="DOWNLOAD_SIZE"/>) татаж авах</translation>
 <translation id="6061083111980694767"><ph name="SITE_NAME"/> таныг</translation>
 <translation id="3218385319396786393">Энэ хуудсан дээр autoplay хориглогдсон</translation>
 <translation id="4988333904713528597"><ph name="HOST"/> дээр үргэлж autoplay-г зөвшөөрөх</translation>
@@ -117,6 +118,8 @@
 <translation id="2162109630536601963">Хэрэв энэхүү өргөтгөл сүлжээний хүсэлт гаргадаг бол тэдгээр нь Tor эсвэл хувийн горим ашиглахгүй.</translation>
 <translation id="2725327089319971976">Энэ өргөтгөл хувийн горим болон Tor горимд ажиллахаас хасахын тулд энэ сонголтыг сонгохгүй.</translation>
 <translation id="438106944087726695">Brave дээр хостлогдсон</translation>
+<translation id="2265651566599167057">Socket-ээр хортой програм гэж тэмдэглэсэн.</translation>
+<translation id="2607395470596637070">Brave доторх Socket таныг хэрхэн хамгаалдаг талаар дэлгэрэнгүй мэдэх</translation>
 <translation id="3371343170427636147">Brave хөтөч Nightly аппууд</translation>
 <translation id="4097979995947147464">Brave хөтөч Beta аппууд</translation>
 <translation id="8303432794159193481">Brave хөтөч Dev аппууд</translation>
@@ -607,6 +610,8 @@
 <translation id="3540231253392253941">Push зурваслахад Google үйлчилгээг ашиглах</translation>
 <translation id="2224032129673914306">Утга санааны түүхийн хайлт</translation>
 <translation id="6045998903985162478">Зочилсон хуудсуудаа индексжүүлснээр түүх, нээлттэй табууд болон Leo-гоос амархан олох боломжтой.</translation>
+<translation id="3962946446120925966">Төхөөрөмж дээрх ярианы таних</translation>
+<translation id="6408242130028978631">Сайтууд энэ төхөөрөмж дээр яриаг боловсруулах боломжтой болохын тулд ярианы таних загварыг (<ph name="DOWNLOAD_SIZE"/>) татаж авна уу. Загварыг устгахын тулд үүнийг унтраана уу.</translation>
 <translation id="5813105074916486721">Локал түүх хадгалах хугацаа</translation>
 <translation id="5671611745062206644">Brave таны browsing history-г локал байдлаар хэр удаан хадгалах</translation>
 <translation id="7184510058087008090">1 өдөр</translation>
@@ -722,7 +727,7 @@
 <translation id="4432071071853308688">Энэ код хоосон байна</translation>
 <translation id="955848693465029904">Дотоод синк тохиргооны алдаа</translation>
 <translation id="7456398316301207582">Дотоод хаяг устгах алдаа</translation>
-<translation id="859506441384380749">Энэ кодыг өмнөх Brave хувилбар аар үүсгэсэн, эхлээд бусад төхөөрөмжөө шинэчилнэ үү</translation>
+<translation id="4002014583969312635">Энэ код нь Brave-ийн хуучин хувилбар ажиллуулж буй төхөөрөмж дээр үүсгэгдсэн бололтой. Өөр төхөөрөмж дээрээ Brave-ийн хамгийн сүүлийн хувилбар руу шинэчилж, дараа нь шинэ синк код үүсгэнэ үү.</translation>
 <translation id="3132642509209154999">Энэ кодын хүчинтэй хугацаа дууссан байна. Бусад төхөөрөмжөөсөө шинэ код үүсгээд дахин оролдоорой.</translation>
 <translation id="2859229680945501779">Энэ код буруу байна. Төхөөрөмжийн цаг болон цагийн бүс зөв тохируулагдсан эсэхийг шалгана уу.</translation>
 <translation id="2339730291919608488">Синк хэлхээнээс гарах</translation>

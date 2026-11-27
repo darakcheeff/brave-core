@@ -1,8 +1,8 @@
 diff --git a/chrome/browser/global_features.cc b/chrome/browser/global_features.cc
-index 4835b332bd4e9981c43657f1f02796d1107e9573..ae6f46922d485ea024d67acae32bbdae00e7a225 100644
+index 5421a2ec047521fac469fd7c90fecd57b298e430..8fd9a1ea097f67876c4201cafe266010dac73871 100644
 --- a/chrome/browser/global_features.cc
 +++ b/chrome/browser/global_features.cc
-@@ -269,6 +269,7 @@ void GlobalFeatures::PostBrowserProcessInitCore() {
+@@ -270,6 +270,7 @@ void GlobalFeatures::PostBrowserProcessInitCore() {
  }
  
  void GlobalFeatures::Init() {

@@ -50,6 +50,7 @@
 <translation id="4931114810905682683"><ph name="LEARN_MORE_ABOUT_WIDEVINE"/>.
 Ili promijenite kasnije putem <ph name="SETTINGS_EXTENIONS_LINK"/>.</translation>
 <translation id="6229752134959014186">Doznaj više o dodatku Widevine</translation>
+<translation id="3318169548229684688">preuzeti model za prepoznavanje govora (<ph name="DOWNLOAD_SIZE"/>) radi obrade govora na ovom uređaju</translation>
 <translation id="6061083111980694767"><ph name="SITE_NAME"/> traži od vas da</translation>
 <translation id="3218385319396786393">Na ovoj je stranici blokirana automatska reprodukcija</translation>
 <translation id="4988333904713528597">Uvijek omogući automatsku reprodukciju na <ph name="HOST"/></translation>
@@ -117,6 +118,8 @@ Ili promijenite kasnije putem <ph name="SETTINGS_EXTENIONS_LINK"/>.</translation
 <translation id="2162109630536601963">Ako se ovim proširenjem stvaraju mrežni zahtjevi, oni ne upotrebljavaju Tor ili privatni način.</translation>
 <translation id="2725327089319971976">Za onemogućavanje ovog proširenja u privatnom načinu rada i načinu Tor poništite odabir ove mogućnosti.</translation>
 <translation id="438106944087726695">Host: Brave</translation>
+<translation id="2265651566599167057">Socket ga je označio kao zlonamjerni softver.</translation>
+<translation id="2607395470596637070">Saznajte više o tome kako vas Socket u Braveu štiti</translation>
 <translation id="3371343170427636147">Aplikacije preglednika Brave za spavanje</translation>
 <translation id="4097979995947147464">Aplikacije beta preglednika Brave</translation>
 <translation id="8303432794159193481">Razvojne aplikacije preglednika Brave</translation>
@@ -608,6 +611,8 @@ Ili promijenite kasnije putem <ph name="SETTINGS_EXTENIONS_LINK"/>.</translation
 <translation id="3540231253392253941">Upotrijebi Google Services za prosljeđivanje poruka</translation>
 <translation id="2224032129673914306">Semantičko pretraživanje povijesti</translation>
 <translation id="6045998903985162478">Indeksirajte stranice koje posjetite kako biste ih lako pronašli u povijesti, otvorenim karticama i Leu.</translation>
+<translation id="3962946446120925966">Prepoznavanje govora na uređaju</translation>
+<translation id="6408242130028978631">Preuzmite model za prepoznavanje govora (<ph name="DOWNLOAD_SIZE"/>) kako bi web-mjesta mogla obrađivati govor na ovom uređaju. Isključite ovu opciju da biste uklonili model.</translation>
 <translation id="5813105074916486721">Zadržavanje lokalne povijesti</translation>
 <translation id="5671611745062206644">Koliko dugo Brave lokalno pohranjuje tvoju povijest pregledavanja</translation>
 <translation id="7184510058087008090">1 dan</translation>
@@ -723,7 +728,7 @@ Ili promijenite kasnije putem <ph name="SETTINGS_EXTENIONS_LINK"/>.</translation
 <translation id="4432071071853308688">Ovaj je kôd prazan</translation>
 <translation id="955848693465029904">Pogreška pri postavljanju interne sinkronizacije</translation>
 <translation id="7456398316301207582">Unutarnja pogreška pri brisanju računa</translation>
-<translation id="859506441384380749">Ovaj kôd generirao se zastarjelom inačicom preglednika Brave, prvo nadogradite drugi uređaj</translation>
+<translation id="4002014583969312635">Izgleda da je ovaj kȏd nastao na uređaju s instaliranom starijom inačicom preglednika Brave. Ažurirajte na najnoviju inačicu preglednika Brave na svom drugom uređaju, a zatim stvorite novi kȏd za sinkronizaciju.</translation>
 <translation id="3132642509209154999">Kôd je istekao. Generirajte novi na drugom uređaju i pokušajte ponovno.</translation>
 <translation id="2859229680945501779">Ovaj kôd nije valjan. Provjerite jesu li na uređaju vrijeme i vremenska zona ispravno postavljeni.</translation>
 <translation id="2339730291919608488">Napusti lanac sinkronizacije</translation>

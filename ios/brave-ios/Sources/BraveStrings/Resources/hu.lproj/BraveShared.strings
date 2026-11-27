@@ -742,6 +742,15 @@
 /* Button label to temporarily continue to the site from the certificate error page */
 "ErrorPagesProceedAnywayButton" = "Folytatás ide: %@ (nem biztonságos)";
 
+/* Button to exclude a topsite url from the most visited list */
+"ExcludeMostVisitedSite" = "Eltávolítás";
+
+/* Message for the alert shown before excluding a site from the most visited list */
+"ExcludeMostVisitedSiteAlertMessage" = "Ez az oldal nem fog megjelenni a Leggyakrabban látogatott listában, de nem lesz eltávolítva az előzményekből.";
+
+/* Title for the alert shown before excluding a site from the most visited list */
+"ExcludeMostVisitedSiteAlertTitle" = "Eltávolítás a Leggyakrabban látogatott listából?";
+
 /* %@ will launch an external application */
 "ExternalAppURLAlertMessage" = "A(z) %@ elindít egy külső alkalmazást";
 
@@ -864,6 +873,9 @@
 
 /* Error message if details don't have the right type or values */
 "invalidDetailsMessage" = "Érvénytelen adatok a fizetési kérelemben";
+
+/* Title of a JavaScript alert, confirm, or prompt dialog shown by an embedded frame that has no displayable origin, such as a sandboxed iframe */
+"JavaScriptDialogEmbeddedPageTitle" = "Az ezen az oldalon beágyazott oldal";
 
 /* History tableview section header */
 "LastMonth" = "Előző hónap";
@@ -1059,6 +1071,18 @@
 
 /* No comment provided by engineer. */
 "ntp.sponsoredImageDescription" = "E szponzorált kép megtekintésével tartalomkészítőket és kiadókat támogat.";
+
+/* The title of a picker for user to pick which type of topsites to show in NTP */
+"ntp.topsites" = "Népszerű oldalak";
+
+/* Favorites type of topsites. Selection means NTP will display favorites tiles if there is any. */
+"ntp.topsitesTypeFavorites" = "Kedvencek";
+
+/* MostVisited type of topsites. Selection means NTP will display most visited tiles if there is any. */
+"ntp.topsitesTypeMostVisited" = "Gyakran látogatott";
+
+/* None type of topsites. Selection means there won't be any topsites tiles in NTP */
+"ntp.topsitesTypeNone" = "Nincs";
 
 /* The placeholder says 'Terms of Service'. So full sentence goes like: 'By turning Rewards, you agree to the Terms of Service'. */
 "ntp.turnRewardsTos" = "A Jutalmak funkció bekapcsolásával elfogadja a következőt: %@.";
@@ -1450,12 +1474,6 @@
 /* The title for the alert that shows up when an item is expired */
 "playList.expiredAlertTitle" = "Lejárt videó";
 
-/* Number of items in the playlsit folder. Example: '10 items' */
-"playlist.folderItemCountPlural" = "%d elem";
-
-/* Title for when there's a single item inside of a folder */
-"playlist.foldersCountSingular" = "%d elem";
-
 /* Description for load resources error alert */
 "playList.loadResourcesErrorAlertDescription" = "Hiba történt az erőforrás betöltésekor!";
 
@@ -1587,12 +1605,6 @@
 
 /* The title of the screen to create a new folder */
 "playlistFolders.newFolderScreenTitle" = "Új lejátszási lista";
-
-/* The sub-title of the folder. Example: This folder contains 10 Items. This folder contains 3 Items. */
-"playlistFolders.subtitleItemCount" = "%lld elem";
-
-/* The sub-title of the folder. Example: This folder contains ONE item. This folder contains 1 Item. */
-"playlistFolders.subtitleItemSingleCount" = "1 elem";
 
 /* The title of a folder when the user enters no name (untitled) */
 "playlistFolders.untitledFolderTitle" = "Cím nélküli lejátszási lista";
@@ -2410,12 +2422,6 @@
 /* Title of the settings toggle that enables Sponsored Ads */
 "settings.sponsoredAdsEnabledTitle" = "Szponzorált hirdetések engedélyezése";
 
-/* Description to explain the survey panelist toggle */
-"settings.surveyPanelistDescription" = "Engedélyezi, hogy a Brave privát kérdőívekre mutató linkeket jelenítsen meg az új lapon. Ezek segítenek a funkciók fejlesztésében és a hirdetések hatékonyságának mérésében. [Tudjon meg többet](%@)";
-
-/* Title to explain the survey panelist toggle */
-"settings.surveyPanelistTitle" = "Brave felmérések engedélyezése";
-
 /* Header for the YouTube settings section */
 "settings.youtube" = "YouTube";
 
@@ -2487,6 +2493,18 @@
 
 /* Title for Shield Education Tracker Video Ad Block */
 "shieldEducation.videoAdBlockTitle" = "A reklámok blokkolva vannak, míg videót nézel ezen az oldalon.";
+
+/* Title for the Brave Wallet shortcut. Brave Wallet is the name of a product and should not be translated */
+"shortcut.braveWallet" = "Brave Wallet";
+
+/* Title for the private tab shortcut. */
+"shortcut.privateTab" = "Privát fül";
+
+/* Title for the QR Code shortcut. */
+"shortcut.qrCode" = "QR-kód";
+
+/* Title for the Search shortcut. */
+"shortcut.search" = "Keresés ";
 
 /* Quick Action for 3D-Touch on the Application Icon */
 "ShortcutItemTitleNewPrivateTab" = "Új privát lap";
@@ -3060,12 +3078,6 @@
 
 /* Accessibility label for a button that allows users to shred their tabs (erase them & associated data) */
 "tabGrid.shredTabsAccessibilityLabel" = "Lapok törlése";
-
-/* A label in the tab tray mode switcher shown when there are 0 or more than 1 regular tabs open e.g. '129 Tabs' */
-"tabGrid.tabsCountFormatPlural" = "%lld Fülök";
-
-/* A label in the tab tray mode switcher shown when there is 1 regular tab open e.g. '1 Tab' */
-"tabGrid.tabsCountFormatSingular" = "%lld Fül";
 
 /* Accessibility label for a button that when tapped presents the users history & recently closed tabs */
 "tabGrid.viewHistoryAccessibilityLabel" = "Előzmények megtekintése";

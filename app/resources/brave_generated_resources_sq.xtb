@@ -50,6 +50,7 @@
 <translation id="4931114810905682683"><ph name="LEARN_MORE_ABOUT_WIDEVINE"/>.
 Ose ndryshoje më vonë në <ph name="SETTINGS_EXTENIONS_LINK"/>.</translation>
 <translation id="6229752134959014186">Mëso më shumë për Widevine</translation>
+<translation id="3318169548229684688">Shkarkojë një model njohjeje të të folurit (<ph name="DOWNLOAD_SIZE"/>) për të përpunuar të folurit në këtë pajisje</translation>
 <translation id="6061083111980694767"><ph name="SITE_NAME"/> po ju kërkon të</translation>
 <translation id="3218385319396786393">Vetëluajtja qe bllokuar në këtë faqe</translation>
 <translation id="4988333904713528597">Lejo përherë vetëluajtje te <ph name="HOST"/></translation>
@@ -117,6 +118,8 @@ Ose ndryshoje më vonë në <ph name="SETTINGS_EXTENIONS_LINK"/>.</translation>
 <translation id="2162109630536601963">Nëse ky zgjerim bën kërkesa rrjeti, ato nuk do të përdorin Tor ose modalitetin privat.</translation>
 <translation id="2725327089319971976">Për të çaktivizuar këtë zgjerim në modalitetin privat dhe modalitetin Tor, zgjidhni këtë opsion.</translation>
 <translation id="438106944087726695">Hosted nga Brave</translation>
+<translation id="2265651566599167057">Flaguar si malware nga Socket.</translation>
+<translation id="2607395470596637070">Mësoni më shumë se si Socket në Brave ju mbron</translation>
 <translation id="3371343170427636147">Aplikacione <em>Nightly</em> Shfletuesi Brave</translation>
 <translation id="4097979995947147464">Aplikacione <em>Beta</em> Shfletuesi Brave</translation>
 <translation id="8303432794159193481">Aplikacione Zhvilluesi Shfletuesi Brave</translation>
@@ -608,6 +611,8 @@ Ose ndryshoje më vonë në <ph name="SETTINGS_EXTENIONS_LINK"/>.</translation>
 <translation id="3540231253392253941">Përdor Shërbimet Google për Mesazhe Push</translation>
 <translation id="2224032129673914306">Kërkim semantik në historik</translation>
 <translation id="6045998903985162478">Indekso faqet që vizitoni, që t'i gjeni lehtë në historik, në skedat e hapura dhe te Leo.</translation>
+<translation id="3962946446120925966">Njohje e ligjërimit në pajisje</translation>
+<translation id="6408242130028978631">Shkarkoni një model njohjeje ligjërimi (<ph name="DOWNLOAD_SIZE"/>) që sajtet të mund ta përpunojnë ligjërimin në këtë pajisje. Çaktivizojeni këtë për ta hequr modelin.</translation>
 <translation id="5813105074916486721">Ruajtja e historikut vendor</translation>
 <translation id="5671611745062206644">Sa kohë e ruan Brave lokalisht historikun tuaj të shfletimit</translation>
 <translation id="7184510058087008090">1 ditë</translation>
@@ -723,7 +728,7 @@ Ose ndryshoje më vonë në <ph name="SETTINGS_EXTENIONS_LINK"/>.</translation>
 <translation id="4432071071853308688">Ky kod është bosh</translation>
 <translation id="955848693465029904">Gabim i brendshëm gjatë konfigurimit të sinkronizimit</translation>
 <translation id="7456398316301207582">Gabim i brendshëm gjatë fshirjes së llogarisë së sinkronizimit</translation>
-<translation id="859506441384380749">Ky kod është gjeneruar nga një version i vjetër i Brave, ju lutem përmirësoni pajisjen tuaj tjetër më parë</translation>
+<translation id="4002014583969312635">Duket se ky kod u krijua në një pajisje që xhiron një version më të vjetër të Brave. Ju lutemi përditësojeni në versionin më të fundit të Brave në pajisjen tuaj tjetër, dhe pastaj krijoni një kod të ri sinkronizimi.</translation>
 <translation id="3132642509209154999">Ky kod ka skaduar. Ju lutem gjeneroni një të ri në pajisjen tuaj tjetër dhe provoni përsëri.</translation>
 <translation id="2859229680945501779">Ky kod është i pavlefshëm. Kontrolloni që koha dhe zona kohore janë vendosur saktë në pajisjen tuaj.</translation>
 <translation id="2339730291919608488">Braktise Zinxhirin e Njëkohësimeve</translation>

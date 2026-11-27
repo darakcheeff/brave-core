@@ -28,10 +28,8 @@ import org.chromium.base.Token;
 import org.chromium.base.supplier.ObservableSuppliers;
 import org.chromium.base.supplier.SettableNonNullObservableSupplier;
 import org.chromium.base.test.BaseRobolectricTestRunner;
-import org.chromium.base.test.util.Features.DisableFeatures;
 import org.chromium.chrome.browser.bookmarks.BookmarkModel;
 import org.chromium.chrome.browser.bookmarks.TabBookmarker;
-import org.chromium.chrome.browser.flags.ChromeFeatureList;
 import org.chromium.chrome.browser.multiwindow.MultiInstanceOrchestrator;
 import org.chromium.chrome.browser.multiwindow.MultiInstanceOrchestratorFactory;
 import org.chromium.chrome.browser.preferences.ChromeSharedPreferences;
@@ -63,7 +61,6 @@ import java.util.function.Supplier;
  * TabGridContextMenuCoordinator}'s test.
  */
 @RunWith(BaseRobolectricTestRunner.class)
-@DisableFeatures(ChromeFeatureList.SEND_TAB_TO_SELF_EXTRA_ENTRY_POINTS)
 public class BraveTabGridContextMenuCoordinatorTest {
     private static @TabId final int TAB_ID = 1;
     private static final String LOCALHOST_URL = "localhost://";
@@ -108,8 +105,8 @@ public class BraveTabGridContextMenuCoordinatorTest {
         // GroupWindowChecker walks the sync service, so an unstubbed getAllGroupIds() would
         // return null and NPE before any menu item is built. A second group is needed because
         // the menu title depends on a group other than the tab's own existing.
-        when(mTabModel.tabGroupExists(mTabGroupId)).thenReturn(true);
-        when(mTabModel.tabGroupExists(otherGroupId)).thenReturn(true);
+        when(mTabModel.containsTabGroup(mTabGroupId)).thenReturn(true);
+        when(mTabModel.containsTabGroup(otherGroupId)).thenReturn(true);
         SavedTabGroup savedGroup = new SavedTabGroup();
         savedGroup.syncId = SYNC_GROUP_ID;
         savedGroup.localId = new LocalTabGroupId(mTabGroupId);

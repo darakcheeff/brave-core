@@ -50,6 +50,7 @@
 <translation id="4931114810905682683"><ph name="LEARN_MORE_ABOUT_WIDEVINE"/>。
 または後で<ph name="SETTINGS_EXTENIONS_LINK"/>から変更できます。</translation>
 <translation id="6229752134959014186">Widevineの詳細について</translation>
+<translation id="3318169548229684688">このデバイスで音声を処理するために、音声認識モデル(<ph name="DOWNLOAD_SIZE"/>)をダウンロードする</translation>
 <translation id="6061083111980694767"><ph name="SITE_NAME"/>が次の許可を求めています:</translation>
 <translation id="3218385319396786393">このページで自動再生がブロックされました</translation>
 <translation id="4988333904713528597"><ph name="HOST"/> で自動再生を常に許可する。</translation>
@@ -117,6 +118,8 @@
 <translation id="2162109630536601963">この拡張機能がネットワーク要求を行う場合、Torまたはプライベートモードは使用されません。</translation>
 <translation id="2725327089319971976">プライベートモードとTorモードでこの拡張機能を無効にするには、このオプションの選択を解除します。</translation>
 <translation id="438106944087726695">Braveがホストする拡張機能</translation>
+<translation id="2265651566599167057">Socketによってマルウェアとしてフラグが付けられました。</translation>
+<translation id="2607395470596637070">BraveのSocketがどのように保護するかについて詳しく見る</translation>
 <translation id="3371343170427636147">Brave Nightly</translation>
 <translation id="4097979995947147464">Brave Beta</translation>
 <translation id="8303432794159193481">Brave Dev</translation>
@@ -608,6 +611,8 @@
 <translation id="3540231253392253941">プッシュメッセージングにGoogleサービスを使用</translation>
 <translation id="2224032129673914306">セマンティック履歴検索</translation>
 <translation id="6045998903985162478">アクセスしたページにインデックスを付けて、履歴、開いているタブ、Leoで簡単に見つけられるようにします。</translation>
+<translation id="3962946446120925966">デバイス上の音声認識</translation>
+<translation id="6408242130028978631">音声認識モデル(<ph name="DOWNLOAD_SIZE"/>)をダウンロードして、サイトがこのデバイス上で音声を処理できるようにします。モデルを削除するには、この設定をオフにしてください。</translation>
 <translation id="5813105074916486721">ローカル履歴の保持期間</translation>
 <translation id="5671611745062206644">Braveが閲覧履歴をローカルに保存する期間</translation>
 <translation id="7184510058087008090">1日</translation>
@@ -724,7 +729,7 @@
 <translation id="4432071071853308688">このコードは空です</translation>
 <translation id="955848693465029904">内部同期の設定でエラーが発生しました</translation>
 <translation id="7456398316301207582">内部アカウント削除エラー</translation>
-<translation id="859506441384380749">このコードは非推奨バージョンのBraveで生成されました。まず他のデバイスをアップグレードしてください</translation>
+<translation id="4002014583969312635">このコードは、古いバージョンのBraveを実行しているデバイスで作成されたようです。他のデバイスでBraveの最新バージョンにアップデートしてから、新しい同期コードを作成してください。</translation>
 <translation id="3132642509209154999">このコードは期限切れです。他のデバイスであたらしいコードを生成してもう一度お試しください。</translation>
 <translation id="2859229680945501779">このコードは無効です。お使いの端末の時刻とタイムゾーンが正しく設定されていることをご確認ください。</translation>
 <translation id="2339730291919608488">同期チェーンから離れる</translation>

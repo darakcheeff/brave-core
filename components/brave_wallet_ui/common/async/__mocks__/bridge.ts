@@ -545,6 +545,9 @@ export class MockedWalletApiProxy {
     validatePassword: async (password: string) => ({
       result: password === 'password',
     }),
+    recoverWallet: async () => ({
+      result: BraveWallet.RecoverWalletResult.kSuccess,
+    }),
     lock: () => {
       this.store?.dispatch(WalletActions.locked())
       alert('wallet locked')
@@ -1333,6 +1336,7 @@ export class MockedWalletApiProxy {
           ],
           isCardanoDappSupportEnabled: false,
           isPolkadotDappSupportEnabled: false,
+          isCardStackUiEnabled: false,
         },
       }
     },

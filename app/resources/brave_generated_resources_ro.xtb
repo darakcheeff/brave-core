@@ -50,6 +50,7 @@
 <translation id="4931114810905682683"><ph name="LEARN_MORE_ABOUT_WIDEVINE"/>.
 Sau modificați permisinile ulterior în <ph name="SETTINGS_EXTENIONS_LINK"/>.</translation>
 <translation id="6229752134959014186">Aflați mai multe despre Widevine</translation>
+<translation id="3318169548229684688">să descarce un model de recunoaștere vocală (<ph name="DOWNLOAD_SIZE"/>) pentru a procesa vocea pe acest dispozitiv</translation>
 <translation id="6061083111980694767"><ph name="SITE_NAME"/> vă solicită să</translation>
 <translation id="3218385319396786393">Redarea automată a fost blocată pe această pagină</translation>
 <translation id="4988333904713528597">Redare automată întotdeauna pe <ph name="HOST"/></translation>
@@ -117,6 +118,8 @@ Sau modificați permisinile ulterior în <ph name="SETTINGS_EXTENIONS_LINK"/>.</
 <translation id="2162109630536601963">Dacă această extensie trimite solicitări de rețea, acestea nu vor folosi Tor sau modul privat.</translation>
 <translation id="2725327089319971976">Pentru a dezactiva această extensie în modul privat și în modul Tor, debifează această opțiune.</translation>
 <translation id="438106944087726695">Găzduit de Brave</translation>
+<translation id="2265651566599167057">Marcată ca malware de către Socket.</translation>
+<translation id="2607395470596637070">Află mai multe despre cum te protejează Socket în Brave</translation>
 <translation id="3371343170427636147">Aplicații de noapte browser Brave</translation>
 <translation id="4097979995947147464">Aplicații beta browser Brave</translation>
 <translation id="8303432794159193481">Aplicații dezv browser Brave</translation>
@@ -608,6 +611,8 @@ Sau modificați permisinile ulterior în <ph name="SETTINGS_EXTENIONS_LINK"/>.</
 <translation id="3540231253392253941">Utilizați serviciile Google pentru mesageria push</translation>
 <translation id="2224032129673914306">Căutare semantică în istoric</translation>
 <translation id="6045998903985162478">Indexează paginile pe care le vizitezi, astfel încât să le poți găsi cu ușurință în istoric, în filele deschise și în Leo.</translation>
+<translation id="3962946446120925966">Recunoaștere vocală pe dispozitiv</translation>
+<translation id="6408242130028978631">Descarcă un model de recunoaștere vocală (<ph name="DOWNLOAD_SIZE"/>) pentru ca site-urile să poată procesa vocea pe acest dispozitiv. Dezactivează această opțiune pentru a elimina modelul.</translation>
 <translation id="5813105074916486721">Reținerea istoricului local</translation>
 <translation id="5671611745062206644">Cât timp stochează Brave istoria de navigare local</translation>
 <translation id="7184510058087008090">1 zi</translation>
@@ -723,7 +728,7 @@ Sau modificați permisinile ulterior în <ph name="SETTINGS_EXTENIONS_LINK"/>.</
 <translation id="4432071071853308688">Acest cod este gol</translation>
 <translation id="955848693465029904">Eroare de configurare a sincronizării interne</translation>
 <translation id="7456398316301207582">Eroare internă la ștergerea contului</translation>
-<translation id="859506441384380749">Acest cod a fost generat de o versiune Brave perimată. Actualizați întâi celălalt dispozitiv al dvs.</translation>
+<translation id="4002014583969312635">Se pare că acest cod a fost creat pe un dispozitiv care rulează o versiune mai veche a lui Brave. Actualizează Brave la cea mai recentă versiune pe celălalt dispozitiv apoi generează un cod nou de sincronizare.</translation>
 <translation id="3132642509209154999">Acest cod a expirat. Generați un cod nou pe celălalt dispozitiv al dvs. și încercați din nou.</translation>
 <translation id="2859229680945501779">Acest cod nu este corect. Verificați dacă ora și fusul orar sunt setate corect pe dispozitivul dvs.</translation>
 <translation id="2339730291919608488">Părăsire lanț de sincronizare</translation>

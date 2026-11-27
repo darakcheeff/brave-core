@@ -24,7 +24,6 @@
 -keep class org.chromium.chrome.browser.media.ui.ChromeMediaNotificationControllerDelegate { *; }
 -keep class org.chromium.chrome.browser.media.ui.MediaSessionTabHelper { *; }
 -keep class org.chromium.components.browser_ui.notifications.BraveForegroundServiceUtils { *; }
--keep class org.chromium.chrome.browser.media.ui.BraveMediaNotificationControllerDelegate { *; }
 -keep class org.chromium.chrome.browser.media.ui.BraveMediaSessionTabHelper { *; }
 
 -keep class org.chromium.chrome.browser.bookmarks.BookmarkBridge {
@@ -559,8 +558,6 @@
 -keep class org.chromium.chrome.browser.multiwindow.MultiWindowUtils {
     *** shouldShowManageWindowsMenu(...);
     *** isLinkNavigationToOtherWindowSupported(...);
-    *** isLinkNavigationToNewWindowSupported(...);
-    *** isLinkNavigationToIncognitoWindowSupported(...);
     *** isMoveToOtherWindowSupported(...);
     *** canEnterMultiWindowMode(...);
     <init>(...);
@@ -684,10 +681,12 @@
 -keep class org.chromium.chrome.browser.dom_distiller.ReaderModeManager {
     *** mTab;
     <init>(...);
+    *** shouldUseReaderModeMessages(...);
 }
 
 -keep class org.chromium.chrome.browser.dom_distiller.BraveReaderModeManager {
     <init>(...);
+    *** shouldUseReaderModeMessages(...);
 }
 
 -keep class org.chromium.chrome.browser.crash.ChromePureJavaExceptionReporter {
@@ -967,10 +966,6 @@
 
 -keep class org.chromium.chrome.browser.ui.system.BraveStatusBarColorController {
     public <init>(...);
-}
-
--keep class org.chromium.chrome.browser.omnibox.styles.OmniboxResourceProvider {
-    *** getToolbarSidePaddingForNtp(...);
 }
 
 -keep class org.chromium.chrome.browser.password_manager.PasswordManagerHelper {

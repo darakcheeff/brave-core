@@ -50,6 +50,7 @@
 <translation id="4931114810905682683"><ph name="LEARN_MORE_ABOUT_WIDEVINE"/>.
 သို့မဟုတ် <ph name="SETTINGS_EXTENIONS_LINK"/> တွင် ပြောင်းလိုက်ပါ။</translation>
 <translation id="6229752134959014186">Widevine အကြောင်း ပိုမိုလေ့လာပါ</translation>
+<translation id="3318169548229684688">ဤစက်ပေါ်တွင် စကားသံကို လုပ်ဆောင်နိုင်ရန် စကားပြောအသိအမှတ်ပြုမော်ဒယ် (<ph name="DOWNLOAD_SIZE"/>) ကို ဒေါင်းလုဒ်လုပ်ရန်</translation>
 <translation id="6061083111980694767"><ph name="SITE_NAME"/> သင်ကို</translation>
 <translation id="3218385319396786393">ဤစာမျက်နှာတွင် Autoplay ပိတ်ထားသည်</translation>
 <translation id="4988333904713528597"><ph name="HOST"/> တွင် Autoplay ခွင့်ပြုသည်</translation>
@@ -117,6 +118,8 @@
 <translation id="2162109630536601963">ဒီ Extension က ကွန်ယက် ချိတ်ဆက်မှု ဆက်ဆိုစမ်းသက်မှသည့်အခါ Tor သို့မဟုတ် Private Mode မသုံးပါမွှာ</translation>
 <translation id="2725327089319971976">Private mode နှင့် Tor mode ရှိ extension ကိုပြန်လည်မသုံးဘို့ ဒီ လွဲရွှေ့မှုကို မတားပါနှင့်။</translation>
 <translation id="438106944087726695">Brave မှ ပြင်ဆင်ထားသည်</translation>
+<translation id="2265651566599167057">Socket မှ malware အဖြစ် အမှတ်အသားပြုထားသည်။</translation>
+<translation id="2607395470596637070">Brave ရှိ Socket က သင့်ကို မည်သို့ ကာကွယ်ပေးသည်ကို ပိုမိုလေ့လာပါ</translation>
 <translation id="3371343170427636147">Brave Browser Nightly Apps</translation>
 <translation id="4097979995947147464">Brave Browser Beta Apps</translation>
 <translation id="8303432794159193481">Brave Browser Dev Apps</translation>
@@ -608,6 +611,8 @@
 <translation id="3540231253392253941">Push အချက်အလက်များအတွက် Google ဝန်ဆောင်မှုများကို အသုံးပြုရန်</translation>
 <translation id="2224032129673914306">အဓိပ္ပာယ်ဆိုင်ရာ မှတ်တမ်း ရှာဖွေမှု</translation>
 <translation id="6045998903985162478">သင်ဝင်ကြည့်သည့် စာမျက်နှာများကို အညွှန်းချိတ်ထားခြင်းဖြင့် ၎င်းတို့ကို မှတ်တမ်း၊ ဖွင့်ထားသည့် တက်ဘ်များနှင့် Leo တွင် လွယ်ကူစွာ ရှာဖွေနိုင်ပါသည်။</translation>
+<translation id="3962946446120925966">စက်ပေါ်ရှိ စကားပြောသိမြင်ခြင်း</translation>
+<translation id="6408242130028978631">ဤစက်ပေါ်တွင် ဝဘ်ဆိုက်များက စကားပြောကို စီမံဆောင်ရွက်နိုင်စေရန် စကားပြောသိမြင်ခြင်း မော်ဒယ် (<ph name="DOWNLOAD_SIZE"/>) ကို ဒေါင်းလုဒ်လုပ်ပါ။ မော်ဒယ်ကို ဖယ်ရှားရန် ဤဆက်တင်ကို ပိတ်ပါ။</translation>
 <translation id="5813105074916486721">စက်တွင်း မှတ်တမ်း သိမ်းဆည်းခြင်း</translation>
 <translation id="5671611745062206644">Brave သည် သင့်လည်ပတ်မှုမှတ်တမ်းကို စက်တွင်း မည်မျှကြာအောင် သိမ်းဆည်းမည်နည်း</translation>
 <translation id="7184510058087008090">၁ ရက်</translation>
@@ -723,7 +728,7 @@
 <translation id="4432071071853308688">ဤဖြစ်ရပ်ဖွင့်ယင်းမှာ အလွတ်ဆဲများ ဖြစ်ပါသည်</translation>
 <translation id="955848693465029904">အတွင်းပိုင်းကွန်ရက်ဖွဲ့စည်းမှု ဗူင်ဖြစ်</translation>
 <translation id="7456398316301207582">အတွင်းပိုင်း အကောင့်ဖျက်သိမ်းခြင်း</translation>
-<translation id="859506441384380749">ဤကုဒ်ကို Brave အဟောင်းဗားရှင်းအတွက် သတ်မှတ်ထားသည် ကို upgrade ပြုလုပ်သင့်တယ်၊ သို့မဟုတ် မျိုးဆက်ရှောင်လိမ့်မည်</translation>
+<translation id="4002014583969312635">ဤကုဒ်သည် Brave ဗားရှင်းအဟောင်းကို အသုံးပြုနေသော စက်ပစ္စည်းတစ်ခုတွင် ဖန်တီးထားခြင်း ဖြစ်ပုံရသည်။ သင်၏အခြားစက်ပစ္စည်းတွင် Brave ၏ နောက်ဆုံးဗားရှင်းသို့ အပ်ဒိတ်လုပ်ပြီးနောက် sync ကုဒ်အသစ်တစ်ခု ဖန်တီးပါ။</translation>
 <translation id="3132642509209154999">ဤကုဒ်သည် သက်တမ်းကုန်ဆုံးနေပြီ။ နောက်တစ်ခုကို စက်တစ်ခုပြီးနောက်စမ်းကြည့်ပါ။</translation>
 <translation id="2859229680945501779">ဤကုဒ်သည် မှားယွင်းသောအချက်အလက်များဖြင့် ထည့်သွင်းနေသည်ဖြစ်ပါသည်။ ကျေးဇူးပြု၍ သင်၏စီမံကိန်းနှင့်အချိန်ဇုန်များကို ကိုက်ညီပြီဆိုပါက စမ်းဆောင်ကြည့်ပါ။</translation>
 <translation id="2339730291919608488">ကွန်ရက်ဖွဲ့စည်းမှုမှလွဲ</translation>

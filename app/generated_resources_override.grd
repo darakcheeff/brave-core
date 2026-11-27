@@ -105,7 +105,7 @@ are declared in tools/grit/grit_args.gni.
       <part file="settings_strings_override.grdp" />
       <if expr="not is_android">
         <part file="shared_settings_strings_override.grdp" />
-      </if>
+        </if>
 
       <if expr="chrome_root_store_cert_management_ui">
         </if>
@@ -222,16 +222,14 @@ are declared in tools/grit/grit_args.gni.
         <message name="IDS_APP_MENU_INCOGNITO" desc="Label for the Private block button in the main App Menu">
           Private
         </message>
-        <if expr="not use_titlecase">
+        <message name="IDS_APP_MENU_BLOCK_INCOGNITO" desc="Label with a keyboard mnemonic for the Private block button in the main App Menu">
+          &amp;Private
+        </message>
         <if expr="is_win or is_macosx or is_linux">
           </if>
+        <if expr="not use_titlecase">
           </if>
         <if expr="use_titlecase">
-
-
-
-          <if expr="is_win or is_macosx or is_linux">
-              </if>
           </if>
       </if>
 
@@ -626,7 +624,6 @@ are declared in tools/grit/grit_args.gni.
         <else>
           </else>
       </if>
-
       <if expr="is_macosx">
         </if>
       <if expr="not is_macosx">
@@ -873,10 +870,6 @@ are declared in tools/grit/grit_args.gni.
       <if expr="use_titlecase">
         </if>
 
-      <if expr="is_macosx">
-        </if>
-      <if expr="not is_macosx">
-        </if>
       <if expr="not use_titlecase">
         </if>
       <if expr="use_titlecase">
@@ -1243,9 +1236,6 @@ are declared in tools/grit/grit_args.gni.
         </if>
       <if expr="is_chromeos">
         </if>
-      <message name="IDS_RELAUNCH_RECOMMENDED_BODY_SCHEDULE" desc="The body text for the scheduled restart reminder bubble dialog." translateable="false">
-        Restart now to finish updating, or restart next time you're idle for 5 minutes. Your open tabs and windows will restore. Private windows won't reopen.
-      </message>
       </if>
 
     <if expr="not is_android and not is_chromeos">
@@ -1253,6 +1243,11 @@ are declared in tools/grit/grit_args.gni.
         {COUNT, plural,
           =1 {Your Private window won't reopen.}
           other {Your # Private windows won't reopen.}}
+      </message>
+      <message name="IDS_IDLE_TIMEOUT_INCOGNITO_AND_ISOLATED" desc="The text in the Idle Timeout dialog variant when there are Private and Isolated windows open. This warns the user that Private and Isolated windows will close automatically, and their content will be lost.">
+        {COUNT, plural,
+          =1 {There is Private or Isolated window open. It won't reopen.}
+          other {There are # Private and Isolated windows open across profiles. They won't reopen.}}
       </message>
       </if>
 

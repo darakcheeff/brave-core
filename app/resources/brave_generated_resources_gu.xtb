@@ -50,6 +50,7 @@
 <translation id="4931114810905682683"><ph name="LEARN_MORE_ABOUT_WIDEVINE"/>.
 અથવા પછી <ph name="SETTINGS_EXTENIONS_LINK"/> માં ફેરફાર કરો.</translation>
 <translation id="6229752134959014186">Widevine વિશે વધુ જાણો</translation>
+<translation id="3318169548229684688">આ ડિવાઇસ પર સ્પીચ પ્રોસેસ કરવા માટે સ્પીચ રેકગ્નિશન મૉડલ (<ph name="DOWNLOAD_SIZE"/>) ડાઉનલોડ કરો</translation>
 <translation id="6061083111980694767"><ph name="SITE_NAME"/> તમને પૂછે છે</translation>
 <translation id="3218385319396786393">આ પેજ પર Autoplay બ્લોક કરવામાં આવ્યું છે</translation>
 <translation id="4988333904713528597">હંમેશ માટે <ph name="HOST"/> પર autoplay ને મંજૂરી આપો</translation>
@@ -117,6 +118,8 @@
 <translation id="2162109630536601963">જો આ એક્સ્ટેંશન નેટવર્ક વિનંતીઓ કરે છે, તો તે Tor અથવા ખાનગી મોડનો ઉપયોગ ન કરશે.</translation>
 <translation id="2725327089319971976">ખાનગી મોડ અને Tor મોડમાં આ એક્સ્ટેંશનને અક્ષમ કરવા માટે, આ વિકલ્પને અનસિલેક્ટ કરો.</translation>
 <translation id="438106944087726695">Brave દ્વારા હોસ્ટ કરેલ</translation>
+<translation id="2265651566599167057">Socket દ્વારા malware તરીકે ચિહ્નિત કરાયેલ.</translation>
+<translation id="2607395470596637070">Brave માં Socket તમને કેવી રીતે સુરક્ષિત કરે છે તે વિશે વધુ જાણો</translation>
 <translation id="3371343170427636147">Brave Browser Nightly Apps</translation>
 <translation id="4097979995947147464">Brave Browser Beta Apps</translation>
 <translation id="8303432794159193481">Brave Browser Dev Apps</translation>
@@ -608,6 +611,8 @@
 <translation id="3540231253392253941">પ્રકાશન સંદેશા માટે Google સેવાઓનો ઉપયોગ કરશે</translation>
 <translation id="2224032129673914306">સિમેન્ટિક ઇતિહાસ શોધ</translation>
 <translation id="6045998903985162478">તમે મુલાકાત લો છો તે પૃષ્ઠોને અનુક્રમિત કરો જેથી તમે તેમને ઇતિહાસ, ખુલ્લા ટૅબ અને Leo માં સરળતાથી શોધી શકો.</translation>
+<translation id="3962946446120925966">ઓન-ડિવાઇસ સ્પીચ રેકગ્નિશન</translation>
+<translation id="6408242130028978631">સ્પીચ રેકગ્નિશન મોડેલ (<ph name="DOWNLOAD_SIZE"/>) ડાઉનલોડ કરો, જેથી સાઇટ્સ આ ડિવાઇસ પર સ્પીચ પ્રોસેસ કરી શકે. મોડેલ દૂર કરવા માટે આને બંધ કરો.</translation>
 <translation id="5813105074916486721">સ્થાનિક ઇતિહાસ જાળવણી</translation>
 <translation id="5671611745062206644">Brave તમારા બ્રાઉઝિંગ ઇતિહાસને સ્થાનિક રીતે કેટલા સમય માટે સંગ્રહિત કરે છે</translation>
 <translation id="7184510058087008090">1 દિવસ</translation>
@@ -723,7 +728,7 @@
 <translation id="4432071071853308688">આ કોડ ખાલી છે</translation>
 <translation id="955848693465029904">અંતરિક સિંક સેટઅપ ભૂલ</translation>
 <translation id="7456398316301207582">અંતરિક એકાઉન્ટ કાઢી નાખો ભૂલ</translation>
-<translation id="859506441384380749">આ કોડ Braveના જૂના વર્ઝન દ્વારા જનરેટ કરવામાં આવ્યો હતો, કૃપા કરીને પહેલા તમારા બીજા ડિવાઇસને અપગ્રેડ કરો</translation>
+<translation id="4002014583969312635">એવું લાગે છે કે આ કોડ Brave ના જૂના વર્ઝન પર ચાલતા device પર બનાવવામાં આવ્યો હતો. કૃપા કરીને તમારા બીજા device પર Brave ના નવીનતમ વર્ઝન પર અપડેટ કરો, અને પછી નવો sync કોડ બનાવો.</translation>
 <translation id="3132642509209154999">આ કોડની સમયસીમા સમાપ્ત થઈ ગઈ છે. કૃપા કરીને તમારા બીજા ડિવાઇસ પર એક નવો કોડ જનરેટ કરો અને ફરી પ્રયાસ કરો.</translation>
 <translation id="2859229680945501779">આ કોડ અમાન્ય છે. કૃપા કરીને ચકાસો કે તમારા ડિવાઇસ પર સમય અને ટાઇમઝોન યોગ્ય રીતે સેટ છે.</translation>
 <translation id="2339730291919608488">સિંક ચેન છોડી દો</translation>

@@ -2,7 +2,7 @@
 "adsHeader" = "Ads";
 
 /* A title asking if the user already purchased on brave.com */
-"alreadyPurchasedTitle" = "Hast du bereits einen Kauf auf brave.com getätigt?";
+"alreadyPurchasedTitle" = "Haben Sie bereits einen Kauf auf brave.com getätigt?";
 
 /* A section header title for analytics-related settings */
 "analyticsHeader" = "Analytics";
@@ -68,7 +68,7 @@
 "restoreButton" = "Wiederherstellen";
 
 /* A toggle label for Brave Rewards feature */
-"rewardsLabel" = "Rewards";
+"rewardsLabel" = "Belohnungen";
 
 /* A toggle label for statistics reporting feature */
 "statisticsReportingLabel" = "Statistikberichte";

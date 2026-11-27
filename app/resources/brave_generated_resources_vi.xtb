@@ -50,6 +50,7 @@
 <translation id="4931114810905682683"><ph name="LEARN_MORE_ABOUT_WIDEVINE"/>.
 Hoặc thay đổi sau tại <ph name="SETTINGS_EXTENIONS_LINK"/>.</translation>
 <translation id="6229752134959014186">Tìm hiểu thêm về Widevine</translation>
+<translation id="3318169548229684688">tải xuống mô hình nhận dạng giọng nói (<ph name="DOWNLOAD_SIZE"/>) để xử lý giọng nói trên thiết bị này</translation>
 <translation id="6061083111980694767"><ph name="SITE_NAME"/> đang yêu cầu bạn</translation>
 <translation id="3218385319396786393">Tự động phát bị chặn trên trang này</translation>
 <translation id="4988333904713528597">Luôn cho phép tự động phát trên <ph name="HOST"/></translation>
@@ -117,6 +118,8 @@ Hoặc thay đổi sau tại <ph name="SETTINGS_EXTENIONS_LINK"/>.</translation>
 <translation id="2162109630536601963">Nếu tiện ích mở rộng này đưa ra các yêu cầu nối mạng, chúng sẽ không sử dụng Tor hoặc chế độ riêng tư.</translation>
 <translation id="2725327089319971976">Để tắt tiện ích mở rộng này ở chế độ riêng tư và chế độ Tor, hãy bỏ chọn tùy chọn này.</translation>
 <translation id="438106944087726695">Do Brave lưu trữ</translation>
+<translation id="2265651566599167057">Bị Socket gắn cờ là malware.</translation>
+<translation id="2607395470596637070">Tìm hiểu thêm về cách Socket trong Brave bảo vệ bạn</translation>
 <translation id="3371343170427636147">Các Ứng dụng Ban đêm của Trình duyệt Brave</translation>
 <translation id="4097979995947147464">Các Ứng dụng của Trình duyệt Brave Beta</translation>
 <translation id="8303432794159193481">Các Ứng dụng của Trình duyệt Brave Dev</translation>
@@ -608,6 +611,8 @@ Hoặc thay đổi sau tại <ph name="SETTINGS_EXTENIONS_LINK"/>.</translation>
 <translation id="3540231253392253941">Sử dụng các dịch vụ của Google để nhắn tin đẩy</translation>
 <translation id="2224032129673914306">Tìm kiếm lịch sử theo ngữ nghĩa</translation>
 <translation id="6045998903985162478">Lập chỉ mục các trang bạn truy cập để bạn có thể dễ dàng tìm thấy chúng trong lịch sử, các thẻ đang mở và Leo.</translation>
+<translation id="3962946446120925966">Nhận dạng giọng nói trên thiết bị</translation>
+<translation id="6408242130028978631">Tải xuống mô hình nhận dạng giọng nói (<ph name="DOWNLOAD_SIZE"/>) để các trang web có thể xử lý giọng nói trên thiết bị này. Tắt tùy chọn này để xóa mô hình.</translation>
 <translation id="5813105074916486721">Lưu giữ lịch sử tại chỗ</translation>
 <translation id="5671611745062206644">Brave lưu trữ lịch sử duyệt web của bạn tại chỗ trong bao lâu</translation>
 <translation id="7184510058087008090">1 ngày</translation>
@@ -723,7 +728,7 @@ Hoặc thay đổi sau tại <ph name="SETTINGS_EXTENIONS_LINK"/>.</translation>
 <translation id="4432071071853308688">Mã này trống</translation>
 <translation id="955848693465029904">Lỗi thiết lập đồng bộ nội bộ</translation>
 <translation id="7456398316301207582">Lỗi xóa tài khoản nội bộ</translation>
-<translation id="859506441384380749">Mã này được tạo ra bởi một phiên bản cũ của Brave, hãy nâng cấp thiết bị kia của bạn trước</translation>
+<translation id="4002014583969312635">Có vẻ mã này được tạo trên thiết bị chạy phiên bản Brave cũ. Vui lòng cập nhật lên phiên bản Brave mới nhất trên thiết bị khác của bạn, sau đó tạo mã đồng bộ hóa mới.</translation>
 <translation id="3132642509209154999">Mã này đã hết hạn. Vui lòng tạo một mã mới trên thiết bị kia của bạn và thử lại.</translation>
 <translation id="2859229680945501779">Mã này không hợp lệ. Vui lòng kiểm tra xem thời gian và múi giờ có được đặt chính xác trên thiết bị của bạn không.</translation>
 <translation id="2339730291919608488">Rời chuỗi đồng bộ</translation>

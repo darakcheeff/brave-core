@@ -13,7 +13,7 @@ import textwrap
 
 import requests
 
-from ci import JenkinsCi
+from ci.jenkins import JenkinsCi
 from exceptions import BadOutcomeException, InvalidInputException
 from git_status import GitStatus
 import install_extra_deps
@@ -120,8 +120,6 @@ TOOLCHAINS = {
                 'brave-browser-rust-toolchain-aux-build-linux-x64/',
                 'https://ci.brave.com/view/toolchains/job/'
                 'brave-browser-rust-toolchain-aux-build-macos-arm64/',
-                'https://ci.brave.com/view/toolchains/job/'
-                'brave-browser-rust-toolchain-aux-build-macos-x64/',
                 'https://ci.brave.com/view/toolchains/job/'
                 'brave-browser-rust-toolchain-aux-build-windows-x64/',
             ),
@@ -430,7 +428,7 @@ class Toolchain:
         supplied here as a keyword argument.
 
         Returns whether the pipelines finished successfully (see
-        `ci.JenkinsCi.trigger`): always True when not watching.
+        `ci.jenkins.JenkinsCi.trigger`): always True when not watching.
         """
         # Toolchains with a build parameter carry the tag there; the ones that
         # take a PROPERTIES payload (see `spec.properties`) send no build param.
@@ -473,25 +471,21 @@ class Toolchain:
 
     # -- recovery (auto-resolve a needed toolchain during a lift) -----------
 
-    def recover(self, target: Version, culprit: str) -> bool:
+    def ensure_published(self, target: Version) -> bool:
         """Best-effort auto-resolution of a needed toolchain during a lift.
 
-        This method basically builds the toolchain if nobody has, then repins
-        the published result. A toolchain that is already published is just
-        used with no need for a CI job.
+        This method builds the toolchain if nobody has. A toolchain that is
+        already published is just used with no need for a CI job. The repin
+        itself is left to the caller, as a lift commits it only after its
+        version commit.
 
-        Returns True when fully recovered (nothing left for the user), so the
+        Returns True when the toolchain is available to be repinned, so the
         caller can drop the advisory.
         """
         try:
-            if not self.is_published(target) and not self.trigger(
-                target, watch=True
-            ):
-                return False
-            self.repin(target, culprit)
+            return self.is_published(target) or self.trigger(target, watch=True)
         except (InvalidInputException, BadOutcomeException):
             return False
-        return True
 
     # -- repin (in-tree pin + commit), overridden where applicable ----------
 

@@ -50,6 +50,7 @@
 <translation id="4931114810905682683"><ph name="LEARN_MORE_ABOUT_WIDEVINE"/>.
 Atau dapat mengubahnya nanti di <ph name="SETTINGS_EXTENIONS_LINK"/>.</translation>
 <translation id="6229752134959014186">Pelajari lebih lanjut tentang Widevine</translation>
+<translation id="3318169548229684688">Unduh model pengenalan ucapan (<ph name="DOWNLOAD_SIZE"/>) untuk memproses ucapan di perangkat ini</translation>
 <translation id="6061083111980694767"><ph name="SITE_NAME"/> meminta Anda untuk</translation>
 <translation id="3218385319396786393">Putar otomatis pada laman ini diblokir</translation>
 <translation id="4988333904713528597">Selalu izinkan putar otomatis di <ph name="HOST"/></translation>
@@ -117,6 +118,8 @@ Atau dapat mengubahnya nanti di <ph name="SETTINGS_EXTENIONS_LINK"/>.</translati
 <translation id="2162109630536601963">Jika ekstensi ini membuat permintaan jaringan, mereka tidak akan menggunakan Tor atau modus privat.</translation>
 <translation id="2725327089319971976">Untuk menonaktifkan ekstensi di modus privat dan modus Tor, batalkan opsi ini.</translation>
 <translation id="438106944087726695">Di-host oleh Brave</translation>
+<translation id="2265651566599167057">Ditandai sebagai malware oleh Socket.</translation>
+<translation id="2607395470596637070">Pelajari lebih lanjut cara Socket di Brave melindungi Anda</translation>
 <translation id="3371343170427636147">Aplikasi Peramban Brave Nightly</translation>
 <translation id="4097979995947147464">Aplikasi Peramban Brave Beta</translation>
 <translation id="8303432794159193481">Aplikasi Pengembang Peramban Brave</translation>
@@ -608,6 +611,8 @@ Atau dapat mengubahnya nanti di <ph name="SETTINGS_EXTENIONS_LINK"/>.</translati
 <translation id="3540231253392253941">Gunakan layanan Google untuk pesan push</translation>
 <translation id="2224032129673914306">Penelusuran riwayat semantik</translation>
 <translation id="6045998903985162478">Indeks halaman yang Anda kunjungi sehingga Anda dapat menemukannya dengan mudah di riwayat, tab yang terbuka, dan Leo.</translation>
+<translation id="3962946446120925966">Pengenalan ucapan di perangkat</translation>
+<translation id="6408242130028978631">Unduh model pengenalan ucapan (<ph name="DOWNLOAD_SIZE"/>) agar situs dapat memproses ucapan di perangkat ini. Nonaktifkan untuk menghapus model.</translation>
 <translation id="5813105074916486721">Retensi riwayat lokal</translation>
 <translation id="5671611745062206644">Berapa lama Brave menyimpan riwayat penjelajahan Anda secara lokal</translation>
 <translation id="7184510058087008090">1 day</translation>
@@ -723,7 +728,7 @@ Atau dapat mengubahnya nanti di <ph name="SETTINGS_EXTENIONS_LINK"/>.</translati
 <translation id="4432071071853308688">Kode masih kosong</translation>
 <translation id="955848693465029904">Kesalahan pengaturan sinkronisasi internal</translation>
 <translation id="7456398316301207582">Kesalahan penghapusan akun internal</translation>
-<translation id="859506441384380749">Kode ini dihasilkan oleh versi Brave yang lama, silakan tingkatkan perangkat Anda yang lainnya terlebih dahulu</translation>
+<translation id="4002014583969312635">Sepertinya kode ini dibuat dalam perangkat yang menjalankan Brave versi lebih lama. Silakan perbarui ke versi terbaru Brave pada perangkat Anda yang lain dan kemudian buatlah kode sinkronisasi yang baru.</translation>
 <translation id="3132642509209154999">Kode ini telah kedaluwarsa. Silakan menghasilkan yang baru pada perangkat Anda dan coba lagi.</translation>
 <translation id="2859229680945501779">Kode ini tidak valid. Silakan periksa bahwa waktu dan zona waktu ditetapkan dengan tepat di peranti Anda.</translation>
 <translation id="2339730291919608488">Keluar dai Rantai Sinkronisasi</translation>

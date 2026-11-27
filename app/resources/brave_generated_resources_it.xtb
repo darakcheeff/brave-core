@@ -50,6 +50,7 @@
 <translation id="4931114810905682683"><ph name="LEARN_MORE_ABOUT_WIDEVINE"/>.
 Oppure cambia in seguito la tua scelta su <ph name="SETTINGS_EXTENIONS_LINK"/>.</translation>
 <translation id="6229752134959014186">Scopri di più su Widevine</translation>
+<translation id="3318169548229684688">Scaricare un modello di riconoscimento vocale (<ph name="DOWNLOAD_SIZE"/>) per elaborare il parlato su questo dispositivo</translation>
 <translation id="6061083111980694767"><ph name="SITE_NAME"/> ti chiede di</translation>
 <translation id="3218385319396786393">La riproduzione automatica è stata bloccata su questa pagina</translation>
 <translation id="4988333904713528597">Permetti la riproduzione automatica su <ph name="HOST"/></translation>
@@ -117,6 +118,8 @@ Oppure cambia in seguito la tua scelta su <ph name="SETTINGS_EXTENIONS_LINK"/>.<
 <translation id="2162109630536601963">Se questa estensione effettua richieste di rete, esse non utilizzeranno Tor o la modalità privata.</translation>
 <translation id="2725327089319971976">Per disabilitare questa estensione in modalità privata e in modalità Tor, deseleziona questa opzione.</translation>
 <translation id="438106944087726695">Hostata da Brave</translation>
+<translation id="2265651566599167057">Contrassegnata come malware da Socket.</translation>
+<translation id="2607395470596637070">Scopri di più su come Socket in Brave ti protegge</translation>
 <translation id="3371343170427636147">App Nightly di Brave Browser</translation>
 <translation id="4097979995947147464">Beta app di Brave Browser</translation>
 <translation id="8303432794159193481">Dev App per Brave Browser</translation>
@@ -608,6 +611,8 @@ Oppure cambia in seguito la tua scelta su <ph name="SETTINGS_EXTENIONS_LINK"/>.<
 <translation id="3540231253392253941">Utilizza i servizi Google per la messaggistica push</translation>
 <translation id="2224032129673914306">Ricerca semantica nella cronologia</translation>
 <translation id="6045998903985162478">Indicizza le pagine che visiti così da ritrovarle facilmente nella cronologia, nelle schede aperte e in Leo.</translation>
+<translation id="3962946446120925966">Riconoscimento vocale sul dispositivo</translation>
+<translation id="6408242130028978631">Scarica un modello di riconoscimento vocale (<ph name="DOWNLOAD_SIZE"/>) in modo che i siti possano elaborare la voce su questo dispositivo. Disattiva questa opzione per rimuovere il modello.</translation>
 <translation id="5813105074916486721">Conservazione della cronologia locale</translation>
 <translation id="5671611745062206644">Per quanto tempo Brave memorizza localmente la tua cronologia di navigazione</translation>
 <translation id="7184510058087008090">1 giorno</translation>
@@ -723,7 +728,7 @@ Oppure cambia in seguito la tua scelta su <ph name="SETTINGS_EXTENIONS_LINK"/>.<
 <translation id="4432071071853308688">Il campo del codice è vuoto</translation>
 <translation id="955848693465029904">Errore interno nella configurazione della sincronizzazione</translation>
 <translation id="7456398316301207582">Errore interno nell’eliminazione dell’account</translation>
-<translation id="859506441384380749">Questo codice è stato generato da una versione deprecata di Brave; per prima cosa aggiorna l’altro dispositivo</translation>
+<translation id="4002014583969312635">Sembra che questo codice sia stato creato su un dispositivo con una versione precedente di Brave. Aggiorna alla versione più recente di Brave sull’altro dispositivo e crea un nuovo codice di sincronizzazione.</translation>
 <translation id="3132642509209154999">Questo codice è scaduto. Generane uno nuovo sull’altro dispositivo e riprova.</translation>
 <translation id="2859229680945501779">Questo codice non è valido. Controlla che l’ora e il fuso orario siano impostati in modo corretto sul tuo dispositivo.</translation>
 <translation id="2339730291919608488">Esci dalla catena di sincronizzazione</translation>

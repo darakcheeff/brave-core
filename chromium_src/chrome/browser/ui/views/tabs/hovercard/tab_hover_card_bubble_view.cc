@@ -9,9 +9,9 @@
 
 #include "base/strings/strcat.h"
 #include "brave/browser/ui/brave_scheme_utils.h"
-#include "brave/browser/ui/tabs/brave_tab_prefs.h"
 #include "chrome/browser/profiles/profile.h"
 #include "chrome/browser/ui/color/chrome_color_id.h"
+#include "chrome/browser/ui/layout_constants.h"
 #include "chrome/browser/ui/views/tabs/hovercard/fade_label_view.h"
 #include "chrome/browser/ui/views/tabs/hovercard/tab_hover_card_controller.h"
 #include "chrome/browser/ui/views/tabs/tab.h"
@@ -98,6 +98,10 @@ END_METADATA
 // TabHoverCardBubbleView_ChromiumImpl -----------------------------------------
 std::unique_ptr<TabHoverCardBubbleView_ChromiumImpl::TabCardView>
 TabHoverCardBubbleView_ChromiumImpl::CreateTabCardView() {
+  // Called from the constructor before anything reads `corner_radius_`. Match
+  // the tab radius instead of Emphasis::kHigh, which Brave keeps at 4 for the
+  // Linux window corners.
+  corner_radius_ = tabs::kTabBorderRadius;
   return std::make_unique<BraveTabCardView>(this);
 }
 

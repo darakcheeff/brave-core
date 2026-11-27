@@ -116,7 +116,7 @@
 "autofill.managePasswords.title" = "Kelola Kata Sandi";
 
 /* Text to show when the origin of a managed password is not available */
-"autofill.managePasswords.UnknownDomainText" = "Tidak dikenal";
+"autofill.managePasswords.UnknownDomainText" = "Tidak Diketahui";
 
 /* Settings autofill section title */
 "autofill.settings.title" = "Isi-Otomatis";
@@ -742,6 +742,15 @@
 /* Button label to temporarily continue to the site from the certificate error page */
 "ErrorPagesProceedAnywayButton" = "Melanjutkan ke %@ (tidak aman)";
 
+/* Button to exclude a topsite url from the most visited list */
+"ExcludeMostVisitedSite" = "Hapus";
+
+/* Message for the alert shown before excluding a site from the most visited list */
+"ExcludeMostVisitedSiteAlertMessage" = "Situs ini tidak akan muncul dalam daftar Paling Sering Dikunjungi, tetapi tidak akan dihapus dari riwayat Anda.";
+
+/* Title for the alert shown before excluding a site from the most visited list */
+"ExcludeMostVisitedSiteAlertTitle" = "Hapus dari Paling Sering Dikunjungi?";
+
 /* %@ will launch an external application */
 "ExternalAppURLAlertMessage" = "%@ akan meluncurkan aplikasi eksternal";
 
@@ -864,6 +873,9 @@
 
 /* Error message if details don't have the right type or values */
 "invalidDetailsMessage" = "Detail dalam permintaan pembayaran tidak valid";
+
+/* Title of a JavaScript alert, confirm, or prompt dialog shown by an embedded frame that has no displayable origin, such as a sandboxed iframe */
+"JavaScriptDialogEmbeddedPageTitle" = "Halaman yang disematkan pada halaman ini";
 
 /* History tableview section header */
 "LastMonth" = "Bulan lalu";
@@ -1059,6 +1071,18 @@
 
 /* No comment provided by engineer. */
 "ntp.sponsoredImageDescription" = "Anda mendukung konten kreator dan penerbit dengan melihat gambar bersponsor ini.";
+
+/* The title of a picker for user to pick which type of topsites to show in NTP */
+"ntp.topsites" = "Situs Teratas";
+
+/* Favorites type of topsites. Selection means NTP will display favorites tiles if there is any. */
+"ntp.topsitesTypeFavorites" = "Favorit";
+
+/* MostVisited type of topsites. Selection means NTP will display most visited tiles if there is any. */
+"ntp.topsitesTypeMostVisited" = "Sering Dikunjungi";
+
+/* None type of topsites. Selection means there won't be any topsites tiles in NTP */
+"ntp.topsitesTypeNone" = "Tidak ada";
 
 /* The placeholder says 'Terms of Service'. So full sentence goes like: 'By turning Rewards, you agree to the Terms of Service'. */
 "ntp.turnRewardsTos" = "Dengan mengaktifkan Rewards, berarti Anda setuju dengan %@.";
@@ -1450,12 +1474,6 @@
 /* The title for the alert that shows up when an item is expired */
 "playList.expiredAlertTitle" = "Video Telah Kedaluwarsa";
 
-/* Number of items in the playlsit folder. Example: '10 items' */
-"playlist.folderItemCountPlural" = "%d hal";
-
-/* Title for when there's a single item inside of a folder */
-"playlist.foldersCountSingular" = "%d hal";
-
 /* Description for load resources error alert */
 "playList.loadResourcesErrorAlertDescription" = "Terjadi masalah saat memuat sumber!";
 
@@ -1487,7 +1505,7 @@
 "playlist.playlistAutoPlaySettingsOptionTitle" = "Pemutar Otomatis";
 
 /* Auto Cache turn Off Option */
-"playlist.playlistAutoSaveOptionOff" = "Nonaktifkan";
+"playlist.playlistAutoSaveOptionOff" = "Mati";
 
 /* Auto Save turn On Option */
 "playlist.playlistAutoSaveOptionOn" = "Aktifkan";
@@ -1587,12 +1605,6 @@
 
 /* The title of the screen to create a new folder */
 "playlistFolders.newFolderScreenTitle" = "Daftar Putar Baru";
-
-/* The sub-title of the folder. Example: This folder contains 10 Items. This folder contains 3 Items. */
-"playlistFolders.subtitleItemCount" = "%lld hal";
-
-/* The sub-title of the folder. Example: This folder contains ONE item. This folder contains 1 Item. */
-"playlistFolders.subtitleItemSingleCount" = "1 hal";
 
 /* The title of a folder when the user enters no name (untitled) */
 "playlistFolders.untitledFolderTitle" = "Daftar Putar Tanpa Judul";
@@ -1811,7 +1823,7 @@
 "quickview.reader.mode.accessibility.label" = "Aktifkan Mode Pembaca";
 
 /* Accessibility text for an icon button which will refresh the current page in QuickView mode. */
-"quickview.refresh.accessibility.label" = "Segarkan";
+"quickview.refresh.accessibility.label" = "Perbarui";
 
 /* Accessibility text for an icon button which will share the current page in QuickView mode. */
 "quickview.share.accessibility.label" = "Bagikan";
@@ -2410,12 +2422,6 @@
 /* Title of the settings toggle that enables Sponsored Ads */
 "settings.sponsoredAdsEnabledTitle" = "Aktifkan Iklan Bersponsor";
 
-/* Description to explain the survey panelist toggle */
-"settings.surveyPanelistDescription" = "Memungkinkan Brave menampilkan tautan ke survei privat di halaman tab baru. Survei membantu kami membangun fitur yang lebih baik dan mengukur keefektifan kampanye iklan berbasis browser. [Pelajari selengkapnya](%@)";
-
-/* Title to explain the survey panelist toggle */
-"settings.surveyPanelistTitle" = "Izinkan survei Brave";
-
 /* Header for the YouTube settings section */
 "settings.youtube" = "YouTube";
 
@@ -2487,6 +2493,18 @@
 
 /* Title for Shield Education Tracker Video Ad Block */
 "shieldEducation.videoAdBlockTitle" = "Iklan diblok selagi melihat video pada situs ini.";
+
+/* Title for the Brave Wallet shortcut. Brave Wallet is the name of a product and should not be translated */
+"shortcut.braveWallet" = "Dompet Brave";
+
+/* Title for the private tab shortcut. */
+"shortcut.privateTab" = "Tab Pribadi";
+
+/* Title for the QR Code shortcut. */
+"shortcut.qrCode" = "Kode QR";
+
+/* Title for the Search shortcut. */
+"shortcut.search" = "Cari";
 
 /* Quick Action for 3D-Touch on the Application Icon */
 "ShortcutItemTitleNewPrivateTab" = "Tab Privat Baru";
@@ -3061,17 +3079,11 @@
 /* Accessibility label for a button that allows users to shred their tabs (erase them & associated data) */
 "tabGrid.shredTabsAccessibilityLabel" = "Lenyapkan Tab";
 
-/* A label in the tab tray mode switcher shown when there are 0 or more than 1 regular tabs open e.g. '129 Tabs' */
-"tabGrid.tabsCountFormatPlural" = "%lld Tab";
-
-/* A label in the tab tray mode switcher shown when there is 1 regular tab open e.g. '1 Tab' */
-"tabGrid.tabsCountFormatSingular" = "%lld Tab";
-
 /* Accessibility label for a button that when tapped presents the users history & recently closed tabs */
 "tabGrid.viewHistoryAccessibilityLabel" = "Lihat Riwayat";
 
 /* Label for history menu item button that when tapped presents the users history & recently closed tabs */
-"tabGrid.viewHistoryMenuItemLabel" = "Histori";
+"tabGrid.viewHistoryMenuItemLabel" = "Riwayat";
 
 /* Accessibility label for a button that when tapped presents the users synced tabs */
 "tabGrid.viewSyncedTabsAccessibilityLabel" = "Lihat Tab yang Disinkronkan";

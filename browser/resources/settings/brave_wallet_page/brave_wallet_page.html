@@ -120,14 +120,14 @@
   </div>
   <settings-toggle-button id="enableNftDiscovery"
     class="cr-row"
-    pref="{{prefs.brave.wallet.nft_discovery_enabled}}"
+    pref-key="brave.wallet.nft_discovery_enabled"
     label="$i18n{enableNftDiscoveryLabel}"
     sub-label="$i18n{enableNftDiscoveryDesc}"
     learn-more-url="$i18n{enableNftDiscoveryLearnMoreURL}">
   </settings-toggle-button>
   <settings-toggle-button id="enablePrivateWindows"
     class="cr-row"
-    pref="[[isPrivateWindowsEnabled_]]"
+    checked="[[isPrivateWindowsEnabled_]]"
     on-settings-boolean-control-change="onPrivateWindowsEnabled_"
     label="$i18n{enablePrivateWindowsLabel}"
     sub-label="$i18n{enablePrivateWindowsDesc}">

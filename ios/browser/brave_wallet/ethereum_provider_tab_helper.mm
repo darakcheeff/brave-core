@@ -133,7 +133,7 @@ void EthereumProviderTabHelper::MaybeCreateForWebState(
   BraveWalletService* brave_wallet_service =
       BraveWalletServiceFactory::GetServiceForState(profile);
   HostContentSettingsMap* settings_map =
-      ios::HostContentSettingsMapFactory::GetForProfile(profile);
+      ios::HostContentSettingsMapFactory::GetForProfile(profile).get();
   if (!brave_wallet_service || !settings_map) {
     return;
   }
@@ -202,9 +202,9 @@ void EthereumProviderTabHelper::OnChainChangedGetChainId(
 
   // Temporary fix for #5404: the dapp is not updated on chain change without a
   // reload, so - like MetaMask - reload the tab on chain changes.
-  const GURL visible_url = web_state_->GetVisibleURL();
-  const bool is_wallet_webui_page = visible_url.scheme() == kChromeUIScheme &&
-                                    visible_url.host() == kWalletPageHost;
+  const GURL committed_url = web_state_->GetLastCommittedURL();
+  const bool is_wallet_webui_page = committed_url.scheme() == kChromeUIScheme &&
+                                    committed_url.host() == kWalletPageHost;
   if (web_state_ && !is_wallet_webui_page) {
     web_state_->GetNavigationManager()->Reload(web::ReloadType::NORMAL,
                                                /*check_for_repost=*/false);

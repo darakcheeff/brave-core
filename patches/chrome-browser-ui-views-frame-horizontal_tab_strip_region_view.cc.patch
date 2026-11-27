@@ -1,5 +1,5 @@
 diff --git a/chrome/browser/ui/views/frame/horizontal_tab_strip_region_view.cc b/chrome/browser/ui/views/frame/horizontal_tab_strip_region_view.cc
-index d86ea93f7dd14bf5d428079982a45eecaa43c268..4c9d195af0c20886a17273a351bd9fe2e7f56fc0 100644
+index 1e8642e4cdf1e72846480d4458cf026309fe8b47..57aaf3025a999dc82f42f236c244d783fdcabde1 100644
 --- a/chrome/browser/ui/views/frame/horizontal_tab_strip_region_view.cc
 +++ b/chrome/browser/ui/views/frame/horizontal_tab_strip_region_view.cc
 @@ -142,13 +142,13 @@ void UpdateBorderInsetsIfNeeded(views::View* view,
@@ -20,7 +20,7 @@ index d86ea93f7dd14bf5d428079982a45eecaa43c268..4c9d195af0c20886a17273a351bd9fe2
                                                std::move(hover_card_controller));
    return tab_strip;
  }
-@@ -230,7 +230,7 @@ HorizontalTabStripRegionViewOld::HorizontalTabStripRegionViewOld(
+@@ -210,7 +210,7 @@ HorizontalTabStripRegionViewOld::HorizontalTabStripRegionViewOld(
  
    if (ShouldShowNewTabButton(browser)) {
      std::unique_ptr<TabStripControlButton> tab_strip_control_button =
@@ -29,7 +29,7 @@ index d86ea93f7dd14bf5d428079982a45eecaa43c268..4c9d195af0c20886a17273a351bd9fe2
              base::BindRepeating(&TabStrip::NewTabButtonPressed,
                                  base::Unretained(tab_strip_)),
              features::IsRoundedIconsEnabled()
-@@ -475,14 +475,14 @@ void HorizontalTabStripRegionViewOld::InitializeTabStrip() {
+@@ -441,14 +441,14 @@ void HorizontalTabStripRegionViewOld::InitializeTabStrip() {
    }
  
    tab_strip_->Initialize();
@@ -46,7 +46,7 @@ index d86ea93f7dd14bf5d428079982a45eecaa43c268..4c9d195af0c20886a17273a351bd9fe2
    tab_strip_->Reset();
  }
  
-@@ -615,7 +615,7 @@ void HorizontalTabStripRegionViewOld::UpdateButtonBorders() {
+@@ -573,7 +573,7 @@ void HorizontalTabStripRegionViewOld::UpdateButtonBorders() {
    const int extra_vertical_space =
        GetLayoutConstant(LayoutConstant::kTabStripHeight) -
        GetLayoutConstant(LayoutConstant::kTabstripToolbarOverlap) -
@@ -55,7 +55,7 @@ index d86ea93f7dd14bf5d428079982a45eecaa43c268..4c9d195af0c20886a17273a351bd9fe2
    const int top_inset = extra_vertical_space / 2;
    const int bottom_inset =
        extra_vertical_space - top_inset +
-@@ -1149,13 +1149,16 @@ void HorizontalTabStripRegionViewNew::AdjustViewBoundsRect(View* view,
+@@ -1098,13 +1098,16 @@ void HorizontalTabStripRegionViewNew::AdjustViewBoundsRect(View* view,
    view->SetBoundsRect(new_bounds);
  }
  

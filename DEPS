@@ -6,6 +6,36 @@ vars = {
 }
 
 deps = {
+  "third_party/android_deps/libs/com_android_tools_common": {
+    "packages": [
+      {
+        "package": "chromium/third_party/android_deps/libs/com_android_tools_common",
+        "version": "version:2@32.5.0-alpha06.cr2",
+      },
+    ],
+    "condition": "checkout_android",
+    "dep_type": "cipd",
+  },
+  "third_party/android_deps/libs/com_android_tools_layoutlib_layoutlib_api": {
+    "packages": [
+      {
+        "package": "chromium/third_party/android_deps/libs/com_android_tools_layoutlib_layoutlib_api",
+        "version": "version:2@32.5.0-alpha06.cr2",
+      },
+    ],
+    "condition": "checkout_android",
+    "dep_type": "cipd",
+  },
+  "third_party/android_deps/libs/com_android_tools_sdk_common": {
+    "packages": [
+      {
+        "package": "chromium/third_party/android_deps/libs/com_android_tools_sdk_common",
+        "version": "version:2@32.5.0-alpha06.cr2",
+      },
+    ],
+    "condition": "checkout_android",
+    "dep_type": "cipd",
+  },
   "vendor/omaha": {
     "url": "https://github.com/brave/omaha.git@846b535b45365499c9097059502aaae2ed69fc85",
     "condition": "checkout_win",
@@ -16,7 +46,7 @@ deps = {
   },
   "vendor/bat-native-tweetnacl": "https://github.com/brave-intl/bat-native-tweetnacl.git@8b424ccf29957fe01c88c36076fd32006a357887",
   "vendor/gn-project-generators": "https://github.com/brave/gn-project-generators.git@b76e14b162aa0ce40f11920ec94bfc12da29e5d0",
-  "vendor/web-discovery-project": "https://github.com/brave/web-discovery-project@80791e59ab389f3a49c94748f799dc3b5d8adb6b",
+  "vendor/web-discovery-project": "https://github.com/brave/web-discovery-project@30044d0f3c3874b7bed05306a1a2243a256310ee",
   "third_party/bip39wally-core-native": "https://github.com/brave-intl/bat-native-bip39wally-core.git@547a7810333d821e29b8f55126aba031aa0d5fcd",
   "third_party/ethash/src": "https://github.com/chfast/ethash.git@e4a15c3d76dc09392c7efd3e30d84ee3b871e9ce",
   "third_party/bitcoin-core/src": "https://github.com/bitcoin/bitcoin.git@8105bce5b384c72cf08b25b7c5343622754e7337", # v25.0

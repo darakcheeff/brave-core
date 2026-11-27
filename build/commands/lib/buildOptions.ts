@@ -6,6 +6,34 @@
 import { Argument, Command, Option } from 'commander'
 import './commanderApply.ts'
 import { collect, parseBoolean, parseInteger } from './commandsUtils.ts'
+import config from './config.ts'
+import * as Log from './log.ts'
+
+export function supportQuiet<
+  Args extends any[],
+  Opts extends {},
+  GlobalOpts extends {},
+>(command: Command<Args, Opts, GlobalOpts>) {
+  return command
+    .option(
+      '--quiet',
+      'leave out output not needed to follow the result, and pass quiet '
+        + 'flags to depot_tools (the default under an AI agent, unless '
+        + '`quiet=false` is set in .env)',
+    )
+    .option('--no-quiet', 'print all output, even under an AI agent')
+    .option('--verbose', 'print all output, even under an AI agent')
+    .hook('preAction', (_, actionCommand) => {
+      const { quiet, verbose } = actionCommand.opts() as {
+        quiet?: boolean
+        verbose?: boolean
+      }
+      Log.setQuiet(
+        quiet ?? (verbose ? false : config.quiet),
+        actionCommand.name(),
+      )
+    })
+}
 
 export function supportBuildConfigArg<
   Args extends any[],
@@ -233,6 +261,11 @@ export function supportTestOptions<
     )
     .option('--run_disabled_tests', 'run disabled tests')
     .option(
+      '--skip_build',
+      'do not build the test target; run the existing binary',
+    )
+    .option('--skip_run', 'build the test target but do not run it')
+    .option(
       '--manual_android_test_device',
       'indicates that Android test device is run manually',
     )
@@ -248,12 +281,12 @@ export function supportTestOptions<
     .option(
       '--ios_simulator_platform <simulator_platform>',
       'platform to use for ios simulator',
-      'iPhone 17',
+      'iPhone 18 Pro',
     )
     .option(
       '--ios_simulator_version <simulator_version>',
       'ios version for simulator',
-      '26.2',
+      '27.2',
     ) // should match ios_deployment_target
 }
 

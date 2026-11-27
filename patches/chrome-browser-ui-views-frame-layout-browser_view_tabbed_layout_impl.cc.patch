@@ -1,8 +1,8 @@
 diff --git a/chrome/browser/ui/views/frame/layout/browser_view_tabbed_layout_impl.cc b/chrome/browser/ui/views/frame/layout/browser_view_tabbed_layout_impl.cc
-index 389c6f8c6e66768cb20a960f11ba620c7516f44b..68fd41dd5a1e8b693c01c56e3052a378397650d3 100644
+index b1ea4a69f42333b238abbf67b0278467ea41bb28..9b88e2629bcfdd560b25b6973d5df75ce2dd1617 100644
 --- a/chrome/browser/ui/views/frame/layout/browser_view_tabbed_layout_impl.cc
 +++ b/chrome/browser/ui/views/frame/layout/browser_view_tabbed_layout_impl.cc
-@@ -764,7 +764,7 @@ BrowserViewTabbedLayoutImpl::CalculateProposedLayout(
+@@ -837,7 +837,7 @@ BrowserViewTabbedLayoutImpl::CalculateProposedLayout(
    }
  
    BrowserLayoutParams params = layout_data_->revised_params;
@@ -10,17 +10,17 @@ index 389c6f8c6e66768cb20a960f11ba620c7516f44b..68fd41dd5a1e8b693c01c56e3052a378
 +  bool needs_exclusion = !delegate().ShouldShowVerticalTabs();
    const HorizontalLayout& horizontal_layout = layout_data_->horizontal_layout;
  
-   if (IsParentedTo(views().organizer_tray, views().browser_view)) {
-@@ -889,7 +889,7 @@ BrowserViewTabbedLayoutImpl::CalculateProposedLayout(
-             vertical_tab_strip_animation.current_motion ==
-                 TabStripAnimations::kCollapse;
-         unclipped_contents_region.Inset(gfx::Insets::TLBR(
--            0, VerticalTabStripRegionView::kCollapsedWidth, 0, 0));
-+            0, views().vertical_tab_strip_region_view->GetCollapsedWidth(), 0, 0));
+   const int target_organizer_width =
+@@ -978,7 +978,7 @@ BrowserViewTabbedLayoutImpl::CalculateProposedLayout(
+         clip_content_for_animation =
+             vertical_tab_strip_animation.is_expanding_or_collapsing();
+         unclipped_contents_region.Inset(
+-            gfx::Insets::TLBR(0, tabs::kVerticalTabStripCollapsedWidth, 0, 0));
++            gfx::Insets::TLBR(0, views().vertical_tab_strip_region_view->GetCollapsedWidth(), 0, 0));
        } else {
          unclipped_contents_region.Inset(gfx::Insets::TLBR(
              0, horizontal_layout.vertical_tab_strip_width, 0, 0));
-@@ -897,7 +897,7 @@ BrowserViewTabbedLayoutImpl::CalculateProposedLayout(
+@@ -986,7 +986,7 @@ BrowserViewTabbedLayoutImpl::CalculateProposedLayout(
      }
      layout.AddChild(views().vertical_tab_strip_region_view,
                      vertical_tab_strip_bounds,

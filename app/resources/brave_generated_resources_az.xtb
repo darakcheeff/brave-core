@@ -50,6 +50,7 @@
 <translation id="4931114810905682683"><ph name="LEARN_MORE_ABOUT_WIDEVINE"/>.
 Və ya bunu sonra <ph name="SETTINGS_EXTENIONS_LINK"/>-də dəyişdirin.</translation>
 <translation id="6229752134959014186">Widevine haqqında daha çox öyrənin</translation>
+<translation id="3318169548229684688">Bu cihazda nitqi emal etmək üçün nitq tanıma modelini (<ph name="DOWNLOAD_SIZE"/>) endirmək</translation>
 <translation id="6061083111980694767"><ph name="SITE_NAME"/> sizdə icazə tələb etməkdədir</translation>
 <translation id="3218385319396786393">Bu səhifədə autoplay bloklandı</translation>
 <translation id="4988333904713528597">Autoplay-ı <ph name="HOST"/> üçün həmişə icazə ver</translation>
@@ -117,6 +118,8 @@ Və ya bunu sonra <ph name="SETTINGS_EXTENIONS_LINK"/>-də dəyişdirin.</transl
 <translation id="2162109630536601963">Əgər bu əlavə şəbəkə sorğuları göndərirsə, onlar Tor və ya gizli rejimi istifadə etməyəcək.</translation>
 <translation id="2725327089319971976">Bu əlavə proqramı gizli rejimdə və Tor rejimində ləğv etmək üçün bu seçimi ləğv edin.</translation>
 <translation id="438106944087726695">Brave tərəfindən təchiz edilən</translation>
+<translation id="2265651566599167057">Socket tərəfindən malware (zərərli proqram) kimi işarələnib.</translation>
+<translation id="2607395470596637070">Brave-dəki Socket-in sizi necə qoruduğu haqqında ətraflı məlumat əldə edin</translation>
 <translation id="3371343170427636147">Brave Brauzer Nightly Proqramları</translation>
 <translation id="4097979995947147464">Brave Brauzer Beta Proqramları</translation>
 <translation id="8303432794159193481">Brave Brauzer Dev Proqramları</translation>
@@ -608,6 +611,8 @@ Və ya bunu sonra <ph name="SETTINGS_EXTENIONS_LINK"/>-də dəyişdirin.</transl
 <translation id="3540231253392253941">Push mesajlaşma üçün Google xidmətlərindən istifadə et</translation>
 <translation id="2224032129673914306">Semantik tarixçə axtarışı</translation>
 <translation id="6045998903985162478">Ziyarət etdiyiniz səhifələri indeksləyin ki, onları tarixçədə, açıq tablarda və Leo-da asanlıqla tapa biləsiniz.</translation>
+<translation id="3962946446120925966">Cihazda nitq tanınması</translation>
+<translation id="6408242130028978631">Saytların bu cihazda nitqi emal edə bilməsi üçün nitq tanıma modelini (<ph name="DOWNLOAD_SIZE"/>) endirin. Modeli silmək üçün bunu söndürün.</translation>
 <translation id="5813105074916486721">Yerli tarixçə saxlanması</translation>
 <translation id="5671611745062206644">Brave sizin baxış tarixçənizi yerli olaraq nə qədər müddət saxlayır</translation>
 <translation id="7184510058087008090">1 gün</translation>
@@ -723,7 +728,7 @@ Və ya bunu sonra <ph name="SETTINGS_EXTENIONS_LINK"/>-də dəyişdirin.</transl
 <translation id="4432071071853308688">Bu kod boşdur</translation>
 <translation id="955848693465029904">Daxili sinxron quraşdırma xətası</translation>
 <translation id="7456398316301207582">Daxili hesab silmə xətası</translation>
-<translation id="859506441384380749">Bu kod köhnəlmiş Brave versiyası tərəfindən yaradılmışdır, lütfən əvvəlcə digər cihazınızı yeniləyin</translation>
+<translation id="4002014583969312635">Deyəsən, bu kod Brave-in köhnə versiyasında işləyən cihazda yaradılıb. Lütfən, digər cihazınızda Brave-in ən son versiyasına yeniləyin və sonra yeni sinxronizasiya kodu yaradın.</translation>
 <translation id="3132642509209154999">Bu kodun müddəti bitmişdir. Zəhmət olmasa, digər cihazınızda yeni bir kod yaradın və yenidən cəhd edin.</translation>
 <translation id="2859229680945501779">Bu kod etibarsızdır. Zəhmət olmasa cihazınızdakı vaxtı və vaxt zonasını düzgün tənzimləyin.</translation>
 <translation id="2339730291919608488">Sinxron zəncirdən çıxın</translation>

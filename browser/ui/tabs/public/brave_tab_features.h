@@ -8,6 +8,7 @@
 
 #include <memory>
 
+#include "base/callback_list.h"
 #include "brave/components/ai_chat/core/common/buildflags/buildflags.h"
 #include "brave/components/brave_news/common/buildflags/buildflags.h"
 #include "brave/components/brave_wayback_machine/buildflags/buildflags.h"
@@ -19,6 +20,10 @@
 #include "chrome/browser/ui/tabs/public/tab_features.h"
 
 class Profile;
+
+namespace content {
+class WebContents;
+}  // namespace content
 
 namespace image_metadata_stripper {
 class FileUploadController;
@@ -132,6 +137,12 @@ class BraveTabFeatures : public TabFeatures {
 #endif
 
  private:
+  void OnWillDiscardContents(TabInterface* tab,
+                             content::WebContents* old_contents,
+                             content::WebContents* new_contents);
+
+  base::CallbackListSubscription will_discard_contents_subscription_;
+
   // The main controller which takes care of stripping metadata from images
   // for the upload flow.
   std::unique_ptr<image_metadata_stripper::FileUploadController>
@@ -164,6 +175,9 @@ class BraveTabFeatures : public TabFeatures {
       creative_search_result_ad_tab_helper_;
   // Offers and runs Web Discovery. Null without it or outside regular profiles.
   std::unique_ptr<ContentsObservingTabFeature> web_discovery_tab_helper_;
+  // Records whether the page asked for high accuracy geolocation.
+  std::unique_ptr<ContentsObservingTabFeature>
+      geolocation_permission_tab_helper_;
 
 #if BUILDFLAG(ENABLE_AI_CHAT)
   std::unique_ptr<ai_chat::TabDataWebContentsObserver> tab_data_observer_;

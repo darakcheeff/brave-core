@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.content.res.AppCompatResources;
 
@@ -27,6 +26,7 @@ import org.chromium.base.supplier.NullableObservableSupplier;
 import org.chromium.base.supplier.OneshotSupplier;
 import org.chromium.brave.browser.customize_menu.CustomizeBraveMenu;
 import org.chromium.build.annotations.NullMarked;
+import org.chromium.build.annotations.Nullable;
 import org.chromium.chrome.R;
 import org.chromium.chrome.browser.ActivityTabProvider;
 import org.chromium.chrome.browser.RecentlyClosedEntriesManager;
@@ -46,6 +46,7 @@ import org.chromium.chrome.browser.multiwindow.MultiWindowUtils;
 import org.chromium.chrome.browser.open_in_app.OpenInAppMenuItemProvider;
 import org.chromium.chrome.browser.preferences.ChromeSharedPreferences;
 import org.chromium.chrome.browser.readaloud.ReadAloudController;
+import org.chromium.chrome.browser.recent_tabs.RecentlyClosedEntriesManager;
 import org.chromium.chrome.browser.set_default_browser.BraveSetDefaultBrowserUtils;
 import org.chromium.chrome.browser.tab.Tab;
 import org.chromium.chrome.browser.tabmodel.TabModelSelector;
@@ -168,8 +169,8 @@ public class BraveTabbedAppMenuPropertiesDelegate extends TabbedAppMenuPropertie
             PageZoomManager pageZoomManager,
             OneshotSupplier<HubManager> hubManagerSupplier,
             @Nullable OpenInAppMenuItemProvider openInAppMenuItemProvider,
-            Supplier<RecentlyClosedEntriesManager> recentlyClosedEntriesManagerSupplier,
-            Supplier<SideUiStateProvider> sideUiStateProviderSupplier,
+            Supplier<@Nullable RecentlyClosedEntriesManager> recentlyClosedEntriesManagerSupplier,
+            Supplier<@Nullable SideUiStateProvider> sideUiStateProviderSupplier,
             NonNullObservableSupplier<Boolean> xrSpaceModeObservableSupplier,
             BooleanSupplier canActivateTabLayoutToggleMenu) {
         super(
@@ -610,21 +611,22 @@ public class BraveTabbedAppMenuPropertiesDelegate extends TabbedAppMenuPropertie
         }
 
         // Manage windows
+        if (BraveMultiWindowUtils.isWindowManagerAvailable()) {
+            // Remove the windows count placeholder.
+            String manageWindows =
+                    mContext.getString(R.string.menu_manage_all_windows, 0)
+                            .replaceAll("\\s*\\(\\d+\\)$", "");
 
-        // Remove the windows count placeholder.
-        String manageWindows =
-                mContext.getString(R.string.menu_manage_all_windows, 0)
-                        .replaceAll("\\s*\\(\\d+\\)$", "");
-
-        modelList.add(
-                new MVCListAdapter.ListItem(
-                        AppMenuHandler.AppMenuItemType.STANDARD,
-                        AppMenuItemUtils.buildBaseModelForTextItem(
-                                        mAppMenuItemTheme,
-                                        R.id.manage_all_windows_menu_id,
-                                        isMenuIconAtStart())
-                                .with(AppMenuItemProperties.TITLE, manageWindows)
-                                .build()));
+            modelList.add(
+                    new MVCListAdapter.ListItem(
+                            AppMenuHandler.AppMenuItemType.STANDARD,
+                            AppMenuItemUtils.buildBaseModelForTextItem(
+                                            mAppMenuItemTheme,
+                                            R.id.manage_all_windows_menu_id,
+                                            isMenuIconAtStart())
+                                    .with(AppMenuItemProperties.TITLE, manageWindows)
+                                    .build()));
+        }
 
         // Open History
         modelList.add(
@@ -1048,8 +1050,7 @@ public class BraveTabbedAppMenuPropertiesDelegate extends TabbedAppMenuPropertie
      * Puts Brave's share icon into the app menu icon row.
      *
      * <p>The row renders five icons at most. Forward is the navigation icon Brave keeps, as back is
-     * already served by the system back gesture. The page info icon is dropped as well, as Brave
-     * keeps page info in the menu list instead.
+     * already served by the system back gesture.
      */
     private void putShareIconIntoIconRow(MVCListAdapter.ModelList modelList) {
         for (int i = 0; i < modelList.size(); ++i) {
@@ -1058,7 +1059,7 @@ public class BraveTabbedAppMenuPropertiesDelegate extends TabbedAppMenuPropertie
 
             MVCListAdapter.ModelList icons =
                     modelList.get(i).model.get(AppMenuItemProperties.ADDITIONAL_ICONS);
-            maybeRemoveMenuItems(icons, R.id.back_menu_id, R.id.info_menu_id);
+            maybeRemoveMenuItems(icons, R.id.back_menu_id);
 
             PropertyModel shareIcon =
                     AppMenuItemUtils.buildModelForIcon(

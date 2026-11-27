@@ -50,6 +50,7 @@
 <translation id="4931114810905682683"><ph name="LEARN_MORE_ABOUT_WIDEVINE"/>.
 Eller ändra senare på <ph name="SETTINGS_EXTENIONS_LINK"/>.</translation>
 <translation id="6229752134959014186">Läs mer om Widevine</translation>
+<translation id="3318169548229684688">ladda ned en taligenkänningsmodell (<ph name="DOWNLOAD_SIZE"/>) för att bearbeta tal på den här enheten</translation>
 <translation id="6061083111980694767"><ph name="SITE_NAME"/> ber dig att</translation>
 <translation id="3218385319396786393">Autouppspelning blockerades på denna sida</translation>
 <translation id="4988333904713528597">Autospela alltid på <ph name="HOST"/></translation>
@@ -117,6 +118,8 @@ Eller ändra senare på <ph name="SETTINGS_EXTENIONS_LINK"/>.</translation>
 <translation id="2162109630536601963">Om det här tillägget gör nätverksförfrågningar använder det inte Tor eller privat läge.</translation>
 <translation id="2725327089319971976">För att avaktivera detta tillägg i privat läge och Tor-läge, avmarkera detta alternativ.</translation>
 <translation id="438106944087726695">Brave-värd</translation>
+<translation id="2265651566599167057">Flaggad som skadlig kod av Socket.</translation>
+<translation id="2607395470596637070">Läs mer om hur Socket i Brave skyddar dig</translation>
 <translation id="3371343170427636147">Brave Browser Nightly-appar</translation>
 <translation id="4097979995947147464">Brave Browser Beta-appar</translation>
 <translation id="8303432794159193481">Brave Browser Dev-appar</translation>
@@ -608,6 +611,8 @@ Eller ändra senare på <ph name="SETTINGS_EXTENIONS_LINK"/>.</translation>
 <translation id="3540231253392253941">Använd Googles tjänster för push-meddelanden</translation>
 <translation id="2224032129673914306">Semantisk historiksökning</translation>
 <translation id="6045998903985162478">Indexera sidor du besöker så att du enkelt kan hitta dem i historik, öppna flikar och Leo.</translation>
+<translation id="3962946446120925966">Taligenkänning på enheten</translation>
+<translation id="6408242130028978631">Ladda ned en taligenkänningsmodell (<ph name="DOWNLOAD_SIZE"/>) så att webbplatser kan bearbeta tal på den här enheten. Stäng av detta för att ta bort modellen.</translation>
 <translation id="5813105074916486721">Lokal historiklagring</translation>
 <translation id="5671611745062206644">Hur länge Brave lagrar din webbhistorik lokalt</translation>
 <translation id="7184510058087008090">1 dag</translation>
@@ -723,7 +728,7 @@ Eller ändra senare på <ph name="SETTINGS_EXTENIONS_LINK"/>.</translation>
 <translation id="4432071071853308688">Koden är tom</translation>
 <translation id="955848693465029904">Installationsfel för intern synkronisering</translation>
 <translation id="7456398316301207582">Internt fel vid borttagning av konto</translation>
-<translation id="859506441384380749">Den här koden genererades av en Brave-version som är för gammal, uppgradera enheten först</translation>
+<translation id="4002014583969312635">Det ser ut som att den här koden skapades på en enhet som kör en äldre version av Brave. Uppdatera till den senaste versionen av Brave på din andra enhet och skapa sedan en ny synkroniseringskod.</translation>
 <translation id="3132642509209154999">Den här koden har upphört att gälla. Generera en ny på din andra enhet och försök igen.</translation>
 <translation id="2859229680945501779">Den här koden är ogiltig. Kontrollera att tid och tidszon är korrekt inställda på din enhet.</translation>
 <translation id="2339730291919608488">Lämna synkkedja</translation>

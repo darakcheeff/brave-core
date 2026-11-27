@@ -742,6 +742,15 @@
 /* Button label to temporarily continue to the site from the certificate error page */
 "ErrorPagesProceedAnywayButton" = "Продължи към %@ (опасно)";
 
+/* Button to exclude a topsite url from the most visited list */
+"ExcludeMostVisitedSite" = "Премахване";
+
+/* Message for the alert shown before excluding a site from the most visited list */
+"ExcludeMostVisitedSiteAlertMessage" = "Този сайт няма да се показва в списъка ви с най-посещавани, но няма да бъде премахнат от хронологията ви.";
+
+/* Title for the alert shown before excluding a site from the most visited list */
+"ExcludeMostVisitedSiteAlertTitle" = "Премахване от Най-посещавани?";
+
 /* %@ will launch an external application */
 "ExternalAppURLAlertMessage" = "%@ ще стартира външно приложение";
 
@@ -864,6 +873,9 @@
 
 /* Error message if details don't have the right type or values */
 "invalidDetailsMessage" = "Невалидни данни в заявката за плащане";
+
+/* Title of a JavaScript alert, confirm, or prompt dialog shown by an embedded frame that has no displayable origin, such as a sandboxed iframe */
+"JavaScriptDialogEmbeddedPageTitle" = "Вградена страница в тази страница";
 
 /* History tableview section header */
 "LastMonth" = "Последния месец";
@@ -1059,6 +1071,18 @@
 
 /* No comment provided by engineer. */
 "ntp.sponsoredImageDescription" = "Като виждаш това спонсорирано изображение, ти подкрепяш създателите на съдържание и издателите.";
+
+/* The title of a picker for user to pick which type of topsites to show in NTP */
+"ntp.topsites" = "Топ сайтове";
+
+/* Favorites type of topsites. Selection means NTP will display favorites tiles if there is any. */
+"ntp.topsitesTypeFavorites" = "Любими";
+
+/* MostVisited type of topsites. Selection means NTP will display most visited tiles if there is any. */
+"ntp.topsitesTypeMostVisited" = "Често посещавани";
+
+/* None type of topsites. Selection means there won't be any topsites tiles in NTP */
+"ntp.topsitesTypeNone" = "Няма";
 
 /* The placeholder says 'Terms of Service'. So full sentence goes like: 'By turning Rewards, you agree to the Terms of Service'. */
 "ntp.turnRewardsTos" = "С включването на функцията „Награди“ се съгласяваш с %@.";
@@ -1450,12 +1474,6 @@
 /* The title for the alert that shows up when an item is expired */
 "playList.expiredAlertTitle" = "Изтекло видео";
 
-/* Number of items in the playlsit folder. Example: '10 items' */
-"playlist.folderItemCountPlural" = "%d елемента";
-
-/* Title for when there's a single item inside of a folder */
-"playlist.foldersCountSingular" = "%d елемент";
-
 /* Description for load resources error alert */
 "playList.loadResourcesErrorAlertDescription" = "Възникна проблем със зареждането на ресурса!";
 
@@ -1587,12 +1605,6 @@
 
 /* The title of the screen to create a new folder */
 "playlistFolders.newFolderScreenTitle" = "Нов плейлист";
-
-/* The sub-title of the folder. Example: This folder contains 10 Items. This folder contains 3 Items. */
-"playlistFolders.subtitleItemCount" = "%lld елемента";
-
-/* The sub-title of the folder. Example: This folder contains ONE item. This folder contains 1 Item. */
-"playlistFolders.subtitleItemSingleCount" = "1 елемент";
 
 /* The title of a folder when the user enters no name (untitled) */
 "playlistFolders.untitledFolderTitle" = "Неозаглавена плейлиста";
@@ -2410,12 +2422,6 @@
 /* Title of the settings toggle that enables Sponsored Ads */
 "settings.sponsoredAdsEnabledTitle" = "Активиране на спонсорираните реклами";
 
-/* Description to explain the survey panelist toggle */
-"settings.surveyPanelistDescription" = "Позволява на Brave да показва връзки към поверителни анкети в страницата на нов раздел. Тези анкети ни помагат да създаваме по-добри функции и да измерваме ефективността на рекламните кампании в браузъра. [Научи повече](%@)";
-
-/* Title to explain the survey panelist toggle */
-"settings.surveyPanelistTitle" = "Разрешаване на анкети в Brave";
-
 /* Header for the YouTube settings section */
 "settings.youtube" = "YouTube";
 
@@ -2487,6 +2493,18 @@
 
 /* Title for Shield Education Tracker Video Ad Block */
 "shieldEducation.videoAdBlockTitle" = "Рекламите са блокирани, докато гледаш видеоклипове в този уебсайт.";
+
+/* Title for the Brave Wallet shortcut. Brave Wallet is the name of a product and should not be translated */
+"shortcut.braveWallet" = "Портфейл в Brave";
+
+/* Title for the private tab shortcut. */
+"shortcut.privateTab" = "Поверителен раздел";
+
+/* Title for the QR Code shortcut. */
+"shortcut.qrCode" = "QR код";
+
+/* Title for the Search shortcut. */
+"shortcut.search" = "Търсене";
 
 /* Quick Action for 3D-Touch on the Application Icon */
 "ShortcutItemTitleNewPrivateTab" = "Нов поверителен раздел";
@@ -3060,12 +3078,6 @@
 
 /* Accessibility label for a button that allows users to shred their tabs (erase them & associated data) */
 "tabGrid.shredTabsAccessibilityLabel" = "Унищожи разделите";
-
-/* A label in the tab tray mode switcher shown when there are 0 or more than 1 regular tabs open e.g. '129 Tabs' */
-"tabGrid.tabsCountFormatPlural" = "%lld раздел";
-
-/* A label in the tab tray mode switcher shown when there is 1 regular tab open e.g. '1 Tab' */
-"tabGrid.tabsCountFormatSingular" = "%lld раздел";
 
 /* Accessibility label for a button that when tapped presents the users history & recently closed tabs */
 "tabGrid.viewHistoryAccessibilityLabel" = "Виж история";

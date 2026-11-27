@@ -16,13 +16,13 @@ source_set("browser_tests") {
   ]
 
   deps = [
+    "//brave/browser/ui:brave_tab_prefs",
     "//brave/components/constants",
     "//brave/components/tabs",
     "//chrome/app:command_ids",
     "//chrome/browser",
     "//chrome/browser/profiles:profile",
     "//chrome/browser/tab_group_sync:factories",
-    "//chrome/browser/ui",
     "//chrome/browser/ui/navigator",
     "//chrome/browser/ui/views/frame:browser_view_header",
     "//chrome/common",
@@ -40,8 +40,10 @@ source_set("browser_tests") {
       "tab_data_browsertest.cc",
     ]
     deps += [
+      "//brave/browser/ui",
       "//brave/browser/ui/tabs:tab_strip",
       "//brave/components/resources:scaled_resources",
+      "//chrome/browser/ui:browser_tabstrip",
       "//chrome/browser/ui:browser_window_header",
       "//chrome/browser/ui:ui_features",
       "//chrome/browser/ui/browser_web_contents_delegate",
@@ -94,7 +96,7 @@ source_set("unit_tests") {
   testonly = true
 
   sources = []
-  deps = []
+  deps = [ "//brave/browser/ui:brave_tab_prefs" ]
 
   if (!is_android) {
     sources += [

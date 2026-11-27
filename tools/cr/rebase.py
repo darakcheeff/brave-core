@@ -38,6 +38,8 @@ Commit categories formalised here (see `EntryType`):
     - [cr*] IWYU fixes.
     - [cr*] Bump resource_ids.
     - [cr*] Update Lit mangler snapshot.
+    - [cr*] Version CodeHealth tracker.
+    - [cr*] Version lift updates.
     - [cr*] Disable failing upstream tests.
     - [cr*] Update lists for upstream flake tests.
 
@@ -51,9 +53,9 @@ Commit categories formalised here (see `EntryType`):
 * REASSIGNMENT -- `reassign!<hash>!` commits authored by
   `brockit reassign`. Repositioned next to their target when
   `pinned_squashed=True`.
-* DROP -- `drop!<hash>!` commits authored by `brockit drop`. Both the
-  marker and its target are removed from the plan when
-  `pinned_squashed=True`.
+* DROP -- `drop!<hash>!` commits authored by `brockit drop`. The marker,
+  its target and the target's attached `fixup!`/`amend!`/`squash!` commits
+  are removed from the plan when `pinned_squashed=True`.
 * DEFAULT -- everything else.
 """
 
@@ -137,8 +139,8 @@ def _match(subject: str, pattern: re.Pattern) -> bool:
 # squash priority order: when multiple pinned groups are present in the
 # same rebase plan, they're emitted top-to-bottom in this order
 # (version → plaster_reruns → conflict → gnrt → IWYU →
-# resource_ids → lit_mangler → disable_tests →
-# dead_upstream_tests → flake_tests). The regexes are
+# resource_ids → lit_mangler → codehealth_tracker → lift_updates →
+# disable_tests → dead_upstream_tests → flake_tests). The regexes are
 # anchored fullmatches applied to the `[crNNN]`-stripped subject, so each
 # pattern matches both the tagged and the untagged form of the same commit.
 PINNED_GROUPS = [
@@ -167,6 +169,8 @@ PINNED_GROUPS = [
     ('iwyu', re.compile(r'IWYU fixes\.?')),
     ('resource_ids', re.compile(r'Bump resource_ids\.?')),
     ('lit_mangler', re.compile(r'Update Lit mangler snapshot\.?')),
+    ('codehealth_tracker', re.compile(r'Version CodeHealth tracker\.?')),
+    ('lift_updates', re.compile(r'Version lift updates\.?')),
     (
         'disable_tests',
         re.compile(
@@ -442,6 +446,16 @@ class EntryLine:
         )
 
     @property
+    def is_attached_autosquash(self) -> bool:
+        """True when git reattached this autosquash marker to its target,
+        i.e. it already carries git's `fixup`/`fixup -C`/`squash` command."""
+        return (
+            self._command != 'pick'
+            and self._subcommand is not None
+            and self._subcommand[0] in _AUTOSQUASH_SUBCOMMANDS
+        )
+
+    @property
     def reassign_target_hash(self) -> str | None:
         """The target hash carried in the `reassign!<hash>!` prefix --
         or `None` if the prefix has no hash. Raises
@@ -576,9 +590,10 @@ def rewrite_plan(
         pinned_squashed: When `True`, group pinned commits at the top
             of the plan, in `PINNED_GROUPS` priority order. The first
             commit in each group stays `pick`; subsequent ones become
-            `squash`. Reassign commits are repositioned to sit
-            immediately above their target (with the target rewritten
-            to `squash`). Drop commits remove themselves together with
+            `squash`, except attached `fixup!`/`amend!`/`squash!`
+            markers, which keep git's command. Reassign commits are
+            repositioned to sit immediately above their target (with the
+            target rewritten to `squash`). Drop commits remove themselves together with
             their target. Defaults to `False`.
         discard_recyclable: When `True`, drop recyclable commits from
             the plan entirely. Defaults to `False`.
@@ -651,15 +666,48 @@ def rewrite_plan(
         all_others.insert(target_idx, reassign)
 
     def drop_with_target(drop: EntryLine) -> None:
-        """Removes the `drop` marker's target from the plan. The marker itself
-        is dropped by the caller -- it's never appended to `all_others`. An
-        orphaned drop is silently discarded, leaving the plan untouched."""
+        """Removes the `drop` marker's target from the plan, with the
+        autosquash markers git attached to it. The marker itself is dropped by
+        the caller -- it's never appended to `all_others`. An orphaned drop is
+        silently discarded, leaving the plan untouched."""
         target, target_idx = find_marker_target(drop, drop.drop_target_hash)
+        entries = all_others
         if target is None:
+            # A pinned commit (a `Version CodeHealth tracker`, say) sits in
+            # its group rather than in `all_others`.
+            entries, target_idx = find_pinned_target(drop)
+        if target_idx is None:
             logging.warning('Dropping orphaned drop: %s', drop.out.strip())
             return
 
-        del all_others[target_idx]
+        # Git places a target's `fixup`/`fixup -C`/`squash` lines right after
+        # it. Left behind, they would squash into the preceding commit, and an
+        # `amend!` would replace its message.
+        end = target_idx + 1
+        while end < len(entries) and entries[end].is_attached_autosquash:
+            end += 1
+        del entries[target_idx:end]
+        # A group's first commit is the one the rest squash into.
+        if entries is not all_others and entries and target_idx == 0:
+            entries[0].command = 'pick'
+
+    def find_pinned_target(
+        marker: EntryLine,
+    ) -> tuple[list[EntryLine], int | None]:
+        """A marker's target among the pinned groups, and its index there.
+        Only by hash: a group's commits share one subject, so the subject
+        can't tell them apart. Either side may be the shorter abbreviation."""
+        target_hash = marker.drop_target_hash
+        if not target_hash:
+            return all_others, None
+        for group in pinned_groups.values():
+            for index, entry in enumerate(group):
+                if not entry.is_attached_autosquash and (
+                    entry.hash.startswith(target_hash)
+                    or target_hash.startswith(entry.hash)
+                ):
+                    return group, index
+        return all_others, None
 
     for line in todo_file.read_bytes().decode('utf-8').splitlines():
         entry_line = EntryLine.parse(line)
@@ -680,13 +728,16 @@ def rewrite_plan(
                 continue
             if entry_line.pinned_group is not None:
                 # First commit in the group becomes `pick`; subsequent
-                # ones become `squash`. The setter keeps `out` in sync.
-                entry_line.command = (
-                    'pick'
-                    if not pinned_groups[entry_line.pinned_group]
-                    else 'squash'
-                )
-                pinned_groups[entry_line.pinned_group].append(entry_line)
+                # ones become `squash`. Attached autosquash markers keep
+                # git's command, so a `fixup` body is still discarded and
+                # `fixup -C` still replaces the message. The setter keeps
+                # `out` in sync.
+                group = pinned_groups[entry_line.pinned_group]
+                if not group:
+                    entry_line.command = 'pick'
+                elif not entry_line.is_attached_autosquash:
+                    entry_line.command = 'squash'
+                group.append(entry_line)
                 continue
 
         all_others.append(entry_line)
@@ -873,6 +924,11 @@ class MsgBlock:
                 message_lines = block_lines[2:]
 
             msg = "\n".join(line.strip() for line in message_lines).strip()
+            if note is not None and note.command == "fixup!":
+                # Git discards a `fixup!` commit's message, body included
+                # (stacked `# fixup! fixup! …` markers too). Treat it the
+                # same as a `will be skipped:` block.
+                continue
             if (
                 note is not None
                 and note.command == "squash!"
@@ -890,12 +946,6 @@ class MsgBlock:
                 blocks[-1]._extend_message(msg)
             elif msg:
                 blocks.append(MsgBlock(full_message=msg, note=note))
-            elif note is not None and note.command == "fixup!":
-                # A bare `# fixup!` block carries no message of its own
-                # -- git is just echoing the marker for context (this
-                # also happens with stacked `# fixup! fixup! …` markers).
-                # Treat it the same as a `will be skipped:` block.
-                continue
             else:
                 raise EditorRecoverableFailure(
                     f'Unexpected empty message in block. Block lines: '
@@ -947,24 +997,27 @@ class MessageWriter:
         )
 
     @staticmethod
-    def parse(todo_file: Path) -> 'MessageWriter':
+    def parse(todo_file: Path) -> 'MessageWriter | None':
         """Reads `todo_file` and returns a `MessageWriter` provided the
         first commit-message block's subject classifies as one of
         `MessageWriter._HANDLED_ENTRY_TYPES` (currently `PINNED` and
         `REASSIGNMENT`).
 
+        Returns `None` when the file is not a squash at all, e.g. the
+        message of a commit that `git rebase --continue` makes once a
+        conflict is resolved. That message is kept as it is.
+
         Any other first-block classification (RECYCLABLE, DEFAULT) and
-        any file that fails to parse / yields no blocks raises
-        `EditorRecoverableFailure`. The exception message names the
-        rejected `EntryType` so the user sees, in the editor, why the
-        rewrite was punted.
+        any file that fails to parse raises `EditorRecoverableFailure`.
+        The exception message names the rejected `EntryType` so the user
+        sees, in the editor, why the rewrite was punted.
         """
         blocks = MsgBlock.parse(todo_file.read_bytes().decode('utf-8'))
 
         if not blocks:
-            raise EditorRecoverableFailure(
-                'No commit-message blocks were parsed from the editor file.'
-            )
+            # Only a squash has git's `# This is …` headers to split it into
+            # blocks.
+            return None
 
         first_msg_line = blocks[0].full_message.splitlines()[0]
         entry_type = get_entry_type_for_subject(first_msg_line)

@@ -218,7 +218,7 @@
 "FilterListsDownloadPending" = "다운로드 대기 중";
 
 /* This is a button on the top navigation that takes the user to an add custom filter list url to the list */
-"FilterListsEdit" = "수정";
+"FilterListsEdit" = "편집";
 
 /* This is a placeholder for an input field that takes a custom filter list URL. */
 "FilterListsEnterFilterListURL" = "필터 목록 URL 입력";
@@ -341,10 +341,10 @@
 "ShieldsDefaults" = "Brave Shields 전역 기본값";
 
 /* Section footer for global shields defaults */
-"ShieldsDefaultsFooter" = "새 사이트에 적용되는 기본 Shields 설정이 있습니다. 설정을 변경해도 기존 사이트별 설정에는 영향을 주지 않습니다.";
+"ShieldsDefaultsFooter" = "새로운 사이트에 적용되는 기본 Shields 설정입니다. 이 설정을 변경해도 기존 사이트별 설정에는 영향을 주지 않습니다.";
 
 /* No comment provided by engineer. */
-"ShieldsDownDisclaimer" = "Brave의 개인 정보 보호없이 이 사이트를 탐색하고 있습니다. 실드가 제대로 작동하지 않습니까?";
+"ShieldsDownDisclaimer" = "Brave의 개인정보 보호 없이 이 사이트를 브라우징하고 계십니다. Shields 사용 시 제대로 작동하지 않나요?";
 
 /* Time Saved Days */
 "ShieldsTimeStatsDays" = "일";
@@ -401,7 +401,7 @@
 "SiteIsNotSecure" = "사이트가 비보안임";
 
 /* No comment provided by engineer. */
-"SiteReportedBody" = "이 사이트에 문제가 있다는 것을 Brave (브레이브) 개발자에게 알려 주셔서 감사합니다. 최선을 다해 문제를 해결하겠습니다!";
+"SiteReportedBody" = "이 사이트에 문제가 있다는 사실을 Brave 개발자가 파악할 수 있게 해주셔서 감사합니다. 최선을 다해 해결하겠습니다!";
 
 /* No comment provided by engineer. */
 "SiteReportedTitle" = "감사합니다.";

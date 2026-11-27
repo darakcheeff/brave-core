@@ -71,7 +71,7 @@
 "BlockAdsAndTrackingStandard" = "Standard";
 
 /* A title for setting which blocks 'switch to app' popups */
-"blockMobileAnnoyances" = "Blocage des demandes d’installation d’applications";
+"blockMobileAnnoyances" = "Bloquer les avis « Changer d'app »";
 
 /* No comment provided by engineer. */
 "BlockScripts" = "Blocage des scripts";
@@ -191,7 +191,7 @@
 "EnableGPCDescription" = "Demande aux sites de ne pas vendre ni de partager vos données. [En savoir plus](https://support.brave.app/hc/en-us/articles/360017989132-How-do-I-change-my-Privacy-Settings#h_01HHFRRT6B5YTRREA4ZDARGTWM)";
 
 /* A label of the GPC toggle */
-"EnableGPCLabel" = "Activer Global Privacy Control";
+"EnableGPCLabel" = "Activer le contrôle global de la confidentialité";
 
 /* Shields Time Saved Stat */
 "EstTimerSaved" = "Temps gagné \nestimé";
@@ -209,7 +209,7 @@
 "FilterListsAdd" = "Ajouter";
 
 /* A description on the content filtering screen for the filter lists section. */
-"FilterListsDescription" = "Listes les plus populaires créées par la communauté. Notez que l’activation d’un trop grand nombre de filtres risque de ralentir le chargement des pages.";
+"FilterListsDescription" = "Listes les plus populaires créées par la communauté. Notez que l'activation d'un trop grand nombre de filtres risque de ralentir le chargement des pages.";
 
 /* This is a generic error message when downloading a filter list fails. */
 "FilterListsDownloadFailed" = "Échec du téléchargement";
@@ -218,10 +218,10 @@
 "FilterListsDownloadPending" = "Téléchargement en attente";
 
 /* This is a button on the top navigation that takes the user to an add custom filter list url to the list */
-"FilterListsEdit" = "Modifier";
+"FilterListsEdit" = "Édition";
 
 /* This is a placeholder for an input field that takes a custom filter list URL. */
-"FilterListsEnterFilterListURL" = "Saisissez l’URL de la liste de filtres";
+"FilterListsEnterFilterListURL" = "Saisissez l'URL de la liste de filtres";
 
 /* A label that shows when the filter list was last updated. Do not translate the '%@' placeholder. The %@ will be replaced with a relative date. For example, '5 minutes ago' or '1 hour ago'. So the full string will read something like 'Last updated 5 minutes ago'. */
 "FilterListsLastUpdatedLabel" = "Dernière mise à jour %@";
@@ -230,13 +230,13 @@
 "FilterListURLTextFieldPlaceholder" = "Saisissez l’URL de la liste de filtres ici";
 
 /* No comment provided by engineer. */
-"FingerprintingProtection" = "Blocage du fingerprinting";
+"FingerprintingProtection" = "Bloquez les empreintes numériques";
 
 /* No comment provided by engineer. */
-"FingerprintingProtectionDescription" = "Empêche les sites de reconnaître facilement les caractéristiques uniques de votre appareil";
+"FingerprintingProtectionDescription" = "Empêche les sites de reconnaître facilement les caractéristiques uniques de votre appareil.";
 
 /* No comment provided by engineer. */
-"httpsEverywhereDescription" = "Ouvrir les sites en utilisant une connexion HTTPS sécurisée au lieu d’une connexion HTTP lorsque cela est possible.";
+"httpsEverywhereDescription" = "Ouvrir les sites en utilisant une connexion HTTPS sécurisée au lieu d'une connexion HTTP lorsque cela est possible.";
 
 /* The option the user can select to do strict https upgrading */
 "HttpsUpgradeLevelStrict" = "Strict";
@@ -248,7 +248,7 @@
 "ReportABrokenSite" = "Signaler une panne du site";
 
 /* A label for a text entry field where the user can provide additional details for a web-compatibility report */
-"ReportBrokenAdditionalDetails" = "Plus d’informations (facultatif)";
+"ReportBrokenAdditionalDetails" = "Plus de détails (facultatif)";
 
 /* A label for a text entry field where the user can provide additional details for a web-compatibility report */
 "reportBrokenAdditionalDetailsRequired" = "Détails supplémentaires";
@@ -257,7 +257,7 @@
 "reportBrokenCategory" = "Quel est le problème principal ?";
 
 /* A label for a text entry field where the user can provide contact details within a web-compatibilty report */
-"ReportBrokenContactMe" = "Mes coordonnées : (facultatif)";
+"ReportBrokenContactMe" = "Contactez-moi : (facultatif)";
 
 /* Contact info storing description */
 "ReportBrokenContactMeDescription" = "Si vous fournissez vos informations de contact, celles-ci seront conservées pour d’éventuels futurs rapports concernant l’indisponibilité des sites.";
@@ -272,7 +272,7 @@
 "ReportBrokenSiteBody1" = "Signalez aux équipes de Brave que ce site rencontre un dysfonctionnement :";
 
 /* This is the info text that is presented when a user is submitting a web-compatibility report. */
-"ReportBrokenSiteBody2" = "Remarque : Le rapport envoyé aux serveurs Brave comprendra l’adresse du site, le numéro de version de Brave, les paramètres des boucliers, le statut du VPN et les paramètres linguistiques.";
+"ReportBrokenSiteBody2" = "Remarque : le rapport envoyé aux serveurs Brave comprendra l'adresse du site, le numéro de version de Brave, les paramètres des boucliers, le statut du VPN et les paramètres linguistiques.";
 
 /* No comment provided by engineer. */
 "ReportBrokenSubmitButtonTitle" = "Envoyer";
@@ -338,10 +338,10 @@
 "shields.trackersAdsAndMoreBlocked" = "traqueurs, publicités et autres contenus bloqués";
 
 /* Section title for adbblock, tracking protection, HTTPS-E, and cookies */
-"ShieldsDefaults" = "Paramètres généraux par défaut des boucliers Brave";
+"ShieldsDefaults" = "Réglages par défaut Brave Shields";
 
 /* Section footer for global shields defaults */
-"ShieldsDefaultsFooter" = "Réglages par défaut des boucliers pour les nouveaux sites. La modification de ces paramètres n’affectera pas les réglages que vous avez définis pour un site en particulier.";
+"ShieldsDefaultsFooter" = "Réglages par défaut des boucliers pour les nouveaux sites. La modification de ces paramètres n'affectera pas les réglages que vous avez définis pour un site en particulier.";
 
 /* No comment provided by engineer. */
 "ShieldsDownDisclaimer" = "Vous naviguez sur ce site sans protection de confidentialité de Brave. Ne fonctionne-t-il pas correctement lorsque les boucliers sont activés ?";
@@ -368,7 +368,7 @@
 "ShredNeverDescription" = "Les données de navigation ne sont jamais broyées automatiquement";
 
 /* An option setting for automatically shredding only when the app is closed */
-"ShredOnAppClose" = "Fermeture de l’application";
+"ShredOnAppClose" = "Fermeture de l'application";
 
 /* The description for shredding when the app is closed */
 "ShredOnAppCloseDescription" = "Les données de navigation sont automatiquement broyées lorsque l'application Brave est fermée / redémarrée";
@@ -398,16 +398,16 @@
 "shredSiteSelectedTabsConfirmationMessage" = "La suppression fermera les onglets sélectionnés et effacera toutes les données du site. Cette action est irréversible.";
 
 /* A page title for the warning page that appears when http was blocked */
-"SiteIsNotSecure" = "Le site n’est pas sécurisé";
+"SiteIsNotSecure" = "Le site n'est pas sécurisé";
 
 /* No comment provided by engineer. */
-"SiteReportedBody" = "Merci d’avoir signalé aux développeurs de Brave que ce site ne fonctionne pas correctement. Nous allons faire de notre mieux pour corriger le problème !";
+"SiteReportedBody" = "Merci d'avoir signalé aux développeurs de Brave que ce site ne fonctionne pas correctement. Nous allons faire de notre mieux pour corriger le problème !";
 
 /* No comment provided by engineer. */
 "SiteReportedTitle" = "Merci";
 
 /* A page title for the warning page that appears when http was blocked */
-"TheConnectionIsNotSecure" = "La connexion à %@ n’est pas sécurisée";
+"TheConnectionIsNotSecure" = "La connexion à %@ n'est pas sécurisée";
 
 /* A label for a shield option that allows you to switch between different blocking levels for tracker and ads blocking. Options include disabled, standard and aggressive. */
 "TrackersAndAdsBlocking" = "Blocage des traqueurs et annonces";
@@ -422,7 +422,7 @@
 "UpdatingLists" = "Mise à jour des listes en cours…";
 
 /* The option the user can select for the type of https upgrading */
-"UpgradeConnectionsToHTTPS" = "Mise à niveau des connexions vers HTTPS";
+"UpgradeConnectionsToHTTPS" = "Mettre à niveau les connexions vers HTTPS";
 
 /* A description shown an a page where the http page was blocked */
 "YourConnectionIsNotPrivate" = "Vous voyez cet avertissement parce que ce site ne prend pas en charge le protocole HTTPS.";

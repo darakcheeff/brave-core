@@ -14,10 +14,11 @@
 #include "base/callback_list.h"
 #include "base/containers/flat_map.h"
 #include "base/gtest_prod_util.h"
+#include "base/memory/raw_ptr.h"
 #include "base/memory/weak_ptr.h"
 #include "chrome/browser/ui/tabs/tab_style.h"
 #include "chrome/browser/ui/views/tabs/dragging/tab_drag_context.h"
-#include "chrome/browser/ui/views/tabs/tab_container_impl.h"
+#include "chrome/browser/ui/views/tabs/tab_container.h"
 #include "components/prefs/pref_member.h"
 #include "ui/gfx/canvas.h"
 #include "ui/views/controls/scroll_view.h"
@@ -30,9 +31,9 @@ class ScrollView;
 
 class BraveVerticalTabStripRegionView;
 
-class BraveTabContainer : public TabContainerImpl,
+class BraveTabContainer : public TabContainer,
                           public views::ScrollBarController {
-  METADATA_HEADER(BraveTabContainer, TabContainerImpl)
+  METADATA_HEADER(BraveTabContainer, TabContainer)
  public:
   BraveTabContainer(TabContainerController& controller,
                     TabHoverCardController* hover_card_controller,
@@ -94,7 +95,7 @@ class BraveTabContainer : public TabContainerImpl,
   // Call this when those constants change.
   void RefreshGroupHeaderVisuals();
 
-  // TabContainerImpl:
+  // TabContainer:
   gfx::Size CalculatePreferredSize(
       const views::SizeBounds& available_size) const override;
   std::vector<Tab*> AddTabs(
@@ -323,7 +324,7 @@ class BraveTabContainer : public TabContainerImpl,
   // In case of unit tests, the pref can be uninitialized, so we return false.
   bool IsHorizontalScrollableTabStripEnabled() const;
 
-  base::flat_set<Tab*> closing_tabs_;
+  base::flat_set<raw_ptr<Tab>> closing_tabs_;
 
   raw_ptr<TabDragContext> drag_context_;
 

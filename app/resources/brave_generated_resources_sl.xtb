@@ -51,6 +51,7 @@
 <translation id="4931114810905682683"><ph name="LEARN_MORE_ABOUT_WIDEVINE"/>.
 To lahko spremenite tudi pozneje na <ph name="SETTINGS_EXTENIONS_LINK"/>.</translation>
 <translation id="6229752134959014186">Več o storitvi Widevine</translation>
+<translation id="3318169548229684688">Prenesti model za prepoznavanje govora (<ph name="DOWNLOAD_SIZE"/>) za obdelavo govora v tej napravi</translation>
 <translation id="6061083111980694767"><ph name="SITE_NAME"/> vas prosi, da</translation>
 <translation id="3218385319396786393">Samodejno predvajanje je blokirano na tej strani</translation>
 <translation id="4988333904713528597">Vedno dovoli samodejno predvajanje na <ph name="HOST"/></translation>
@@ -119,6 +120,8 @@ To lahko spremenite tudi pozneje na <ph name="SETTINGS_EXTENIONS_LINK"/>.</trans
 <translation id="2162109630536601963">Če ta razširitev daje omrežne zahteve, ne bo uporabljala Tor ali zasebnega načina.</translation>
 <translation id="2725327089319971976">Če želite onemogočiti to razširitev v zasebnem načinu in načinu Tor, počistite to možnost.</translation>
 <translation id="438106944087726695">Gostitelj: Brave</translation>
+<translation id="2265651566599167057">Socket je to označil kot zlonamerno programsko opremo.</translation>
+<translation id="2607395470596637070">Preberite več o tem, kako vas Socket v Brave ščiti</translation>
 <translation id="3371343170427636147">Nočne aplikacije brskalnika Brave</translation>
 <translation id="4097979995947147464">Beta aplikacije brskalnika Brave</translation>
 <translation id="8303432794159193481">Dev aplikacije brskalnika Brave</translation>
@@ -611,6 +614,8 @@ se lahko izteče. Ali ga želite obnoviti?</translation>
 <translation id="3540231253392253941">Za potisna sporočila uporabite Googlove storitve</translation>
 <translation id="2224032129673914306">Pomensko iskanje po zgodovini</translation>
 <translation id="6045998903985162478">Indeksirajte strani, ki jih obiščete, da jih boste lahko enostavno našli v zgodovini, odprtih zavihkih in Leo.</translation>
+<translation id="3962946446120925966">Prepoznavanje govora na napravi</translation>
+<translation id="6408242130028978631">Prenesite model za prepoznavanje govora (<ph name="DOWNLOAD_SIZE"/>), da bodo lahko spletna mesta obdelovala govor na tej napravi. Izklopite to nastavitev, če želite model odstraniti.</translation>
 <translation id="5813105074916486721">Lokalna hramba zgodovine</translation>
 <translation id="5671611745062206644">Kako dolgo Brave lokalno shranjuje vašo zgodovino brskanja</translation>
 <translation id="7184510058087008090">1 dan</translation>
@@ -726,7 +731,7 @@ se lahko izteče. Ali ga želite obnoviti?</translation>
 <translation id="4432071071853308688">Ta koda je prazna</translation>
 <translation id="955848693465029904">Napaka pri nastavitvi notranje sinhronizacije</translation>
 <translation id="7456398316301207582">Notranja napaka pri brisanju računa</translation>
-<translation id="859506441384380749">To kodo je ustvarila zastarela različica Brave, najprej nadgradite svojo drugo napravo</translation>
+<translation id="4002014583969312635">Izgleda, da je bila ta koda ustvarjena na napravi s starejšo različico Brave. Prosimo, posodobite na najnovejšo različico Brave na drugi napravi in nato ustvarite novo kodo sinhronizacije.</translation>
 <translation id="3132642509209154999">Ta koda je potekla. Ustvarite novo v drugi napravi in poskusite znova.</translation>
 <translation id="2859229680945501779">Ta koda ni veljavna. Preverite, ali sta ura in časovni pas na vaši napravi pravilno nastavljena.</translation>
 <translation id="2339730291919608488">Zapusti sinhronizacijsko verigo</translation>

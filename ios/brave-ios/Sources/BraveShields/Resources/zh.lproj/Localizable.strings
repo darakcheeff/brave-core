@@ -422,7 +422,7 @@
 "UpdatingLists" = "正在更新列表";
 
 /* The option the user can select for the type of https upgrading */
-"UpgradeConnectionsToHTTPS" = "將連線升級為 HTTPS";
+"UpgradeConnectionsToHTTPS" = "将连接升级为 HTTPS";
 
 /* A description shown an a page where the http page was blocked */
 "YourConnectionIsNotPrivate" = "您当前看到警告提示，是由于该网站不支持 HTTPS。";

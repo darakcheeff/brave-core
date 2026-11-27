@@ -50,6 +50,7 @@ source_set("page_action") {
     deps += [
       "//brave/app:brave_generated_resources_grit_grit",
       "//brave/app:command_ids",
+      "//brave/app/vector_icons",
       "//brave/components/psst/core/common",
       "//brave/components/vector_icons",
       "//chrome/browser/ui/color:mixers",
@@ -87,6 +88,7 @@ source_set("page_action") {
       "//brave/browser/tor",
       "//brave/components/tor",
       "//brave/components/vector_icons",
+      "//brave/ui/color:nala_color_id",
       "//chrome/browser/profiles",
       "//chrome/browser/ui/actions",
       "//chrome/browser/ui/color:mixers",
@@ -135,7 +137,6 @@ source_set("impl") {
     deps += [
       "//brave/components/brave_wayback_machine",
       "//brave/components/vector_icons",
-      "//chrome/browser/ui",
       "//chrome/browser/ui:browser_actions",
       "//chrome/browser/ui/actions",
       "//chrome/browser/ui/browser_window",

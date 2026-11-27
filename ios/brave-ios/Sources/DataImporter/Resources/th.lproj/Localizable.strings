@@ -20,7 +20,7 @@
 "importDataFileSelectorMessage" = "นำบุ๊กมาร์ค ประวัติการเข้าชม และข้อมูลเบราว์เซอร์อื่นๆ ของคุณเข้าสู่ Brave";
 
 /* The title of the main screen that lets the user import data. The title is shown in the navigation bar. */
-"importDataFileSelectorNavigationTitle" = "นำเข้าข้อมูลการเรียกดู";
+"importDataFileSelectorNavigationTitle" = "นำเข้าข้อมูลการท่องเว็บ";
 
 /* The title of a Text on screen that explains to the user what type of data can be imported. */
 "importDataFileSelectorTitle" = "นำเข้าบุ๊กมาร์คและอื่น ๆ";
