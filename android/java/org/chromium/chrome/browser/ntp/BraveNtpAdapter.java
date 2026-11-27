@@ -254,7 +254,7 @@ public class BraveNtpAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
 
-        } else if (viewType == TYPE_TOP_SITES) {
+        if (viewType == TYPE_TOP_SITES) {
             // mMvTilesContainerLayout may have been placed in the NTP layout tree by
             // initializeSiteSectionView (via ViewStub inflation). Detach it first so
             // RecyclerView can adopt it as an item view without an "already has a parent" error.
