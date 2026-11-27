@@ -585,6 +585,12 @@ jobs:
           echo "Remaining Ninja targets BEFORE compilation: $REMAINING_BEFORE"
           echo "remaining_before=$REMAINING_BEFORE" >> $GITHUB_ENV
 
+          # Ensure IDR_WEBSTORE_ICON_32 is enabled in theme_resources.grd when enable_extensions_core=true on Android
+          THEME_GRD="$GITHUB_WORKSPACE/src/chrome/app/theme/theme_resources.grd"
+          if [ -f "$THEME_GRD" ] && ! grep -q "<!-- android_webstore_icon_enabled -->" "$THEME_GRD"; then
+            python3 -c 'import sys,re; p=sys.argv[1]; s=open(p).read(); ns=re.sub(r"<if expr=\"[^\"]+\">.*?</if>", lambda m: re.sub(r"<if expr=\"([^\"]+)\">", lambda im: f"<if expr=\"({im.group(1)}) or is_android\">", m.group(0), count=1) if "IDR_WEBSTORE_ICON_32" in m.group(0) else m.group(0), s, flags=re.S); open(p,"w").write(ns + "\n<!-- android_webstore_icon_enabled -->\n") if ns != s else None; print("Enabled IDR_WEBSTORE_ICON_32" if ns != s else "No match for IDR_WEBSTORE_ICON_32")' "$THEME_GRD"
+          fi
+
           # Ensure spirv-tools ggt.py resolves its own utils package ahead of PYTHONPATH utils.py
           GGT_PY="$GITHUB_WORKSPACE/src/third_party/spirv-tools/src/utils/ggt.py"
           if [ -f "$GGT_PY" ]; then
