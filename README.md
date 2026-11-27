@@ -29,7 +29,8 @@
 - Для `chromewebstore.google.com` и `chrome.google.com` автоматически включается десктопный User-Agent (кнопка **«Установить»** доступна сразу без ручного переключения режима).
 
 ### 5. Встроенный Stealth MCP Server
-- Локальный HTTP/JSON-RPC 2.0 сервер на `http://127.0.0.1:8765` с авторизацией по `Authorization: Bearer <token>` (без использования CDP/DevTools).
+- Локальный HTTP/JSON-RPC 2.0 сервер на `http://127.0.0.1:8765` с авторизацией по `Authorization: Bearer <token>`.
+- Работает нативно внутри процесса браузера **без CDP/DevTools, без Playwright/WebDriver и без передачи флагов отладки/автоматизации** (не включается `--remote-debugging-port`, не выставляется `navigator.webdriver` и т. п., что исключает детект антибот-системами по признакам автоматизации).
 - Эндпоинты: `GET /health`, `GET /status`, `POST /mcp`.
 - Методы: `initialize`, `notifications/initialized`, `tools/list`, `tools/call`.
 - Поддерживаемые инструменты:
