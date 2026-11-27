@@ -588,15 +588,7 @@ jobs:
           # Ensure spirv-tools ggt.py resolves its own utils package ahead of PYTHONPATH
           GGT_PY="$GITHUB_WORKSPACE/src/third_party/spirv-tools/src/utils/ggt.py"
           if [ -f "$GGT_PY" ] && ! grep -q "sys.path.insert(0, os.path.dirname(os.path.dirname" "$GGT_PY"; then
-            python3 -c '
-import sys
-p = sys.argv[1]
-with open(p, "r") as f:
-    s = f.read()
-s = s.replace("from utils.Table.Context import Context", "import os, sys; sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__)))); from utils.Table.Context import Context", 1)
-with open(p, "w") as f:
-    f.write(s)
-' "$GGT_PY"
+            python3 -c 'import sys; p=sys.argv[1]; s=open(p).read().replace("from utils.Table.Context import Context", "import os, sys; sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__)))); from utils.Table.Context import Context", 1); open(p,"w").write(s)' "$GGT_PY"
             touch -d "@1700000000" "$GGT_PY" 2>/dev/null || true
           fi
 
