@@ -27,7 +27,7 @@ index ebebce61a325e6a967d198167c5152d54564c208..b269dea3aeaa52aaad42691d5285bbbe
  
    if ((!is_android && !is_ios) || is_desktop_android) {
      public_deps += [
-@@ -137,6 +141,18 @@ generate_grd("build_grd") {
+@@ -137,6 +141,16 @@ generate_grd("build_grd") {
      public_deps += [ "cr_components/signin:build_grdp" ]
      grdp_files += [ "$target_gen_dir/cr_components/signin/resources.grdp" ]
    }
