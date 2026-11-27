@@ -33,12 +33,10 @@ index ebebce61a325e6a967d198167c5152d54564c208..b269dea3aeaa52aaad42691d5285bbbe
    }
 +  if (is_android && !is_desktop_android && enable_extensions_core) {
 +    public_deps += [
-+      "cr_components/color_change_listener:build_grdp",
 +      "cr_components/cr_shortcut_input:build_grdp",
 +      "cr_components/managed_footnote:build_grdp",
 +    ]
 +    grdp_files += [
-+      "$root_gen_dir/ui/webui/resources/cr_components/color_change_listener/resources.grdp",
 +      "$target_gen_dir/cr_components/cr_shortcut_input/resources.grdp",
 +      "$target_gen_dir/cr_components/managed_footnote/resources.grdp",
 +    ]

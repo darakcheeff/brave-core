@@ -512,11 +512,11 @@ jobs:
             fi
           done
 
-          if [ ! -f "$OUT_DIR/obj/chrome/android/libchrome.ninja" ] || [ ! -f "$OUT_DIR/.gn_direct_v13" ]; then
+          if [ ! -f "$OUT_DIR/obj/chrome/android/libchrome.ninja" ] || [ ! -f "$OUT_DIR/.gn_direct_v14" ]; then
             echo "Running gn gen directly in $OUT_DIR to refresh ninja and jni files..."
             (cd "$GITHUB_WORKSPACE/src" && "$HOME/depot_tools/gn" gen "$OUT_DIR")
-            rm -f "$OUT_DIR/obj/chrome/android/chrome_java.javac.jar" "$OUT_DIR/obj/chrome/android/chrome_java.turbine.jar" "$OUT_DIR/obj/chrome/android/chrome_java.dex.jar" "$OUT_DIR/gen/chrome/android/chrome_public_apk.build_config.json"
-            touch "$OUT_DIR/.gn_direct_v13"
+            rm -f "$OUT_DIR/gen/ui/webui/resources/webui_resources.grd"
+            touch "$OUT_DIR/.gn_direct_v14"
           fi
 
           NINJA_BIN="$HOME/depot_tools/ninja"
