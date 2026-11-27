@@ -107,13 +107,6 @@ brave_chrome_all_java_deps = [
   "//brave/browser/ui/android/brave_account:java",
 ]
 
-if (enable_extensions_core) {
-  brave_chrome_all_java_deps += [
-    "//chrome/browser/ui/android/extensions/side_panel/internal:java",
-    "//chrome/browser/ui/android/extensions/windowing/internal:java",
-  ]
-}
-
 brave_chrome_java_srcjar_deps = [
   "//brave/android:brave_android_java_enums_srcjar",
   "//brave/android:brave_config_java",
