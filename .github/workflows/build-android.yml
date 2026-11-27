@@ -606,6 +606,21 @@ jobs:
             fi
           fi
 
+          # Ensure Brave devtools-frontend overrides (*.patch.ts) and new files exist before typecheck
+          DT_SRC="$GITHUB_WORKSPACE/src/third_party/devtools-frontend/src"
+          DT_BRAVE="$GITHUB_WORKSPACE/src/brave/third_party/devtools-frontend/src"
+          DT_CHROMIUM_SRC="$GITHUB_WORKSPACE/src/brave/chromium_src/third_party/devtools-frontend/src"
+          if [ -d "$DT_SRC" ]; then
+            for rel in front_end/core/sdk/NetworkManager.ts front_end/panels/network/NetworkDataGridNode.ts front_end/panels/network/NetworkItemView.ts; do
+              if [ -f "$DT_CHROMIUM_SRC/$rel" ]; then
+                ln -f "$DT_CHROMIUM_SRC/$rel" "$DT_SRC/${rel%.ts}.patch.ts" 2>/dev/null || cp -f "$DT_CHROMIUM_SRC/$rel" "$DT_SRC/${rel%.ts}.patch.ts"
+              fi
+            done
+            if [ -f "$DT_BRAVE/front_end/panels/network/RequestAdblockView.ts" ]; then
+              ln -f "$DT_BRAVE/front_end/panels/network/RequestAdblockView.ts" "$DT_SRC/front_end/panels/network/RequestAdblockView.ts" 2>/dev/null || cp -f "$DT_BRAVE/front_end/panels/network/RequestAdblockView.ts" "$DT_SRC/front_end/panels/network/RequestAdblockView.ts"
+            fi
+          fi
+
           # Allocate 120 minutes for Ninja compilation, leaving ample margin for checkpoint saving and job chaining
           NINJA_EXIT=0
           set +e
