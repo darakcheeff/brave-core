@@ -54,7 +54,7 @@ jobs:
       - name: Setup Node & PNPM
         uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 26
 
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -115,7 +115,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
         run: |
-          CHECKPOINT_TAG="android-${{ inputs.target_cpu }}-checkpoint"
+          CHECKPOINT_TAG="android-${{ inputs.target_cpu }}-checkpoint-v1.100.59"
           OUT_DIR="$GITHUB_WORKSPACE/src/out/android_${{ inputs.build_type }}"
           mkdir -p "$OUT_DIR"
 
@@ -641,14 +641,16 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
         run: |
-          TAG="v-android-${{ inputs.target_cpu }}-$(date +'%Y%m%d%H%M')"
-          RELEASE_TITLE="Brave Android Custom (${{ inputs.target_cpu }})"
-          CHECKPOINT_TAG="android-${{ inputs.target_cpu }}-checkpoint"
+          TAG="v-android-${{ inputs.target_cpu }}-1.100.59-$(date +'%Y%m%d%H%M')"
+          RELEASE_TITLE="Brave Android Custom 1.100.59 (${{ inputs.target_cpu }})"
+          CHECKPOINT_TAG="android-${{ inputs.target_cpu }}-checkpoint-v1.100.59"
 
           echo "Publishing release $TAG with APK..."
           gh release create "$TAG" "${{ steps.package.outputs.apk_file }}" \
             --title "$RELEASE_TITLE" \
-            --notes "Custom GMS-free Brave Android APK build with debloat, multi-profile, Leo AI, extensions pinning, stealth MCP, and embedded Tor."
+            --prerelease \
+            --latest=false \
+            --notes "Custom GMS-free Brave Android APK build (v1.100.59 / Chromium 158) with debloat, multi-profile, Leo AI, extensions pinning, stealth MCP, and embedded Tor."
 
           echo "Build finished! Cleaning up checkpoint release..."
           gh release delete "$CHECKPOINT_TAG" --yes --cleanup-tag || true
@@ -663,7 +665,7 @@ jobs:
           if [ -f "$GITHUB_WORKSPACE/src/out/${{ inputs.build_type }}/build.ninja" ]; then
             OUT_DIR="$GITHUB_WORKSPACE/src/out/${{ inputs.build_type }}"
           fi
-          CHECKPOINT_TAG="android-${{ inputs.target_cpu }}-checkpoint"
+          CHECKPOINT_TAG="android-${{ inputs.target_cpu }}-checkpoint-v1.100.59"
 
           if [ -d "$OUT_DIR" ] && ( [ -f "$OUT_DIR/.ninja_log" ] || [ -f "$OUT_DIR/build.ninja" ] ); then
             echo "Compilation interrupted or timed out. Packaging out directory: $OUT_DIR..."
