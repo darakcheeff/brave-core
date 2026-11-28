@@ -2,9 +2,9 @@
 
 # Brave Android Custom (`com.tech.brave`)
 
-Кастомная сборка **Brave для Android (`arm64`)** на базе `brave-core`, очищенная от Google Mobile Services (GMS), телеметрии, навязчивого онбординга и лишних модулей (Wallet, Rewards, Ads, VPN, Brave Origin).
+Кастомная сборка **Brave для Android (`arm64`)** на базе `brave-core` (`v1.100.59` / Chromium `158.0.8127.92`), очищенная от Google Mobile Services (GMS), телеметрии, навязчивого онбординга и лишних модулей (Wallet, Rewards, Ads, VPN, Brave Origin).
 
-> **Релизы APK:** готовые релизные сборки публикуются в отдельной ветке [`releases`](https://github.com/darakcheeff/brave-core/tree/releases) и разделе [Releases (`v1.0.0`)](https://github.com/darakcheeff/brave-core/releases/tag/v1.0.0), отдельно от технических чекпоинтов кэша сборки.
+> **Релизы APK:** готовые релизные сборки публикуются в отдельной ветке [`releases`](https://github.com/darakcheeff/brave-core/tree/releases) и разделе [Releases (`v1.1.1`)](https://github.com/darakcheeff/brave-core/releases/tag/v1.1.1), отдельно от технических чекпоинтов кэша сборки.
 
 ---
 
